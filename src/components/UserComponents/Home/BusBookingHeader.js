@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Navbar, Nav, Button, Container, Row, Col, Form, Card } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
 import busbImage from '../../../img/busb.jpg';
+import NavbarComponent from '../NavbarComponent'; // Import NavbarComponent
 
 const BusBookingHeader = () => {
-  const [expanded, setExpanded] = useState(false); // State to control collapse
-
   return (
     <div style={{ padding: '20px' }}>
       {/* Banner Section */}
@@ -19,7 +18,7 @@ const BusBookingHeader = () => {
         borderRadius: '20px',
         overflow: 'hidden'
       }}>
-        {/* Overlay to reduce brightness on the banner */}
+        {/* Overlay */}
         <div style={{
           position: 'absolute',
           top: 0,
@@ -30,92 +29,14 @@ const BusBookingHeader = () => {
           zIndex: 1
         }}></div>
 
-        {/* Navbar Section */}
-        <Navbar
-          expanded={expanded}
-          onToggle={() => setExpanded(expanded ? false : true)}
-          expand="lg"
-          bg="transparent"
-          variant="dark"
-          style={{ position: 'relative', zIndex: 2 }}
-        >
-          <Container>
-            <Navbar.Brand href="#home" className="fw-bold" style={{ fontSize: '2rem' }}>B.S.R.T.C</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto justify-content-center w-100">
-                <Nav.Link href="#home" style={{
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Poppins, sans-serif',
-                  color: 'white',
-                  fontWeight: '500',
-                  letterSpacing: '1px',
-                  padding: '0 15px'
-                }}>Home</Nav.Link>
-                <Nav.Link href="#about" style={{
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Poppins, sans-serif',
-                  color: 'white',
-                  fontWeight: '500',
-                  letterSpacing: '1px',
-                  padding: '0 15px'
-                }}>About Us</Nav.Link>
-                <Nav.Link href="#contact" style={{
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Poppins, sans-serif',
-                  color: 'white',
-                  fontWeight: '500',
-                  letterSpacing: '1px',
-                  padding: '0 15px'
-                }}>Contact Us</Nav.Link>
-                <Nav.Link href="#gallery" style={{
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Poppins, sans-serif',
-                  color: 'white',
-                  fontWeight: '500',
-                  letterSpacing: '1px',
-                  padding: '0 15px'
-                }}>Gallery</Nav.Link>
-                <Nav.Link href="#directory" style={{
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Poppins, sans-serif',
-                  color: 'white',
-                  fontWeight: '500',
-                  letterSpacing: '1px',
-                  padding: '0 15px'
-                }}>Directory</Nav.Link>
-                <Nav.Link href="#tickets" style={{
-                  fontSize: '0.9rem',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Poppins, sans-serif',
-                  color: 'white',
-                  fontWeight: '500',
-                  letterSpacing: '1px',
-                  padding: '0 15px'
-                }}>Tickets</Nav.Link>
-              </Nav>
-              <Button variant="secondary" className="ms-2" style={{
-                color: 'gold',
-                backgroundColor: 'transparent',
-                borderColor: 'transparent'
-              }}>
-                Login
-              </Button>
-              <Button variant="primary" className="ms-2">Sign Up</Button>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+        {/* Use NavbarComponent */}
+        {/* <NavbarComponent /> */}
 
         {/* Main Banner Text */}
         <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
           position: 'relative',
           zIndex: 2,
-          marginTop: '-180px' // Move up the text
+          marginTop: '-180px'
         }}>
           <h1 className="fw-bold display-5 text-white">
             Book your bus ride <br />
@@ -184,7 +105,7 @@ const BusBookingHeader = () => {
               </Col>
             </Row>
             <div className="text-center mt-4">
-              <Button variant="primary" size="lg" style={{backgroundColor:'#86469C',border:'none'}}>
+              <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }}>
                 <i className="fas fa-bus"></i> Show Buses
               </Button>
             </div>

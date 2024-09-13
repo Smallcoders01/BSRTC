@@ -1,24 +1,30 @@
 
 import './App.css';
-import BusBookingHeader from './components/UserComponents/Home/BusBookingHeader';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PopularRoutes from './components/UserComponents/Home/PopularRoutes';
-import TouristDestination from './components/UserComponents/Home/TouristDestination';
-import SneakPeek from './components/UserComponents/Home/SneakPeek';
-import FAQSection from './components/UserComponents/Home/FAQSection';
+import NavbarComponent from './components/UserComponents/NavbarComponent';
+import HomePage from './pages/HomePage'; // Adjust the path accordingly
+import AboutPage from './pages/AboutPage'; // Adjust the path accordingly
+import ContactPage from './pages/ContactPage'; // Adjust the path accordingly
+import LoginComponent from './pages/Login';
+import SignUpComponent from './pages/Signup';
 
 
 function App() {
   return (
    <>
-   <BusBookingHeader/>
-   <div className='routes'>
-   <PopularRoutes/>
+   
   
-   </div>
-   <TouristDestination/>
-   <SneakPeek/>
-    <FAQSection/>
+   <NavbarComponent/>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/signup" element={<SignUpComponent />} />
+        {/* Add more routes as needed */}
+      </Routes>
+    
    </>
   );
 }
