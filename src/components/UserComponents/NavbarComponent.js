@@ -28,7 +28,7 @@ const NavbarComponent = () => {
       </LinkContainer>
       <LinkContainer to="/signup">
         <Nav.Link>
-          <Button variant="primary" className="ms-2">
+          <Button variant="" className="ms-2" style={{backgroundColor:'#6B4190',color:'white', width:'100px',paddingTop:'12px',paddingBottom:'12px',borderRadius:'10px'}}>
             Sign Up
           </Button>
         </Nav.Link>
@@ -43,7 +43,7 @@ const navStyle = {
   fontSize: '0.9rem',
   textTransform: 'uppercase',
   fontFamily: 'Poppins, sans-serif',
-  color: 'black',
+  color: 'white',
   fontWeight: '500',
   letterSpacing: '1px',
   padding: '0 15px'

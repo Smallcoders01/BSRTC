@@ -1,8 +1,10 @@
 import React from 'react';
 import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
-import busbImage from '../../../img/busb.jpg';
+import busbImage from '../../../img/bodhgayas.avif';
+import bus from '../../../img/bus.png';
 import NavbarComponent from '../NavbarComponent'; // Import NavbarComponent
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 const BusBookingHeader = () => {
   return (
     <div style={{ padding: '20px' }}>
@@ -25,23 +27,28 @@ const BusBookingHeader = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'rgba(0, 0, 0, 0.3)',
+          background: 'rgba(0, 0, 0, 0.4)',
           zIndex: 1
         }}></div>
 
         {/* Use NavbarComponent */}
-        {/* <NavbarComponent /> */}
+        <div style={{ position: 'relative', zIndex: 3 }}>
+          <NavbarComponent />
+        </div>
 
         {/* Main Banner Text */}
         <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
           position: 'relative',
-          zIndex: 2,
+          // zIndex: 1,
           marginTop: '-180px'
         }}>
-          <h1 className="fw-bold display-5 text-white">
+          <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
             Book your bus ride <br />
-            <span className="text-primary">now</span>, we’ll do the rest!
           </h1>
+          <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span >, we’ll do the rest!</h1>
+          <div className='busImage'>
+            <img src={bus} alt='busImg' />
+          </div>
         </Container>
       </div>
 
@@ -86,13 +93,13 @@ const BusBookingHeader = () => {
               <Col md={2}>
                 <Form.Group controlId="departureDate">
                   <Form.Label>Departure</Form.Label>
-                  <Form.Control type="text" placeholder="05 Nov 24" />
+                  <Form.Control type="date" />
                 </Form.Group>
               </Col>
               <Col md={2}>
                 <Form.Group controlId="returnDate">
                   <Form.Label>Return</Form.Label>
-                  <Form.Control type="text" placeholder="05 Nov 24" disabled />
+                  <Form.Control type="date"  />
                 </Form.Group>
               </Col>
             </Row>

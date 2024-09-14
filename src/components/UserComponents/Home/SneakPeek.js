@@ -1,69 +1,119 @@
 import React from 'react';
-import { Card, Row, Col, Button } from 'antd';
-import { RightOutlined } from '@ant-design/icons';
+import { Card, Button, Carousel } from 'antd';
+import { RightOutlined, LeftOutlined } from '@ant-design/icons';
+import './SneakPeek.css'; // Import a CSS file for extra styling if needed
 
 const features = [
   {
     title: "Comfortable Seating",
     image: "/Routes/cs.jpg",
-    alt: "Comfortable Seating"
+    alt: "Comfortable Seating",
   },
   {
     title: "Air Conditioning",
     image: "/Routes/ac.png",
-    alt: "Air Conditioning"
+    alt: "Air Conditioning",
   },
   {
     title: "Luggage Storage",
     image: "/Routes/lb.jpeg",
-    alt: "Luggage Storage"
+    alt: "Luggage Storage",
   },
   {
     title: "Eco-Friendly Buses",
     image: "/Routes/eb.webp",
-    alt: "Eco-Friendly Buses"
+    alt: "Eco-Friendly Buses",
+  },
+  {
+    title: "Onboard Entertainment",
+    image: "/Routes/tv.jpeg",
+    alt: "Onboard Entertainment",
+  },
+  {
+    title: "Free Wi-Fi",
+    image: "/Routes/wifi.jpeg",
+    alt: "Free Wi-Fi",
   },
 ];
 
 const SneakPeek = () => {
   return (
-    <div className="text-center mt-5 bg-light" style={{ width: '100%', padding: '40px 60px' }}>
-      <h2 className="mb-3">A Sneak Peek Into Our World</h2>
+    <div className="text-center mt-5" style={{ width: '100%', padding: '40px 60px', backgroundColor: '#fff' }}>
+      <h2 className="mb-3"style={{color:'#552e9a',fontWeight:'bold'}}>A Sneak Peek Into Our World</h2>
       <p>Experience the lavish amenities of BSRTC!</p>
-      
-      <Row gutter={[16, 16]} justify="center">
+
+      {/* Carousel for sliding cards */}
+      <Carousel
+        slidesToShow={4} // Show 4 items at a time
+        slidesToScroll={1} // Scroll one at a time
+        arrows
+        prevArrow={<LeftOutlined />}
+        nextArrow={<RightOutlined />}
+        autoplay
+        style={{ margin: '20px 0', padding: '0 20px' }} // Add margin for the carousel
+      >
         {features.map((feature, index) => (
-          <Col xs={24} sm={12} md={6} key={index}>
+          <div key={index} style={{ padding: '0 15px' }}> {/* Padding around the slide */}
             <Card
               cover={
-                <img 
-                  src={feature.image} 
-                  alt={feature.alt} 
-                  style={{ 
-                    height: '250px', 
-                    objectFit: 'cover', 
-                    borderRadius: '12px 12px 0 0' // Rounded corners only at the top
-                  }} 
-                />
+                <div style={{ position: 'relative' }}>
+                  {/* Image */}
+                  <img
+                    src={feature.image}
+                    alt={feature.alt}
+                    style={{
+                      height: '250px',
+                      width: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '12px',
+                    }}
+                  />
+                  {/* Gradient overlay */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.5))', // Light to dark gradient
+                      borderRadius: '12px', // Ensure gradient follows the border radius
+                    }}
+                  ></div>
+                  {/* Title over the image */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '10px', // Position text at the bottom
+                      left: '0',
+                      right: '0',
+                      color: '#fff',
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      fontSize: '16px',
+                    }}
+                  >
+                    {feature.title}
+                  </div>
+                </div>
               }
               bordered={false}
-              bodyStyle={{ padding: '10px 0' }}
-              style={{ 
-                borderRadius: '12px', // Rounded corners for the entire card
-                overflow: 'hidden', // Ensure content stays within rounded borders
-                textAlign: 'center' // Center text within the card
+              bodyStyle={{ display: 'none' }} // Hide card body
+              style={{
+                borderRadius: '12px',
+                overflow: 'hidden',
+                textAlign: 'center',
+                margin: '0', // No margin inside the card
               }}
-            >
-              <Card.Meta title={<span style={{ fontSize: '16px', fontWeight: 'bold' }}>{feature.title}</span>} />
-            </Card>
-          </Col>
+            />
+          </div>
         ))}
-        <Col xs={24} sm={12} md={6} className="d-flex align-items-center justify-content-center">
-          <Button shape="circle" icon={<RightOutlined />} size="large" />
-        </Col>
-      </Row>
-      
-      <Button type="primary" className="mt-4" style={{backgroundColor:'#86469C'}}>View All</Button>
+      </Carousel>
+
+      {/* "View All" button */}
+      <Button type="primary" className="mt-4" style={{ backgroundColor: 'white', borderColor: '#552e9a', borderRadius: '10px', padding: '20px 20px',border: '2px solid #6f42c1',fontWeight:'bold',color:'#6f42c1'}}>
+        View All
+      </Button>
     </div>
   );
 };

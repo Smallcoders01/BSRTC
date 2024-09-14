@@ -1,0 +1,14 @@
+/* SneakPeek.css */
+.ant-carousel .slick-slide {
+    padding: 0 15px; /* Adds padding between carousel slides */
+  }
+  
+  .ant-carousel .slick-list {
+    margin: 0 -15px; /* Ensures even padding on the left and right edges */
+  }
+  
+  .ant-carousel .slick-slide > div {
+    display: flex;
+    justify-content: center; /* Ensures content is centered within the carousel */
+  }
+  

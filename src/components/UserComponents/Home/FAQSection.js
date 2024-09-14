@@ -1,55 +1,65 @@
-import React from 'react';
-import { Collapse } from 'antd';
-import { CloseOutlined } from '@ant-design/icons';
-
-const { Panel } = Collapse;
-
-const faqs = [
-  {
-    question: "Can I choose my seat while booking?",
-    answer: "Yes, you can choose your preferred seat from the available options during the booking process.",
-  },
-  {
-    question: "What payment methods are accepted?",
-    answer: "We accept various payment methods including credit/debit cards, UPI, and net banking.",
-  },
-  {
-    question: "How can I cancel my bus ticket?",
-    answer: "You can cancel your bus ticket through the booking portal or contact our customer support for assistance.",
-  },
-  {
-    question: "Can I change my travel date after booking?",
-    answer: "Yes, you can change your travel date depending on availability and terms of service.",
-  },
-];
+import React, { useState } from 'react';
+import './FAQ.css'; // External CSS file for custom styles
 
 const FAQSection = () => {
+  const [open, setOpen] = useState(null);
+  const [viewAll, setViewAll] = useState(false);
+
+  const faqs = [
+    {
+      question: 'Can I choose my seat while booking?',
+      answer: 'Yes, you can choose your preferred seat from the available options during the booking process.',
+    },
+    {
+      question: 'What payment methods are accepted?',
+      answer: 'We accept credit/debit cards, online banking, and digital wallets.',
+    },
+    {
+      question: 'How can I cancel my bus ticket?',
+      answer: 'You can cancel your ticket through the "My Bookings" section on our website.',
+    },
+    {
+      question: 'Can I change my travel date after booking?',
+      answer: 'Yes, you can change the travel date by contacting our support team.',
+    },
+  ];
+
+  const toggleOpen = (index) => {
+    setOpen(open === index ? null : index);
+  };
+
+  const toggleViewAll = () => {
+    setViewAll(!viewAll);
+  };
+
   return (
-    <div style={{ backgroundColor: '#faf5ff', padding: '60px', borderRadius: '16px' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '24px' }}>FAQs</h2>
-      <Collapse
-        accordion
-        expandIconPosition="right"
-        bordered={false}
-        expandIcon={({ isActive }) =>
-          isActive ? (
-            <CloseOutlined style={{ fontSize: '18px', color: '#1a1a1a' }} />
-          ) : (
-            <div style={{ width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#1a1a1a', textAlign: 'center', lineHeight: '18px', color: 'white', fontSize: '12px' }}>+</div>
-          )
-        }
-      >
-        {faqs.map((faq, index) => (
-          <Panel
-            header={faq.question}
-            key={index}
-            style={{ backgroundColor: index === 0 ? '#fef9e4' : 'white', borderRadius: '12px', marginBottom: '16px' }}
-            showArrow={false}
-          >
-            <p style={{ margin: 0 }}>{faq.answer}</p>
-          </Panel>
-        ))}
-      </Collapse>
+    <div className="container-fluid faq-container">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-10 col-lg-8">
+          <h2 className="faq-title">FAQs</h2>
+          {faqs.map((faq, index) => (
+            <div className="faq-item" key={index}>
+              <div
+                className={`faq-question ${open === index || viewAll ? 'open' : ''}`}
+                onClick={() => toggleOpen(index)}
+              >
+                <h5>{faq.question}</h5>
+                <span className="faq-toggle-symbol">
+                  {open === index || viewAll ? 'X' : '+'}
+                </span>
+              </div>
+              <div className={`faq-answer ${open === index || viewAll ? 'show' : ''}`}>
+                <p>{faq.answer}</p>
+              </div>
+            </div>
+          ))}
+          <div className="faq-button-container">
+            <button className="view-all-btn" onClick={toggleViewAll}>
+              {viewAll ? 'Collapse All' : 'View All'}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -80,5 +80,23 @@
   border-radius: 6px;
 }
 .background{
-  background-color:#ffecff ;
+  background-color: #f8f4ff;
+}
+.cardone{
+  position: relative;
+}
+.btn2{
+  position: absolute;
+  top: 33px;
+ right: 0px;
+  width: 85px;
+
+}
+.busImage img{
+  width: 500px;
+  height: 300px;
+  position: absolute;
+  top: 260px;
+  right: 100px;
+  z-index: 10;
 }

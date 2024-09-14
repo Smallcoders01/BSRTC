@@ -8,14 +8,11 @@ import AboutPage from './pages/AboutPage'; // Adjust the path accordingly
 import ContactPage from './pages/ContactPage'; // Adjust the path accordingly
 import LoginComponent from './pages/Login';
 import SignUpComponent from './pages/Signup';
-
+import Footer from './components/UserComponents/Footer/footer';
 
 function App() {
   return (
    <>
-   
-  
-   <NavbarComponent/>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
@@ -24,7 +21,7 @@ function App() {
         <Route path="/signup" element={<SignUpComponent />} />
         {/* Add more routes as needed */}
       </Routes>
-    
+    <Footer/>
    </>
   );
 }
