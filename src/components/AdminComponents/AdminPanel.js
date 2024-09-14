@@ -6,6 +6,7 @@ import UsersAdmin from './UsersAdmin';
 import ContactUsAdmin from './ContactUsAdmin';
 import PhoneDirectoryAdmin from './PhoneDirectoryAdmin';
 import PolicyAdmin from './PolicyAdmin';
+import PopularRouteAdmin from './PopularRouteAdmin'; // Import the new component
 
 const drawerWidth = 240;
 
@@ -46,6 +47,9 @@ const AdminPanel = () => {
                         <ListItem button component={Link} to="/admin/policy">
                             <ListItemText primary="Policy" />
                         </ListItem>
+                        <ListItem button component={Link} to="/admin/popular-routes"> {/* Add new drawer item */}
+                            <ListItemText primary="Popular Routes" />
+                        </ListItem>
                     </List>
                 </Box>
             </Drawer>
@@ -60,6 +64,7 @@ const AdminPanel = () => {
                     <Route path="contact-us" element={<ContactUsAdmin />} />
                     <Route path="phone-directory" element={<PhoneDirectoryAdmin />} />
                     <Route path="policy" element={<PolicyAdmin />} />
+                    <Route path="popular-routes" element={<PopularRouteAdmin />} /> {/* Add new route */}
                 </Routes>
             </Box>
         </Box>

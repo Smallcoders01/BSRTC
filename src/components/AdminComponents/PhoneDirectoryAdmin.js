@@ -62,7 +62,7 @@ const PhoneDirectoryAdmin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Update the divisions
-        axios.post(`${config.apiBaseUrl}/phone-directory`, { divisions })
+        axios.put(`${config.apiBaseUrl}/phone-directory`, { divisions })
             .then(response => {
                 alert('Phone directory updated successfully');
             })
