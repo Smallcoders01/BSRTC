@@ -14,8 +14,8 @@ const NavbarComponent = () => {
           <Nav className="ms-auto justify-content-center w-100">
             <Nav.Link as={Link} to="/" style={navStyle}>Home</Nav.Link>
             <Nav.Link as={Link} to="/about" style={navStyle}>About Us</Nav.Link>
-            <Nav.Link as={Link} to="/about" style={navStyle}>Gallery</Nav.Link>
-            <Nav.Link as={Link} to="/about" style={navStyle}>Directory</Nav.Link>
+            <Nav.Link as={Link} to="/gallery" style={navStyle}>Gallery</Nav.Link>
+            <Nav.Link as={Link} to="/directory" style={navStyle}>Directory</Nav.Link>
             <Nav.Link as={Link} to="/contact" style={navStyle}>Contact Us</Nav.Link>
             {/* Add more links */}
           </Nav>
