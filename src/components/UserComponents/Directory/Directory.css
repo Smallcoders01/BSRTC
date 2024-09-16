@@ -1,0 +1,72 @@
+/* Custom styles for the BSRTC Head Office tab */
+.office-nav ul li.head-office {
+  background-color: #ffd700 !important; /* Bright yellow background */
+  color: #5a2d82 !important; /* Purple text */
+  border-radius: 25px !important; /* Rounded edges */
+  padding: 10px 20px !important; /* Padding inside the yellow button */
+  margin: 5px !important; /* Margin to space out the button */
+  font-weight: bold !important;
+  display: inline-block !important; /* Ensure it doesn't stretch */
+  font-size: 14px !important; /* Reduced font size */
+}
+
+/* Active item styles */
+.office-nav ul li.active {
+  background-color: transparent !important;
+  color: #fff !important; /* White text for other active items */
+}
+
+/* General hover state */
+.office-nav ul li:hover {
+  background-color: #3f2060 !important; /* Darker purple hover effect */
+}
+
+/* Base navigation styles */
+.office-nav ul {
+  list-style-type: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  background-color: #5a2d82 !important; /* Purple background for the nav */
+  border-radius: 8px !important;
+  align-items: center;
+}
+
+.office-nav ul li {
+  flex: 1 !important;
+  text-align: center !important;
+  padding: 10px 15px !important;
+  color: white !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  font-size: 13px;
+}
+
+/* Ensure no border-radius for other items */
+.office-nav ul li:not(.head-office) {
+  border-radius: 0 !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .office-nav ul {
+    flex-direction: column !important;
+  }
+
+  .office-nav ul li {
+    padding-left: 20px !important;
+  }
+
+  /* Mobile view adjustment */
+  .office-nav ul li.head-office {
+    text-align: center !important;
+    margin-bottom: 10px !important;
+    font-size: 12px !important; /* Further reduced font size for mobile */
+  }
+}
+.yellow{
+  background-color: #ffd700;
+  padding: 6px;
+  color: #3f2060;
+  border-radius: 16px;
+}

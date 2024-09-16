@@ -8,6 +8,8 @@ import AboutPage from './pages/AboutPage'; // Adjust the path accordingly
 import ContactPage from './pages/ContactPage'; // Adjust the path accordingly
 import LoginComponent from './pages/Login';
 import SignUpComponent from './pages/Signup';
+import Gallery from './pages/Gallery';
+import Directory from './pages/Directory';
 import Footer from './components/UserComponents/Footer/footer';
 
 function App() {
@@ -16,7 +18,9 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/directory" element={<Directory />} />
         <Route path="/login" element={<LoginComponent />} />
         <Route path="/signup" element={<SignUpComponent />} />
         {/* Add more routes as needed */}
