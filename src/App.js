@@ -11,6 +11,7 @@ import SignUpComponent from './pages/Signup';
 import Gallery from './pages/Gallery';
 import Directory from './pages/Directory';
 import Footer from './components/UserComponents/Footer/footer';
+import AdminPanel from './components/AdminComponents/AdminPanel';
 
 function App() {
   return (
@@ -23,9 +24,10 @@ function App() {
         <Route path="/directory" element={<Directory />} />
         <Route path="/login" element={<LoginComponent />} />
         <Route path="/signup" element={<SignUpComponent />} />
+        <Route path="/admin/*" element={<AdminPanel />} />
         {/* Add more routes as needed */}
       </Routes>
-    <Footer/>
+   
    </>
   );
 }

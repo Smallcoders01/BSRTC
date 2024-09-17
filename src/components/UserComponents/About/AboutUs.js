@@ -1,10 +1,11 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import busImage from '../../../img/aboutBus.png'; // Add your bus image path here
+import Footer from '../Footer/footer';
 
 const AboutUs = () => {
   return (
-    <div style={{ marginTop: '-15vh', position: 'relative', zIndex: 5, marginBottom: '15vh' }}>
+    <><div style={{ marginTop: '-15vh', position: 'relative', zIndex: 5, marginBottom: '15vh' }}>
       <Container
         style={{
           backgroundColor: 'white',
@@ -15,7 +16,7 @@ const AboutUs = () => {
       >
         <Row>
           <Col md={7}>
-            <h2 style={{ color: '#5c3b92',fontSize:'40px' }}>About Us</h2>
+            <h2 style={{ color: '#5c3b92', fontSize: '40px' }}>About Us</h2>
             <p>
               Bihar State Road Transport Corporation (BSRTC) is a state-owned road transportation service in Bihar.
               Established in 1953 under Rajya Transport, BSRTC was reconstituted in 1959 under the provisions of the Road
@@ -37,7 +38,7 @@ const AboutUs = () => {
             </p>
           </Col>
           <Col md={5} className="d-flex justify-content-center align-items-center" style={{ position: 'relative' }}>
-            
+
             <img
               src={busImage} // Your bus image
               alt="BSRTC Bus"
@@ -46,12 +47,11 @@ const AboutUs = () => {
                 height: 'auto',
                 borderRadius: '10px',
                 zIndex: 2, // Ensures the bus image appears above the background circle
-              }}
-            />
+              }} />
           </Col>
         </Row>
       </Container>
-    </div>
+    </div><Footer /></>
   );
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Directory.css"; // Import custom CSS for exact styling
+import Footer from '../Footer/footer';
 
 const DirectoryComponent = () => {
   const officerData = [
@@ -29,20 +30,20 @@ const DirectoryComponent = () => {
   ];
 
   return (
-    <Container className="mt-4 office-details-container">
+    <><Container className="mt-4 office-details-container">
       <nav className="office-nav">
-      <ul>
-  <li className="head-office active one">
-    <div className="yellow">
-    BSRTC Head Office
-      </div></li>
-  <li>PATNA Division</li>
-  <li>GAYA Division</li>
-  <li>BHAGALPUR Division</li>
-  <li>MUZAFFARPUR Division</li>
-  <li>DARBHANGA Division</li>
-  <li>PURNIA Division</li>
-</ul>
+        <ul>
+          <li className="head-office active one">
+            <div className="yellow">
+              BSRTC Head Office
+            </div></li>
+          <li>PATNA Division</li>
+          <li>GAYA Division</li>
+          <li>BHAGALPUR Division</li>
+          <li>MUZAFFARPUR Division</li>
+          <li>DARBHANGA Division</li>
+          <li>PURNIA Division</li>
+        </ul>
       </nav>
       <div className="table-responsive">
         <Table bordered hover className="custom-table text-center">
@@ -68,7 +69,7 @@ const DirectoryComponent = () => {
           </tbody>
         </Table>
       </div>
-    </Container>
+    </Container><Footer /></>
   );
 };
 
