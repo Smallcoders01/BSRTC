@@ -1,0 +1,54 @@
+/* Main container */
+.helpline-container {
+    padding: 20px;
+    background-color: #f9f9ff;
+  }
+  
+  /* Contact bar at the top */
+  .contact-bar {
+    position: relative; /* To ensure z-index works */
+    z-index: 10; /* Brings it above other components */
+    width: 50%; /* Reduce the width */
+    margin-top: -12vh; /* Apply negative margin */
+    background-color: white;
+    padding: 20px; /* Increase padding */
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between; /* Adjust spacing between elements */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+  }
+  
+  .contact-item {
+    font-size: 18px;
+    color: #333;
+    padding: 0 10px; /* Add padding to each contact item */
+  }
+  
+  .contact-item i {
+    margin-right: 8px;
+    font-size: 20px;
+    color: #ffcc00; /* Icon color */
+  }
+  
+  /* Division cards */
+  .division-card {
+    background-color: #fef4ea;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+  
+  .division-card h4 {
+    color: #6b3eab;
+    margin-bottom: 10px;
+  }
+  
+  .division-card p {
+    margin: 5px 0;
+    color: #333;
+  }
+  
