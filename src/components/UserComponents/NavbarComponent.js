@@ -3,6 +3,7 @@ import { Navbar, Nav, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Import Link
 import { LinkContainer } from 'react-router-bootstrap';
 const NavbarComponent = () => {
+  console.log('Rendering NavbarComponent');
   return (
     <Navbar expand="lg" bg="transparent" variant="dark" style={{ position: 'relative', zIndex: 2 }}>
       <Container>

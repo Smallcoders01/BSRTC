@@ -1,34 +1,43 @@
-import React from 'react';
-import { Container, Form, Button, Row, Col } from 'react-bootstrap';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const LoginComponent = () => {
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  console.log('Rendering Login component');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(username, password);
+      navigate('/admin');
+    } catch (err) {
+      setError('Invalid username or password');
+    }
+  };
+
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Row className="w-100">
-        <Col md={6} className="offset-md-3">
-          <h3 className="text-center mb-4">Login</h3>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="w-100">
-              Login
-            </Button>
-            <p className="mt-3 text-center">
-              Don't have an account? <a href="/signup">Sign up here</a>
-            </p>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+    <div>
+      <h2>Login</h2>
+      {error && <p>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username</label>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 
-export default LoginComponent;
+export default Login;

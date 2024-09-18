@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../../config';
-import { Container, Typography, TextField, Button, CircularProgress, Alert, Box } from '@mui/material';
+import { Container, Typography, Button, CircularProgress, Alert, Box } from '@mui/material';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const AboutUsAdmin = () => {
     const [content, setContent] = useState('');
@@ -47,14 +49,26 @@ const AboutUsAdmin = () => {
             </Typography>
             <form onSubmit={handleSubmit}>
                 <Box mb={2}>
-                    <TextField
-                        label="About Us Content"
-                        multiline
-                        rows={10}
-                        variant="outlined"
-                        fullWidth
+                    <ReactQuill
                         value={content}
-                        onChange={(e) => setContent(e.target.value)}
+                        onChange={setContent}
+                        modules={{
+                            toolbar: [
+                                [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+                                [{size: []}],
+                                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                [{'list': 'ordered'}, {'list': 'bullet'}, 
+                                 {'indent': '-1'}, {'indent': '+1'}],
+                                ['link', 'image', 'video'],
+                                ['clean']
+                            ],
+                        }}
+                        formats={[
+                            'header', 'font', 'size',
+                            'bold', 'italic', 'underline', 'strike', 'blockquote',
+                            'list', 'bullet', 'indent',
+                            'link', 'image', 'video'
+                        ]}
                     />
                 </Box>
                 <Button variant="contained" color="primary" type="submit">

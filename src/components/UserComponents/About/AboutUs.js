@@ -39,7 +39,7 @@ const AboutUs = () => {
           <Row>
             <Col md={7}>
               <h2 style={{ color: '#5c3b92', fontSize: '40px' }}>About Us</h2>
-              <p>{aboutContent}</p>
+              <div dangerouslySetInnerHTML={{ __html: aboutContent }} />
             </Col>
             <Col md={5} className="d-flex justify-content-center align-items-center" style={{ position: 'relative' }}>
               <img
