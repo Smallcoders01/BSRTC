@@ -4,6 +4,7 @@ import PopularRoutes from './PopularRoutes';
 import TouristDestination from './TouristDestination';
 import SneakPeek from './SneakPeek';
 import FAQSection from './FAQSection';
+
 const HomeSection = () => {
   return (
     <div>

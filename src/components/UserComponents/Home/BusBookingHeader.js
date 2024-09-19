@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
-import busbImage from '../../../img/bodhgayas.avif';
+import backImage from '../../../img/bodhgayas.avif';
 import bus from '../../../img/bus.png';
 import NavbarComponent from '../NavbarComponent'; // Import NavbarComponent
 import DatePicker from 'react-datepicker';
@@ -11,14 +11,15 @@ const BusBookingHeader = () => {
       {/* Banner Section */}
       <div className="banner" style={{
         position: 'relative',
-        backgroundImage: `url(${busbImage})`,
+        backgroundImage: `url(${backImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: '90vh',
         color: 'white',
         textAlign: 'left',
         borderRadius: '20px',
-        overflow: 'hidden'
+        overflow: 'hidden',
+       
       }}>
         {/* Overlay */}
         <div style={{
@@ -45,15 +46,16 @@ const BusBookingHeader = () => {
           <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
             Book your bus ride <br />
           </h1>
+         
           <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span >, we’ll do the rest!</h1>
-          <div className='busImage'>
+         <div className='busImage'>
             <img src={bus} alt='busImg' />
           </div>
         </Container>
       </div>
 
       {/* Booking Form Section */}
-      <Card className="booking-form" style={{
+      <Card className="booking-form cardbotm" style={{
         position: 'absolute',
         top: '65%',
         left: '50%',
@@ -63,7 +65,8 @@ const BusBookingHeader = () => {
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         zIndex: 3
       }}>
-        <Card.Body>
+        <Card.Body style={{position:'relative'}} className='sect'>
+        
           <h3 className="text-center mb-4">Book Your Journey</h3>
           <Form>
             <Row className="mb-3">
