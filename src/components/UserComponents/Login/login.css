@@ -1,0 +1,46 @@
+
+  /* Custom font size for different screens */
+.login-title {
+  font-size: 1rem; /* Default size */
+}
+
+.login-subtitle {
+  font-size: 1.2rem;
+}
+.btns{
+  font-size: 10px;
+  color: '#6B4190';
+}
+.btns:hover{
+  color: white;
+
+}
+.control{
+  font-size: 0.9rem;
+}
+.cont-btn{
+  font-size: 0.8rem;
+}
+/* Custom styles for the modal */
+.custom-modal .modal-content {
+  border-radius: 15px; /* Adjust as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust shadow as needed */
+}
+
+.custom-modal .modal-body {
+  border-radius: 15px; /* Ensure border radius is applied to body content */
+}
+.img-fluid{
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+@media (min-width: 768px) {
+  .login-title {
+    font-size: 1.5rem; /* Larger font on medium+ screens */
+  }
+
+  .login-subtitle {
+    font-size: 1rem;
+  }
+}
