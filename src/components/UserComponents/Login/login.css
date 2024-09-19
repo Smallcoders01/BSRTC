@@ -1,38 +1,46 @@
-/* LoginComponent.css */
-.login-background {
-    background-image: url('/img/login.jpg'); /* Replace with your image URL */
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+  /* Custom font size for different screens */
+.login-title {
+  font-size: 1rem; /* Default size */
+}
+
+.login-subtitle {
+  font-size: 1.2rem;
+}
+.btns{
+  font-size: 10px;
+  color: '#6B4190';
+}
+.btns:hover{
+  color: white;
+
+}
+.control{
+  font-size: 0.9rem;
+}
+.cont-btn{
+  font-size: 0.8rem;
+}
+/* Custom styles for the modal */
+.custom-modal .modal-content {
+  border-radius: 15px; /* Adjust as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust shadow as needed */
+}
+
+.custom-modal .modal-body {
+  border-radius: 15px; /* Ensure border radius is applied to body content */
+}
+.img-fluid{
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+@media (min-width: 768px) {
+  .login-title {
+    font-size: 1.5rem; /* Larger font on medium+ screens */
   }
-  
-  .login-box {
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  .login-subtitle {
+    font-size: 1rem;
   }
-  
-  .login-box h2 {
-    margin-bottom: 20px;
-  }
-  
-  .login-box .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .login-box .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px 20px;
-    font-size: 16px;
-  }
-  
-  .login-box .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #004085;
-  }
-  
+}
