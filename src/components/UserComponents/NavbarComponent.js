@@ -6,6 +6,7 @@ import LoginModal from '../UserComponents/Login/LoginComp'; // Import the separa
 import SignupModal from '../UserComponents/Login/SignComp';
 
 const NavbarComponent = () => {
+  console.log('Rendering NavbarComponent');
   return (
     <>
       <Navbar expand="lg" bg="transparent" variant="dark" style={{ position: 'relative', zIndex: 2 }}>

@@ -2,6 +2,7 @@ import React from 'react';
 import '../Footer/Footer.css'; // External CSS for custom styles
 import logo from '../../../img/logo.png'
 const Footer = () => {
+  console.log('Rendering Footer');
   return (
     <div className="footer-container">
       <div className="container">

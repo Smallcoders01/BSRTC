@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Gallery.css'; // Custom CSS file
+import Footer from '../Footer/footer';
 
 // Import images from the correct path
 import b1 from '../../../img/b1.jpg';
@@ -33,20 +34,19 @@ const images = [
 
 const Gallery = () => {
   return (
-    <div className="container my-5" style={{ width: '80%' }}> {/* Set width to 80% */}
-        <h1 className='text-center mb-5'>Gallery</h1>
+    <><div className="container my-5" style={{ width: '80%' }}> {/* Set width to 80% */}
+      <h1 className='text-center mb-5'>Gallery</h1>
       <div className="gallery-grid">
         {images.map((image, index) => (
           <div className="gallery-item" key={index}>
             <img
               src={image.src}
               alt={image.alt}
-              className="gallery-img"
-            />
+              className="gallery-img" />
           </div>
         ))}
       </div>
-    </div>
+    </div><Footer /></>
   );
 };
 
