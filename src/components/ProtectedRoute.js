@@ -11,7 +11,8 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
     return <div>Loading...</div>;
   }
 
-  return user ? Component : <Navigate to="/login" />;
+  // Check if the user is authenticated and has the 'admin' role
+  return user && user.role === 'admin' ? Component : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
