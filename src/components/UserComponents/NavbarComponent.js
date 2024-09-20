@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Import Link
-// import { LinkContainer } from 'react-router-bootstrap';
 import LoginModal from '../UserComponents/Login/LoginComp'; // Import the separated LoginModal
 import SignupModal from '../UserComponents/Login/SignComp';
+import { AuthContext } from '../../context/AuthContext';
 
 const NavbarComponent = () => {
+  const { user } = useContext(AuthContext);
+
   console.log('Rendering NavbarComponent');
   return (
     <>
@@ -23,9 +25,9 @@ const NavbarComponent = () => {
               <Nav.Link as={Link} to="/directory" style={navStyle}>Directory</Nav.Link>
               <Nav.Link as={Link} to="/contact" style={navStyle}>Contact Us</Nav.Link>
               <Nav.Link as={Link} to="/ticket" style={navStyle}>Tickets</Nav.Link>
+              {!user && <SignupModal />}
+              <LoginModal />
             </Nav>
-            <LoginModal />
-           <SignupModal />
           </Navbar.Collapse>
         </Container>
       </Navbar>

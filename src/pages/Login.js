@@ -1,14 +1,15 @@
+import React from 'react';
+import LoginModal from '../components/UserComponents/Login/LoginComp';
 
-import React from 'react'
-import LoginComp from '../components/UserComponents/Login/LoginComp'
 const Login = () => {
+  console.log('Rendering Login component');
+
   return (
     <div>
-      <LoginComp/>
+      <h2>Login</h2>
+      <LoginModal />
     </div>
-  )
-}
+  );
+};
 
-export default Login
-
-
+export default Login;

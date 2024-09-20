@@ -28,9 +28,9 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     console.log('AuthProvider login called');
-    const response = await axios.post(`${config.apiBaseUrl}/auth/login`, { username, password });
+    const response = await axios.post(`${config.apiBaseUrl}/auth/login`, { email, password });
     localStorage.setItem('token', response.data.token);
     setUser(response.data.user);
   };

@@ -83,7 +83,7 @@ const AllTourist = () => {
             >
               <div
                 style={{
-                  backgroundImage: `url(${route. imgUrl})`,
+                  backgroundImage: `url(${route.imgUrl})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   height: '300px',
