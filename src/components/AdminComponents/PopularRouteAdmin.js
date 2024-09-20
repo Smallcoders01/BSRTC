@@ -67,6 +67,17 @@ const PopularRouteAdmin = () => {
             })
                 .then(response => {
                     alert('Popular routes updated successfully');
+                    // Update the routes state with the new data
+                    setRoutes(prevRoutes => {
+                        const updatedRoutes = [...prevRoutes];
+                        const index = updatedRoutes.findIndex(r => r._id === route._id);
+                        if (index !== -1) {
+                            updatedRoutes[index] = response.data;
+                        } else {
+                            updatedRoutes.push(response.data);
+                        }
+                        return updatedRoutes;
+                    });
                 })
                 .catch(error => {
                     setError('Error updating popular routes');
@@ -117,6 +128,13 @@ const PopularRouteAdmin = () => {
                                 type="file"
                                 onChange={(e) => handleFileChange(routeIndex, e.target.files[0])}
                             />
+                            {route.imageUrl && (
+                                <img
+                                    src={`http://localhost:5000${route.imageUrl}`}
+                                    alt={route.title}
+                                    style={{ width: '100%', height: 'auto', marginTop: '10px' }}
+                                />
+                            )}
                         </Box>
                         <Box mt={2}>
                             <IconButton onClick={() => handleRemoveRoute(routeIndex)} color="secondary">

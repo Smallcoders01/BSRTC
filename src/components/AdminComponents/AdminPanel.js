@@ -7,7 +7,9 @@ import ContactUsAdmin from './ContactUsAdmin';
 import PhoneDirectoryAdmin from './PhoneDirectoryAdmin';
 import PolicyAdmin from './PolicyAdmin';
 import PopularRouteAdmin from './PopularRouteAdmin';
-import GalleryAdmin from './GalleryAdmin'; // Import the new component
+import GalleryAdmin from './GalleryAdmin';
+import TouristDestinationAdmin from './TouristDestinationAdmin';
+import FAQAdmin from './FAQAdmin'; // Import the new component
 
 const drawerWidth = 240;
 
@@ -51,8 +53,14 @@ const AdminPanel = () => {
                         <ListItem button component={Link} to="/admin/popular-routes">
                             <ListItemText primary="Popular Routes" />
                         </ListItem>
-                        <ListItem button component={Link} to="/admin/gallery"> {/* Add new drawer item */}
+                        <ListItem button component={Link} to="/admin/gallery">
                             <ListItemText primary="Gallery" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/admin/tourist-destinations">
+                            <ListItemText primary="Tourist Destinations" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/admin/faq"> {/* Add new drawer item */}
+                            <ListItemText primary="FAQs" />
                         </ListItem>
                     </List>
                 </Box>
@@ -69,7 +77,9 @@ const AdminPanel = () => {
                     <Route path="phone-directory" element={<PhoneDirectoryAdmin />} />
                     <Route path="policy" element={<PolicyAdmin />} />
                     <Route path="popular-routes" element={<PopularRouteAdmin />} />
-                    <Route path="gallery" element={<GalleryAdmin />} /> {/* Add new route */}
+                    <Route path="gallery" element={<GalleryAdmin />} />
+                    <Route path="tourist-destinations" element={<TouristDestinationAdmin />} />
+                    <Route path="faq" element={<FAQAdmin />} /> {/* Add new route */}
                 </Routes>
             </Box>
         </Box>

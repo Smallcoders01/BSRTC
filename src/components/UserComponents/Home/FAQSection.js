@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import config from '../../../config'; // Adjust the path to the correct location of your config file
 import './FAQ.css'; // External CSS file for custom styles
 
 const FAQSection = () => {
+  const [faqs, setFaqs] = useState([]);
   const [open, setOpen] = useState(null);
   const [viewAll, setViewAll] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  const faqs = [
-    {
-      question: 'Can I choose my seat while booking?',
-      answer: 'Yes, you can choose your preferred seat from the available options during the booking process.',
-    },
-    {
-      question: 'What payment methods are accepted?',
-      answer: 'We accept credit/debit cards, online banking, and digital wallets.',
-    },
-    {
-      question: 'How can I cancel my bus ticket?',
-      answer: 'You can cancel your ticket through the "My Bookings" section on our website.',
-    },
-    {
-      question: 'Can I change my travel date after booking?',
-      answer: 'Yes, you can change the travel date by contacting our support team.',
-    },
-  ];
+  useEffect(() => {
+    // Fetch the FAQs from the backend API
+    axios.get(`${config.apiBaseUrl}/faq`)
+      .then(response => {
+        setFaqs(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError('Error fetching FAQs');
+        setLoading(false);
+      });
+  }, []);
 
   const toggleOpen = (index) => {
     setOpen(open === index ? null : index);
@@ -31,6 +30,9 @@ const FAQSection = () => {
   const toggleViewAll = () => {
     setViewAll(!viewAll);
   };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="container-fluid faq-container">

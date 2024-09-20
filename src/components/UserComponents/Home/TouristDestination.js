@@ -1,33 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import config from '../../../config'; // Adjust the path to the correct location of your config file
 import '../../UserComponents/Home/popular.css';
 
 const TouristDestination = () => {
-  const navigate = useNavigate(); 
-  const destinations = [
-  
-    {
-      name: "Bodh Gaya",
-      imgUrl: "/Routes/bg.jpeg",
-      alt: "Bodh Gaya",
-    },
-    {
-      name: "Vaishali",
-      imgUrl: "/Routes/vaishali.jpg",
-      alt: "Vaishali",
-    },
-    {
-      name: "Nalanda",
-      imgUrl: "/Routes/nalanda.jpeg",
-      alt: "Nalanda",
-    },
-    {
-      name: "Patna",
-      imgUrl: "/Routes/patna.jpeg",
-      alt: "Patna",
-    },
-  ];
+  const navigate = useNavigate();
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Fetch the tourist destinations from the backend API
+    axios.get(`${config.apiBaseUrl}/tourist-destinations`)
+      .then(response => {
+        setDestinations(response.data.slice(0, 4)); // Limit to 4 destinations
+        setLoading(false);
+      })
+      .catch(error => {
+        setError('Error fetching tourist destinations');
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
     <div className="container my-5 border-secondary rounded-4 p-4 shadow-lg bg-light" style={{ width: '80%' }}>
       <div className="row justify-content-center">
@@ -44,7 +43,6 @@ const TouristDestination = () => {
               style={{
                 borderRadius: '8px',
                 border: '2px solid #6f42c1',
-             
                 padding: '8px 14px',
                 fontSize: '12px',
                 fontWeight: 'bold',
@@ -84,9 +82,9 @@ const TouristDestination = () => {
                   <div className="col-sm-6 mb-4" key={index}>
                     <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden rounded-3">
                       <img
-                        src={destination.imgUrl}
+                        src={`http://localhost:5000${destination.image}`}
                         className="card-img-top img-fluid rounded-3"
-                        alt={destination.alt}
+                        alt={destination.name}
                         style={{ height: '200px', objectFit: 'cover' }} // Adjusted height
                       />
                       <div className="card-overlay d-flex justify-content-between align-items-end p-3 rounded-3">

@@ -89,7 +89,7 @@ const GalleryAdmin = () => {
         {photos.map((photo) => (
           <Grid item xs={12} sm={6} md={4} key={photo._id}>
             <Paper sx={{ p: 2 }}>
-              <img src={`${config.apiBaseUrl}${photo.photo}`} alt={photo.name} style={{ width: '100%', height: 'auto' }} />
+              <img src={`http://localhost:5000${photo.photo}`} alt={photo.name} style={{ width: '100%', height: 'auto' }} />
               <Typography variant="subtitle1">{photo.name}</Typography>
               <IconButton onClick={() => handleDeletePhoto(photo._id)} color="secondary">
                 <Delete />

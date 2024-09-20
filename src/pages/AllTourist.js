@@ -1,78 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import axios from 'axios';
+import config from '../config'; // Adjust the path to the correct location of your config file
 import '../components/UserComponents/Home/popular.css';
 
 const AllTourist = () => {
-  const routes = [
-    {
-        name: "Bodh Gaya",
-        imgUrl: "/Routes/bg.jpeg",
-        alt: "Bodh Gaya",
-      },
-      {
-        name: "Vaishali",
-        imgUrl: "/Routes/vaishali.jpg",
-        alt: "Vaishali",
-      },
-      {
-        name: "Nalanda",
-        imgUrl: "/Routes/nalanda.jpeg",
-        alt: "Nalanda",
-      },
-      {
-        name: "Patna",
-        imgUrl: "/Routes/patna.jpeg",
-        alt: "Patna",
-      },
-      {
-        name: "Bodh Gaya",
-        imgUrl: "/Routes/bg.jpeg",
-        alt: "Bodh Gaya",
-      },
-      {
-        name: "Vaishali",
-        imgUrl: "/Routes/vaishali.jpg",
-        alt: "Vaishali",
-      },
-      {
-        name: "Nalanda",
-        imgUrl: "/Routes/nalanda.jpeg",
-        alt: "Nalanda",
-      },
-      {
-        name: "Patna",
-        imgUrl: "/Routes/patna.jpeg",
-        alt: "Patna",
-      },
-      {
-        name: "Bodh Gaya",
-        imgUrl: "/Routes/bg.jpeg",
-        alt: "Bodh Gaya",
-      },
-      {
-        name: "Vaishali",
-        imgUrl: "/Routes/vaishali.jpg",
-        alt: "Vaishali",
-      },
-      {
-        name: "Nalanda",
-        imgUrl: "/Routes/nalanda.jpeg",
-        alt: "Nalanda",
-      },
-      {
-        name: "Patna",
-        imgUrl: "/Routes/patna.jpeg",
-        alt: "Patna",
-      },
-    // Add more routes if needed
-  ];
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Fetch the tourist destinations from the backend API
+    axios.get(`${config.apiBaseUrl}/tourist-destinations`)
+      .then(response => {
+        setDestinations(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        setError('Error fetching tourist destinations');
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <Container className="py-5 mt-5 pop">
       <h2 className="fw-bold mb-4 text-center">Explore All Tourist Destinations In Bihar</h2>
       <Row>
-        {routes.map((route) => (
-          <Col key={route.id} sm={12} md={6} lg={3} className="mb-4">
+        {destinations.map((destination) => (
+          <Col key={destination._id} sm={12} md={6} lg={3} className="mb-4">
             <Card
               className="shadow-sm h-100 text-white"
               style={{
@@ -81,15 +39,15 @@ const AllTourist = () => {
                 position: 'relative',
               }}
             >
-              <div
+              <Card.Img
+                variant="top"
+                src={`http://localhost:5000${destination.image}`}
+                alt={destination.name}
                 style={{
-                  backgroundImage: `url(${route.imgUrl})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
                   height: '300px',
-                  width: '100%',
+                  objectFit: 'cover',
                 }}
-              ></div>
+              />
               <Card.ImgOverlay
                 className="d-flex flex-column justify-content-end"
                 style={{
@@ -98,8 +56,7 @@ const AllTourist = () => {
                   borderRadius: '0 0 15px 15px',
                 }}
               >
-                <Card.Title className="fw-bold">{route.title}</Card.Title>
-                <Card.Text>{route.description}</Card.Text>
+                <Card.Title className="fw-bold">{destination.name}</Card.Title>
                 <Button
                   variant="warning"
                   className="fw-bold"
