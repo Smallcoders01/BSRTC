@@ -36,7 +36,7 @@ const LoginModal = () => {
       {!user ? (
         <Button 
           variant="secondary"
-          style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent' }}
+          style={{ color: 'white', backgroundColor: '#6B4190', borderColor: 'transparent',marginTop:'-10px' }}
           onClick={handleShow}
         >
           Login
@@ -44,7 +44,7 @@ const LoginModal = () => {
       ) : (
         <Button 
           variant="secondary"
-          style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent' }}
+          style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent',marginTop:'-10px' }}
           onClick={handleLogout}
         >
           Logout

@@ -13,7 +13,7 @@ const SignupModal = () => {
     <>
       <Button 
         variant="secondary"
-        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent' }}
+        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent',marginTop:'-10px' }}
         onClick={handleShow}
       >
         Sign Up

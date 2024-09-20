@@ -11,7 +11,8 @@ import SignUpComponent from './pages/Signup';
 import Gallery from './pages/Gallery';
 import Directory from './pages/Directory';
 import Ticket from './pages/Ticket';
-import Footer from './components/UserComponents/Footer/footer';
+import Tender from './pages/Tender';
+// import Footer from './components/UserComponents/Footer/footer';
 import AllRoutes from './pages/AllRoutes';
 import AllTourist from './pages/AllTourist';
 import AdminPanel from './components/AdminComponents/AdminPanel';
@@ -32,6 +33,7 @@ function App() {
           <Route path="/ticket" element={<Ticket />} />
           <Route path="/all-routes" element={<AllRoutes />} />
           <Route path="/all-tourist" element={<AllTourist />} />
+          <Route path="/tender" element={<Tender />} />
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/signup" element={<SignUpComponent />} />
           <Route path="/admin/*" element={<ProtectedRoute element={<AdminPanel />} />} />
