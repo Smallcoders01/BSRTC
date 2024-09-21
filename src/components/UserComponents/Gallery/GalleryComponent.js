@@ -34,7 +34,7 @@ const Gallery = () => {
           {images.map((image, index) => (
             <div className="gallery-item" key={index}>
               <img
-                src={`${config.baseUrl}${image.photo}`}
+                src={`${config.baseUrl}/${image.photo}`}
                 alt={image.name}
                 className="gallery-img" />
             </div>

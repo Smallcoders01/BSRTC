@@ -130,7 +130,7 @@ const PopularRouteAdmin = () => {
                             />
                             {route.imageUrl && (
                                 <img
-                                    src={`${config.baseUrl}${route.imageUrl}`}
+                                    src={`${config.baseUrl}/${route.imageUrl}`}
                                     alt={route.title}
                                     style={{ width: '100%', height: 'auto', marginTop: '10px' }}
                                 />

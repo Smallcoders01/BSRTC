@@ -66,7 +66,7 @@ const PopularRoutes = () => {
       {/* Routes Cards Section */}
       <Row>
         {routes.map((route) => {
-          const imageUrl = `${config.baseUrl}${route.imageUrl}`;
+          const imageUrl = `${config.baseUrl}/${route.imageUrl}`;
           return (
             <Col key={route._id} sm={12} md={6} lg={3} className="mb-4">
               <Card
