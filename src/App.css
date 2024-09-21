@@ -1,7 +1,9 @@
 .App {
   text-align: center;
 }
-
+.routes{
+  margin-top: 150px;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +37,79 @@
   to {
     transform: rotate(360deg);
   }
+}
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-img-top {
+  height: 200px; /* Set a fixed height for images */
+  object-fit: cover; /* Ensures the images fill the area without distortion */
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for the text and button */
+  padding: 10px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.btn-light {
+  background-color: #6f42c1; /* Matching the button background color */
+  color: white;
+  border: none;
+}
+
+.btn-light:hover {
+  background-color: #552e9a; /* Darker purple on hover */
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+}
+.background{
+  background-color: #f8f4ff;
+}
+.cardone{
+  position: relative;
+}
+.btn2{
+  position: absolute;
+  top: 33px;
+ right: 0px;
+  width: 85px;
+
+}
+.busImage img{
+  width: 500px;
+  height: 300px;
+  position: absolute;
+  top: 260px;
+  right: 100px;
+ z-index: 10;
+}
+@media(max-width:426px) {
+  .busImage img{
+    display: none;
+  }
+}
+@media(max-width:768px){
+  .busImage img{
+    width: 50%;
+    top: 330px;
+    right: 40px;
+  }
+
 }

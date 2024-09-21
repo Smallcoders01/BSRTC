@@ -1,0 +1,30 @@
+/* Custom styles for the modal */
+.custom-modal .modal-content {
+    border-radius: 15px; /* Adjust as needed */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust shadow as needed */
+  }
+  
+  .custom-modal .modal-body {
+    border-radius: 15px; /* Ensure border radius is applied to body content */
+  }
+  
+  .signup-title {
+    font-size: 2.5rem; /* Adjust font size as needed */
+  }
+  
+  .signup-subtitle {
+    font-size: 1.5rem; /* Adjust font size as needed */
+  }
+  
+  .control {
+    font-size: 0.875rem; /* Adjust font size as needed */
+  }
+  
+  .cont-btn {
+    font-size: 1rem; /* Adjust font size as needed */
+  }
+  
+  .btns {
+    font-size: 0.875rem; /* Adjust font size as needed */
+  }
+  

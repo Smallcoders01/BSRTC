@@ -1,0 +1,104 @@
+/* Full-width container */
+.faq-container {
+    padding: 60px;
+
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* Title */
+  .faq-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+    color: #343a40;
+    font-weight: bold;
+  }
+  
+  /* FAQ item */
+  .faq-item {
+    margin-bottom: 30px;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Question style */
+  .faq-question {
+    padding: 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #333;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect */
+  .faq-question:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Answer hidden by default */
+  .faq-answer {
+    display: none;
+    padding: 20px 25px;
+    background-color: #fafafa;
+    color: #555;
+    font-size: 1.2rem;
+    border-top: 1px solid #e3e3e3;
+    transition: max-height 0.3s ease;
+  }
+  
+  /* Answer visible when toggled */
+  .faq-answer.show {
+    display: block;
+    max-height: 1000px;
+    overflow: hidden;
+  }
+  
+  /* FAQ question open state */
+  .faq-question.open {
+    background-color: #e9ecef;
+    font-weight: bold;
+  }
+  
+  /* Toggle symbols (+ and X) */
+  .faq-toggle-symbol {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #007bff;
+    transition: transform 0.3s ease;
+  }
+  
+  /* View All Button */
+  .faq-button-container {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .view-all-btn {
+    background-color:white;
+    color:#86469C;
+    padding: 8px 15px;
+    font-size: 1.3rem;
+    border: 2px solid #86469C;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-all-btn:hover {
+    background-color: #86469C;
+    color: #e3e3e3;
+  }
+  
+  /* Smooth transform for symbol rotation (optional) */
+  .faq-question.open .faq-toggle-symbol {
+    transform: rotate(45deg); /* Optional symbol rotation */
+  }
+  

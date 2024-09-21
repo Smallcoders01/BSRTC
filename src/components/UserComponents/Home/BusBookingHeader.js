@@ -1,83 +1,102 @@
-import React from 'react';
-import { Navbar, Nav, Button, Container, Row, Col, Form, Card } from 'react-bootstrap';
-
+import React, { useState } from 'react';
+import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
+import axios from 'axios';
+import backImage from '../../../img/bodhgayas.avif';
+import bus from '../../../img/bus.png';
+import NavbarComponent from '../NavbarComponent'; // Import NavbarComponent
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const BusBookingHeader = () => {
+  const [formData, setFormData] = useState({
+    journeyType: 'one-way',
+    fromLocation: '',
+    toLocation: '',
+    departureDate: '',
+    returnDate: '',
+    passengerType: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post('${config.apiBaseUrl}/bookings', formData) // Update this URL to match your backend endpoint
+      .then(response => {
+        alert('Booking successful!');
+        // Handle success response
+      })
+      .catch(error => {
+        alert('Booking failed!');
+        // Handle error response
+      });
+  };
+
   return (
     <div style={{ padding: '20px' }}>
+      {/* Banner Section */}
       <div className="banner" style={{
         position: 'relative',
-        backgroundImage: 'url(/img/background/busb.jpg)',
+        backgroundImage: `url(${backImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: '90vh',
         color: 'white',
         textAlign: 'left',
         borderRadius: '20px',
-        overflow: 'hidden'
+        overflow: 'hidden',
       }}>
-        {/* Overlay to reduce brightness only on the banner */}
+        {/* Overlay */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'rgba(0, 0, 0, 0.3)',
+          background: 'rgba(0, 0, 0, 0.4)',
           zIndex: 1
         }}></div>
 
-        {/* Navbar Section */}
-        <Navbar bg="transparent" variant="dark" expand="lg" style={{ border: 'none', position: 'relative', zIndex: 2 }}>
-          <Container>
-            <Navbar.Brand href="#home" className="fw-bold" style={{ fontSize: '2rem' }}>B.S.R.T.C</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto justify-content-center w-100">
-                <Nav.Link href="#home" style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'Poppins, sans-serif' }}>Home</Nav.Link>
-                <Nav.Link href="#about" style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'Poppins, sans-serif' }}>About Us</Nav.Link>
-                <Nav.Link href="#contact" style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'Poppins, sans-serif' }}>Contact Us</Nav.Link>
-                <Nav.Link href="#gallery" style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'Poppins, sans-serif' }}>Gallery</Nav.Link>
-                <Nav.Link href="#directory" style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'Poppins, sans-serif' }}>Directory</Nav.Link>
-                <Nav.Link href="#tickets" style={{ fontSize: '0.8rem', textTransform: 'uppercase', fontFamily: 'Poppins, sans-serif' }}>Tickets</Nav.Link>
-              </Nav>
-              <Button
-                variant="secondary"
-                style={{
-                  color: 'gold',
-                  backgroundColor: 'transparent',
-                  borderColor: 'transparent'
-                }}
-                className="ms-2"
-              >
-                Login
-              </Button>
-
-              <Button variant="primary" className="ms-2">Sign Up</Button>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
+        {/* Use NavbarComponent */}
+        <div style={{ position: 'relative', zIndex: 3 }}>
+          <NavbarComponent />
+        </div>
 
         {/* Main Banner Text */}
-        <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{ marginTop: '-100px', position: 'relative', zIndex: 2 }}>
-          <h1 className="fw-bold display-5 text-white">Book your bus ride <br /> <span className="text-primary">now</span>, we’ll do the rest!</h1>
+        <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
+          position: 'relative',
+          marginTop: '-180px'
+        }}>
+          <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
+            Book your bus ride <br />
+          </h1>
+          <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we’ll do the rest!</h1>
+          <div className='busImage'>
+            <img src={bus} alt='busImg' />
+          </div>
         </Container>
       </div>
 
-      {/* Booking Form */}
-      <Card className="booking-form" style={{
-        position: 'absolute', // Changed to absolute to separate from the banner
-        top: '65%', // Positioned to partially overlap the banner
+      {/* Booking Form Section */}
+      <Card className="booking-form cardbotm" style={{
+        position: 'absolute',
+        top: '65%',
         left: '50%',
         transform: 'translateX(-50%)',
         width: '80%',
         borderRadius: '20px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 3 // Higher than the banner overlay
+        zIndex: 3
       }}>
-        <Card.Body>
+        <Card.Body style={{ position: 'relative' }} className='sect'>
           <h3 className="text-center mb-4">Book Your Journey</h3>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Col xs={6} md={3}>
                 <Form.Check
@@ -86,7 +105,9 @@ const BusBookingHeader = () => {
                   name="journeyType"
                   type="radio"
                   id="one-way"
-                  defaultChecked
+                  value="one-way"
+                  checked={formData.journeyType === 'one-way'}
+                  onChange={handleChange}
                 />
               </Col>
               <Col xs={6} md={3}>
@@ -96,44 +117,64 @@ const BusBookingHeader = () => {
                   name="journeyType"
                   type="radio"
                   id="round-trip"
+                  value="round-trip"
+                  checked={formData.journeyType === 'round-trip'}
+                  onChange={handleChange}
                 />
               </Col>
             </Row>
-
             <Row className="mb-3">
               <Col md={3}>
                 <Form.Group controlId="fromLocation">
                   <Form.Label>From</Form.Label>
-                  <Form.Control type="text" placeholder="Patna" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Patna"
+                    name="fromLocation"
+                    value={formData.fromLocation}
+                    onChange={handleChange}
+                  />
                 </Form.Group>
               </Col>
-
               <Col md={1} className="d-flex align-items-center justify-content-center">
                 <span style={{ fontSize: '1.5rem', color: '#6f42c1' }}>⇆</span>
               </Col>
-
               <Col md={3}>
                 <Form.Group controlId="toLocation">
                   <Form.Label>To</Form.Label>
-                  <Form.Control type="text" placeholder="Delhi" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Delhi"
+                    name="toLocation"
+                    value={formData.toLocation}
+                    onChange={handleChange}
+                  />
                 </Form.Group>
               </Col>
-
               <Col md={2}>
                 <Form.Group controlId="departureDate">
                   <Form.Label>Departure</Form.Label>
-                  <Form.Control type="text" placeholder="05 Nov 24" />
+                  <Form.Control
+                    type="date"
+                    name="departureDate"
+                    value={formData.departureDate}
+                    onChange={handleChange}
+                  />
                 </Form.Group>
               </Col>
-
               <Col md={2}>
                 <Form.Group controlId="returnDate">
                   <Form.Label>Return</Form.Label>
-                  <Form.Control type="text" placeholder="05 Nov 24" disabled />
+                  <Form.Control
+                    type="date"
+                    name="returnDate"
+                    value={formData.returnDate}
+                    onChange={handleChange}
+                    disabled={formData.journeyType === 'one-way'}
+                  />
                 </Form.Group>
               </Col>
             </Row>
-
             <Row className="mb-3">
               <Col xs={6} md={3}>
                 <Form.Check
@@ -142,6 +183,9 @@ const BusBookingHeader = () => {
                   name="passengerType"
                   type="radio"
                   id="single-lady"
+                  value="single-lady"
+                  checked={formData.passengerType === 'single-lady'}
+                  onChange={handleChange}
                 />
               </Col>
               <Col xs={6} md={3}>
@@ -151,12 +195,14 @@ const BusBookingHeader = () => {
                   name="passengerType"
                   type="radio"
                   id="senior-citizen"
+                  value="senior-citizen"
+                  checked={formData.passengerType === 'senior-citizen'}
+                  onChange={handleChange}
                 />
               </Col>
             </Row>
-
             <div className="text-center mt-4">
-              <Button variant="primary" size="lg">
+              <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }} type="submit">
                 <i className="fas fa-bus"></i> Show Buses
               </Button>
             </div>
