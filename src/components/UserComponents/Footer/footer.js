@@ -36,12 +36,12 @@ const Footer = () => {
               <li><a href="#">Passenger Safety</a></li>
             </ul>
           </div>
-
+          {/* <Nav.Link as={Link} to="/contact" style={navStyle}>Contact Us</Nav.Link> */}
           <div className="col-lg-2 col-md-6 mb-4">
             <h5 className="footer-title">General Info</h5>
             <ul className="list-unstyled footer-list">
               <li><a href="#">PNR Status</a></li>
-              <li><a href="#">Tender</a></li>
+              <li><a href="/tender">Tender</a></li>
               <li><a href="#">My Bookings</a></li>
               <li><a href="#">Cancellation</a></li>
               <li><a href="#">My Account</a></li>
