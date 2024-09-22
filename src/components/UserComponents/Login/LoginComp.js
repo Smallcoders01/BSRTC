@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Modal, Form, Button, Col, Row } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import bus from '../../../img/loginbus.jpeg';
+import bus from '../../../img/loginbus.jpg'
 import './login.css';
+
 
 const LoginModal = () => {
   const [show, setShow] = useState(false);

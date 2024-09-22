@@ -44,7 +44,7 @@ const AllTourist = () => {
             >
               <Card.Img
                 variant="top"
-                src={`http://localhost:5000${destination.image}`}
+                src={`${config.baseUrl}/${destination.image}`}
                 alt={destination.name}
                 style={{
                   height: '300px',

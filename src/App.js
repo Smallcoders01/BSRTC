@@ -22,6 +22,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 function App() {
   console.log('Rendering App component');
   return (
+
     <>
       <AuthProvider>
         <Routes>
@@ -41,6 +42,7 @@ function App() {
         </Routes>
       </AuthProvider>
     </>
+
   );
 }
 

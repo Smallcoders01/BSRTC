@@ -6,32 +6,32 @@ import './SneakPeek.css'; // Import a CSS file for extra styling if needed
 const features = [
   {
     title: "Comfortable Seating",
-    image: "/Routes/cs.jpg",
+    image: process.env.PUBLIC_URL + "/Routes/cs.jpg",
     alt: "Comfortable Seating",
   },
   {
     title: "Air Conditioning",
-    image: "/Routes/ac.png",
+    image: process.env.PUBLIC_URL + "/Routes/ac.png",
     alt: "Air Conditioning",
   },
   {
     title: "Luggage Storage",
-    image: "/Routes/lb.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/lb.jpg",
     alt: "Luggage Storage",
   },
   {
     title: "Eco-Friendly Buses",
-    image: "/Routes/eb.webp",
+    image: process.env.PUBLIC_URL + "/Routes/eb.jpg",
     alt: "Eco-Friendly Buses",
   },
   {
     title: "Onboard Entertainment",
-    image: "/Routes/tv.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/tv.jpg",
     alt: "Onboard Entertainment",
   },
   {
     title: "Free Wi-Fi",
-    image: "/Routes/wifi.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/wifi.jpg",
     alt: "Free Wi-Fi",
   },
 ];

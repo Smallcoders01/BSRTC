@@ -5,27 +5,51 @@ import { Container, Typography, TextField, Button, CircularProgress, Alert, Box,
 import { Add, Delete } from '@mui/icons-material';
 
 const ContactUsAdmin = () => {
-    const [mainPhoneNumber, setMainPhoneNumber] = useState('');
     const [mainEmail, setMainEmail] = useState('');
+    const [phoneNumber1, setPhoneNumber1] = useState('');
+    const [phoneNumber2, setPhoneNumber2] = useState('');
     const [divisions, setDivisions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [contactInfoId, setContactInfoId] = useState(null);
 
     useEffect(() => {
-        // Fetch the current contact information and divisions
-        axios.get(`${config.apiBaseUrl}/contact`)
+        const token = localStorage.getItem('token');
+        // Fetch the current contact information
+        axios.get(`${config.apiBaseUrl}/contact-info`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
-                if (response.data) {
-                    setMainPhoneNumber(response.data.contact.mainPhoneNumber || '');
-                    setMainEmail(response.data.contact.mainEmail || '');
-                    setDivisions(response.data.divisions || []);
+                console.log('Contact Info Response:', response.data); // Debugging log
+                if (response.data.length > 0) {
+                    const contactInfo = response.data[0];
+                    setContactInfoId(contactInfo._id);
+                    setMainEmail(contactInfo.email || '');
+                    setPhoneNumber1(contactInfo.phoneNumber1 || '');
+                    setPhoneNumber2(contactInfo.phoneNumber2 || '');
                 } else {
-                    setError('Invalid response format');
+                    setError('No contact information found');
                 }
                 setLoading(false);
             })
             .catch(error => {
+                console.error('Error fetching contact information:', error); // Debugging log
                 setError('Error fetching contact information');
+                setLoading(false);
+            });
+
+        // Fetch the current divisions
+        axios.get(`${config.apiBaseUrl}/divisions`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                console.log('Divisions Response:', response.data); // Debugging log
+                setDivisions(response.data || []);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching divisions:', error); // Debugging log
+                setError('Error fetching divisions');
                 setLoading(false);
             });
     }, []);
@@ -41,20 +65,63 @@ const ContactUsAdmin = () => {
     };
 
     const handleRemoveDivision = (index) => {
-        const newDivisions = divisions.filter((_, i) => i !== index);
-        setDivisions(newDivisions);
+        const token = localStorage.getItem('token');
+        const divisionId = divisions[index]._id;
+        axios.delete(`${config.apiBaseUrl}/divisions/${divisionId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                const newDivisions = divisions.filter((_, i) => i !== index);
+                setDivisions(newDivisions);
+                alert('Division deleted successfully');
+            })
+            .catch(error => {
+                console.error('Error deleting division:', error); // Debugging log
+                setError('Error deleting division');
+            });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Update the contact information and divisions
-        axios.post(`${config.apiBaseUrl}/contact`, { mainPhoneNumber, mainEmail, divisions })
+        const token = localStorage.getItem('token');
+        // Update the contact information
+        axios.put(`${config.apiBaseUrl}/contact-info/${contactInfoId}`, { email: mainEmail, phoneNumber1, phoneNumber2 }, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 alert('Contact information updated successfully');
             })
             .catch(error => {
+                console.error('Error updating contact information:', error); // Debugging log
                 setError('Error updating contact information');
             });
+
+        // Update the divisions
+        divisions.forEach(division => {
+            if (division._id) {
+                axios.put(`${config.apiBaseUrl}/divisions/${division._id}`, division, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                    .then(response => {
+                        console.log('Division updated successfully');
+                    })
+                    .catch(error => {
+                        console.error('Error updating division:', error); // Debugging log
+                        setError('Error updating division');
+                    });
+            } else {
+                axios.post(`${config.apiBaseUrl}/divisions`, division, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                    .then(response => {
+                        console.log('Division added successfully');
+                    })
+                    .catch(error => {
+                        console.error('Error adding division:', error); // Debugging log
+                        setError('Error adding division');
+                    });
+            }
+        });
     };
 
     if (loading) return <CircularProgress />;
@@ -68,20 +135,29 @@ const ContactUsAdmin = () => {
             <form onSubmit={handleSubmit}>
                 <Box mb={2}>
                     <TextField
-                        label="Main Phone Number"
-                        variant="outlined"
-                        fullWidth
-                        value={mainPhoneNumber}
-                        onChange={(e) => setMainPhoneNumber(e.target.value)}
-                    />
-                </Box>
-                <Box mb={2}>
-                    <TextField
                         label="Main Email"
                         variant="outlined"
                         fullWidth
                         value={mainEmail}
                         onChange={(e) => setMainEmail(e.target.value)}
+                    />
+                </Box>
+                <Box mb={2}>
+                    <TextField
+                        label="Phone Number 1"
+                        variant="outlined"
+                        fullWidth
+                        value={phoneNumber1}
+                        onChange={(e) => setPhoneNumber1(e.target.value)}
+                    />
+                </Box>
+                <Box mb={2}>
+                    <TextField
+                        label="Phone Number 2"
+                        variant="outlined"
+                        fullWidth
+                        value={phoneNumber2}
+                        onChange={(e) => setPhoneNumber2(e.target.value)}
                     />
                 </Box>
                 <Typography variant="h6" component="h2" gutterBottom>
