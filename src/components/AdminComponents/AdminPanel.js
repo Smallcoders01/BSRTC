@@ -9,7 +9,8 @@ import PolicyAdmin from './PolicyAdmin';
 import PopularRouteAdmin from './PopularRouteAdmin';
 import GalleryAdmin from './GalleryAdmin';
 import TouristDestinationAdmin from './TouristDestinationAdmin';
-import FAQAdmin from './FAQAdmin'; // Import the new component
+import FAQAdmin from './FAQAdmin';
+import TenderAdmin from './TenderAdmin'; // Import the new component
 
 const drawerWidth = 240;
 
@@ -59,8 +60,11 @@ const AdminPanel = () => {
                         <ListItem button component={Link} to="/admin/tourist-destinations">
                             <ListItemText primary="Tourist Destinations" />
                         </ListItem>
-                        <ListItem button component={Link} to="/admin/faq"> {/* Add new drawer item */}
+                        <ListItem button component={Link} to="/admin/faq">
                             <ListItemText primary="FAQs" />
+                        </ListItem>
+                        <ListItem button component={Link} to="/admin/tenders"> {/* Add new drawer item */}
+                            <ListItemText primary="Tenders" />
                         </ListItem>
                     </List>
                 </Box>
@@ -79,7 +83,8 @@ const AdminPanel = () => {
                     <Route path="popular-routes" element={<PopularRouteAdmin />} />
                     <Route path="gallery" element={<GalleryAdmin />} />
                     <Route path="tourist-destinations" element={<TouristDestinationAdmin />} />
-                    <Route path="faq" element={<FAQAdmin />} /> {/* Add new route */}
+                    <Route path="faq" element={<FAQAdmin />} />
+                    <Route path="tenders" element={<TenderAdmin />} /> {/* Add new route */}
                 </Routes>
             </Box>
         </Box>
