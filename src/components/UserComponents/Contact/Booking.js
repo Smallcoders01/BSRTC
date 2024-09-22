@@ -1,55 +1,68 @@
 import React, { useState } from 'react';
-import './Booking.css'; // External CSS for custom styling
-import { Accordion, Card, Button } from 'react-bootstrap';
+import './Booking.css'; // Add external CSS for custom styles
 
 const Booking = () => {
-  const [showPolicy, setShowPolicy] = useState(true);
+  // Manage the open/close state of each accordion section
+  const [isOpen, setIsOpen] = useState({
+    cancellationPolicy: false,
+    luggagePolicy: false,
+  });
 
-  const handleClosePolicy = () => {
-    setShowPolicy(false);
+  // Toggle function to expand/collapse accordion sections
+  const toggleAccordion = (section) => {
+    setIsOpen((prevState) => ({
+      ...prevState,
+      [section]: !prevState[section],
+    }));
   };
 
   return (
-    <div className="booking-policies-container">
-      {showPolicy && (
-        <div className="booking-policies-card">
-          <div className="card-header d-flex justify-content-between align-items-center">
-            <h2>Booking Policies</h2>
-            <Button variant="link" onClick={handleClosePolicy} className="close-button">
-              <i className="bi bi-x-circle-fill"></i>
-            </Button>
-          </div>
-          <div className="card-body">
-            <ol>
-              <li>Objectionable articles* (Items) are not allowed to be carried on the bus.</li>
-              <li>Travelers under the influence of Alcohol/Intoxicating Drugs will not be allowed to travel in the bus.</li>
-              <li>Travelers are requested to maintain the decorum.</li>
-              <li>BSRTC will not be responsible for any kind of theft of the luggage carried by the passenger inside the bus with him/her.</li>
-              <li>Any kind of misbehavior with a female passenger will not be tolerated and the passenger will be asked to leave the bus.</li>
-              <li>Pets are not allowed.</li>
-            </ol>
-          </div>
-        </div>
-      )}
+    <div className="booking-policies-container ">
+      <h2 className="mb-4">Booking Policies</h2>
 
-      <Accordion className="mt-3">
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="0">
-            Cancellation Policy
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>Details about the cancellation policy go here.</Card.Body>
-          </Accordion.Collapse>
-        </Card>
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="1">
-            Luggage Policy
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="1">
-            <Card.Body>Details about the luggage policy go here.</Card.Body>
-          </Accordion.Collapse>
-        </Card>
-      </Accordion>
+      {/* Policy list */}
+      <div className="policy-box">
+        <ul>
+          <li>1) Objectionable articles* (Items) are not allowed to be carried on the bus.</li>
+          <li>2) Travelers under the influence of Alcohol/Intoxicating Drugs will not be allowed to travel in the bus.</li>
+          <li>3) Travelers are requested to maintain the decorum.</li>
+          <li>4) BSRTC will not be responsible for any kind of theft of the luggage carried by the passenger inside the bus with him/her.</li>
+          <li>5) Any kind of misbehavior with a female passenger will not be tolerated and the passenger will be asked to leave the bus.</li>
+          <li>6) Pets are not allowed.</li>
+        </ul>
+      </div>
+
+      {/* Cancellation Policy Accordion */}
+      <div className="accordion-item">
+        <div
+          className="accordion-header"
+          onClick={() => toggleAccordion('cancellationPolicy')}
+        >
+          <span>Cancellation Policy</span>
+          <span>{isOpen.cancellationPolicy ? 'x' : '+'}</span>
+        </div>
+        {isOpen.cancellationPolicy && (
+          <div className="accordion-content">
+            <p>Here are the details of the cancellation policy...</p>
+          </div>
+        )}
+      </div>
+
+      {/* Luggage Policy Accordion */}
+      <div className="accordion-item">
+        <div
+          className="accordion-header"
+          onClick={() => toggleAccordion('luggagePolicy')}
+        >
+          <span>Luggage Policy</span>
+          <span>{isOpen.luggagePolicy ? 'x' : '+'}</span>
+        </div>
+        {isOpen.luggagePolicy && (
+          <div className="accordion-content">
+            <p>Here are the details of the luggage policy...</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
