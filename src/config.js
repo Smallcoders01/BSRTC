@@ -1,6 +1,6 @@
 const config = {
-    apiBaseUrl: 'http://54.88.72.191:5000/api',
-    baseUrl: 'http://54.88.72.191:5000' // Added base URL
+    apiBaseUrl: 'https://sltc-goabackend.onrender.com/api',
+    baseUrl: 'https://sltc-goabackend.onrender.com' // Added base URL
 };
 
 export default config;
