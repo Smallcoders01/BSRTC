@@ -1,31 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import GalleryComponent from '../components/UserComponents/Gallery/GalleryComponent';
 import Banner from '../components/UserComponents/Banner';
-import Loading from '../components/UserComponents/Loading'; // Import the Loading spinner component
+import Loading from '../components/UserComponents/Loading';
 
 const Gallery = () => {
-  const [loading, setLoading] = useState(true); // Set initial loading state to true
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [galleryReady, setGalleryReady] = useState(false);
 
   useEffect(() => {
-    // Simulate loading or a data fetch
+    console.log('Gallery: Initial loading started');
     const timer = setTimeout(() => {
-      setLoading(false); // Set loading to false after the content is "loaded"
-    }, 2000); // Adjust the timeout based on your actual loading needs
+      setInitialLoading(false);
+      console.log('Gallery: Initial loading finished');
+    }, 1); // Reduced to 1 second
 
-    // Cleanup timeout when the component unmounts
     return () => clearTimeout(timer);
   }, []);
 
-  // If loading is true, show the spinner
-  if (loading) {
+  const handleGalleryLoaded = () => {
+    console.log('Gallery: GalleryComponent data loaded');
+    setGalleryReady(true);
+  };
+
+  console.log('Gallery: Render cycle', { initialLoading, galleryReady });
+
+  if (initialLoading) {
     return <Loading />;
   }
 
-  // Once loading is false, show the actual page content
   return (
     <div>
       <Banner />
-      <GalleryComponent />
+      <GalleryComponent onDataLoaded={handleGalleryLoaded} />
+      {!galleryReady && <Loading />}
     </div>
   );
 };

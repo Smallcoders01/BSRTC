@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import config from '../../../config'; // Ensure this path is correct
-import './HelplineNumbers.css'; // Import the external CSS file
+import config from '../../../config';
+import './HelplineNumbers.css';
 
-const HelplineNumbers = () => {
+const HelplineNumbers = ({ onDataLoaded }) => {
   const [mainContact, setMainContact] = useState({ email: '', phoneNumber1: '', phoneNumber2: '' });
   const [divisions, setDivisions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch the main contact information
-    axios.get(`${config.apiBaseUrl}/contact-info`)
-      .then(response => {
-        console.log('Contact Info Response:', response.data); // Debugging log
-        if (response.data.length > 0) {
-          const contactInfo = response.data[0];
+    console.log('HelplineNumbers: Fetching data');
+    Promise.all([
+      axios.get(`${config.apiBaseUrl}/contact-info`, { timeout: 10000 }),
+      axios.get(`${config.apiBaseUrl}/divisions`, { timeout: 10000 })
+    ])
+      .then(([contactResponse, divisionsResponse]) => {
+        console.log('HelplineNumbers: Data fetched successfully');
+        if (contactResponse.data.length > 0) {
+          const contactInfo = contactResponse.data[0];
           setMainContact({
             email: contactInfo.email,
             phoneNumber1: contactInfo.phoneNumber1,
@@ -24,46 +27,35 @@ const HelplineNumbers = () => {
         } else {
           setError('No contact information found');
         }
+        setDivisions(divisionsResponse.data || []);
         setLoading(false);
+        onDataLoaded();
       })
       .catch(error => {
-        console.error('Error fetching contact information:', error); // Debugging log
-        setError('Error fetching contact information');
+        console.error('HelplineNumbers: Error fetching data', error);
+        setError('Error fetching data');
         setLoading(false);
+        onDataLoaded();
       });
+  }, [onDataLoaded]);
 
-    // Fetch the division data
-    axios.get(`${config.apiBaseUrl}/divisions`)
-      .then(response => {
-        console.log('Divisions Response:', response.data); // Debugging log
-        setDivisions(response.data || []);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching divisions:', error); // Debugging log
-        setError('Error fetching divisions');
-        setLoading(false);
-      });
-  }, []);
+  console.log('HelplineNumbers: Render cycle', { loading, error });
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading || error) {
+    return null;
+  }
 
   return (
     <div className="helpline-container">
-      {/* Contact Details Section */}
-
       <div className="contact-bar d-flex justify-content-center align-items-center">
         <div className="contact-item">
           <i className="bi bi-telephone-fill"></i> {mainContact.phoneNumber1}, {mainContact.phoneNumber2}
         </div>
         <div className="contact-item">
           <i className="bi bi-envelope-fill"></i> {mainContact.email}
-
         </div>
       </div>
 
-      {/* Helpline Numbers Section */}
       <div className="container mt-5">
         <h2 className="text-center">BSRTC Helpline Number</h2>
         <div className="row mt-4">

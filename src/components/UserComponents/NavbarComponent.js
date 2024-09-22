@@ -120,7 +120,7 @@ const navStyle = (expanded, isActive) => ({
 });
 
 const settingsButtonStyle = {
-  color: '#000000',
+  color: '#ffffff',
   backgroundColor: 'transparent',
   border: 'none',
   padding: '8px',

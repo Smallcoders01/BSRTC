@@ -1,39 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Banner from '../components/UserComponents/Banner';
 import AboutUs from '../components/UserComponents/About/AboutUs';
 import Footer from '../components/UserComponents/Footer/footer';
-import Loading from '../components/UserComponents/Loading'; // Import the Loading spinner component
+import Loading from '../components/UserComponents/Loading';
+
+const INITIAL_LOAD_TIME = 1; // Reduced to 1 second for better UX
 
 const AboutPage = () => {
-  const [loading, setLoading] = useState(true); // Set initial loading state to true
-  const isFirstRender = useRef(true); // Track if this is the first render (mount)
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [aboutReady, setAboutReady] = useState(false);
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      // If it's the first render, show the loading spinner
-      const timer = setTimeout(() => {
-        setLoading(false); // Hide loading after content is "loaded"
-        isFirstRender.current = false; // Mark that the component has loaded once
-      }, 2000); // Adjust the timeout for your loading time
+    console.log('AboutPage: Initial loading started');
+    const timer = setTimeout(() => {
+      setInitialLoading(false);
+      console.log('AboutPage: Initial loading finished');
+    }, INITIAL_LOAD_TIME);
 
-      // Cleanup the timer on component unmount
-      return () => clearTimeout(timer);
-    } else {
-      // If the component has already rendered before, don't show the loading spinner
-      setLoading(false);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
-  // If loading is true, show the spinner
-  if (loading) {
+  const handleAboutLoaded = useCallback(() => {
+    console.log('AboutPage: AboutUs component data loaded');
+    setAboutReady(true);
+  }, []);
+
+  console.log('AboutPage: Render cycle', { initialLoading, aboutReady });
+
+  if (initialLoading) {
     return <Loading />;
   }
 
-  // Once loading is false, show the actual page content
   return (
     <div>
       <Banner />
-      <AboutUs />
+      <AboutUs onDataLoaded={handleAboutLoaded} />
+      {!aboutReady && <Loading />}
       <Footer />
     </div>
   );
