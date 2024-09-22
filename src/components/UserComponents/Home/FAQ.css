@@ -67,12 +67,22 @@
     font-weight: bold;
   }
   
-  /* Toggle symbols (+ and X) */
+  /* Toggle symbols (+ and −) */
   .faq-toggle-symbol {
     font-size: 2rem;
     font-weight: bold;
     color:#86469C ;
     transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+  }
+  
+  /* Adjust the rotation for the minus sign */
+  .faq-question.open .faq-toggle-symbol {
+    transform: rotate(0deg);
   }
   
   /* View All Button */
@@ -98,3 +108,8 @@
   }
   
   /* Smooth transform for symbol rotation (optional) */
+
+  .faq-question.open .faq-toggle-symbol {
+    transform: rotate(45deg); /* Optional symbol rotation */
+  }
+
