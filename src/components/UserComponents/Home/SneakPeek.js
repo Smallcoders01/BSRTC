@@ -16,22 +16,22 @@ const features = [
   },
   {
     title: "Luggage Storage",
-    image: process.env.PUBLIC_URL + "/Routes/lb.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/lb.jpg",
     alt: "Luggage Storage",
   },
   {
     title: "Eco-Friendly Buses",
-    image: process.env.PUBLIC_URL + "/Routes/eb.webp",
+    image: process.env.PUBLIC_URL + "/Routes/eb.jpg",
     alt: "Eco-Friendly Buses",
   },
   {
     title: "Onboard Entertainment",
-    image: process.env.PUBLIC_URL + "/Routes/tv.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/tv.jpg",
     alt: "Onboard Entertainment",
   },
   {
     title: "Free Wi-Fi",
-    image: process.env.PUBLIC_URL + "/Routes/wifi.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/wifi.jpg",
     alt: "Free Wi-Fi",
   },
 ];
