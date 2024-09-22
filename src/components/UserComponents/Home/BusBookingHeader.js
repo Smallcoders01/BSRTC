@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
-import backImage from '../../../img/bodhgayas.avif';
+import backImage from '../../../img/bodhgayas.jpg';
 import bus from '../../../img/bus.png';
 import NavbarComponent from '../NavbarComponent'; // Import NavbarComponent
 import DatePicker from 'react-datepicker';

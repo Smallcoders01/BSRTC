@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Form, Button, Col, Row, Alert } from 'react-bootstrap';
 import axios from 'axios';
-import bus from '../../../img/loginbus.jpeg'; // Adjust the path as necessary
+import bus from '../../../img/loginbus.jpg'; // Adjust the path as necessary
 import './login.css'; // Import custom CSS
 
 const SignupModal = () => {
