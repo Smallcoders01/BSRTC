@@ -6,32 +6,32 @@ import './SneakPeek.css'; // Import a CSS file for extra styling if needed
 const features = [
   {
     title: "Comfortable Seating",
-    image: "/Routes/cs.jpg",
+    image: process.env.PUBLIC_URL + "/Routes/cs.jpg",
     alt: "Comfortable Seating",
   },
   {
     title: "Air Conditioning",
-    image: "/Routes/ac.png",
+    image: process.env.PUBLIC_URL + "/Routes/ac.png",
     alt: "Air Conditioning",
   },
   {
     title: "Luggage Storage",
-    image: "/Routes/lb.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/lb.jpeg",
     alt: "Luggage Storage",
   },
   {
     title: "Eco-Friendly Buses",
-    image: "/Routes/eb.webp",
+    image: process.env.PUBLIC_URL + "/Routes/eb.webp",
     alt: "Eco-Friendly Buses",
   },
   {
     title: "Onboard Entertainment",
-    image: "/Routes/tv.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/tv.jpeg",
     alt: "Onboard Entertainment",
   },
   {
     title: "Free Wi-Fi",
-    image: "/Routes/wifi.jpeg",
+    image: process.env.PUBLIC_URL + "/Routes/wifi.jpeg",
     alt: "Free Wi-Fi",
   },
 ];
@@ -39,7 +39,7 @@ const features = [
 const SneakPeek = () => {
   return (
     <div className="text-center mt-5" style={{ width: '100%', padding: '40px 60px', backgroundColor: '#fff' }}>
-      <h2 className="mb-3"style={{color:'#552e9a',fontWeight:'bold'}}>A Sneak Peek Into Our World</h2>
+      <h2 className="mb-3" style={{ color: '#552e9a', fontWeight: 'bold' }}>A Sneak Peek Into Our World</h2>
       <p>Experience the lavish amenities of BSRTC!</p>
 
       {/* Carousel for sliding cards */}
@@ -111,7 +111,7 @@ const SneakPeek = () => {
       </Carousel>
 
       {/* "View All" button */}
-      <Button type="primary" className="mt-4" style={{ backgroundColor: 'white', borderColor: '#552e9a', borderRadius: '10px', padding: '20px 20px',border: '2px solid #6f42c1',fontWeight:'bold',color:'#6f42c1'}}>
+      <Button type="primary" className="mt-4" style={{ backgroundColor: 'white', borderColor: '#552e9a', borderRadius: '10px', padding: '20px 20px', border: '2px solid #6f42c1', fontWeight: 'bold', color: '#6f42c1' }}>
         View All
       </Button>
     </div>
