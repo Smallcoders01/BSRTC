@@ -27,7 +27,7 @@ const BusBookingHeader = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/bookings', formData) // Update this URL to match your backend endpoint
+    axios.post('${config.apiBaseUrl}/bookings', formData) // Update this URL to match your backend endpoint
       .then(response => {
         alert('Booking successful!');
         // Handle success response

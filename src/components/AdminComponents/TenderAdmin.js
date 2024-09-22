@@ -139,7 +139,7 @@ const TenderAdmin = () => {
                                 onChange={(e) => handleFileChange(tenderIndex, e.target.files[0])}
                             />
                             {tender.pdf && (
-                                <a href={`http://localhost:5000${tender.pdf}`} target="_blank" rel="noopener noreferrer">
+                                <a href={`${config.baseUrl}${tender.pdf}`} target="_blank" rel="noopener noreferrer">
                                     View PDF
                                 </a>
                             )}

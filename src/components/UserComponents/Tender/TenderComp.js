@@ -51,7 +51,7 @@ const TenderComp = () => {
                   <td>
                     <Button
                       variant="primary"
-                      href={`http://localhost:5000${tender.pdf}`}
+                      href={`${config.baseUrl}${tender.pdf}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

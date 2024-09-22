@@ -15,7 +15,7 @@ const TicketDetails = () => {
     e.preventDefault();
     const ticketData = { phone, tin };
 
-    axios.post('http://localhost:5000/api/tickets', ticketData) // Update this URL to match your backend endpoint
+    axios.post('${config.apiBaseUrl}/tickets', ticketData) // Update this URL to match your backend endpoint
       .then(response => {
         setResponse(response.data);
         setError(null);

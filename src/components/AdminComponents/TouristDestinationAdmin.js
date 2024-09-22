@@ -110,7 +110,7 @@ const TouristDestinationAdmin = () => {
                             />
                             {destination.image && (
                                 <img
-                                    src={`http://localhost:5000${destination.image}`}
+                                    src={`${config.baseUrl}${destination.image}`}
                                     alt={destination.name}
                                     style={{ width: '100%', height: 'auto', marginTop: '10px' }}
                                 />

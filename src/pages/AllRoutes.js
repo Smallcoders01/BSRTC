@@ -30,7 +30,7 @@ const AllRoutes = () => {
       <h2 className="fw-bold mb-4 text-center">All Popular Routes</h2>
       <Row>
         {routes.map((route) => {
-          const imageUrl = `http://localhost:5000${route.imageUrl}`;
+          const imageUrl = `${config.baseUrl}${route.imageUrl}`;
           console.log('Image URL:', imageUrl); // Log the image URL for debugging
           return (
             <Col key={route._id} sm={12} md={6} lg={3} className="mb-4">

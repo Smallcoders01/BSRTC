@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Gallery.css'; // Custom CSS file
 import Footer from '../Footer/footer';
 import axios from 'axios';
+import config from '../../../config';
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -11,7 +12,7 @@ const Gallery = () => {
 
   useEffect(() => {
     // Fetch images from the backend API
-    axios.get('http://localhost:5000/api/gallery')
+    axios.get(`${config.apiBaseUrl}/gallery`)
       .then(response => {
         setImages(response.data);
         setLoading(false);
@@ -33,7 +34,7 @@ const Gallery = () => {
           {images.map((image, index) => (
             <div className="gallery-item" key={index}>
               <img
-                src={`http://localhost:5000${image.photo}`}
+                src={`${config.baseUrl}${image.photo}`}
                 alt={image.name}
                 className="gallery-img" />
             </div>

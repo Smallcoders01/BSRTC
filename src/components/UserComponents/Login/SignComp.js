@@ -28,7 +28,7 @@ const SignupModal = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/auth/signup', formData) // Update the URL to match your backend endpoint
+    axios.post('${config.apiBaseUrl}/auth/signup', formData) // Update the URL to match your backend endpoint
       .then(response => {
         setSuccess('Signup successful!');
         setError('');
