@@ -1,10 +1,11 @@
 import React, { useState, useContext, useRef } from 'react';
-import { Navbar, Nav, Container, Dropdown, Overlay } from 'react-bootstrap';
+import { Navbar, Nav, Container, Dropdown } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LoginModal from '../UserComponents/Login/LoginComp';
 import SignupModal from '../UserComponents/Login/SignComp';
 import { AuthContext } from '../../context/AuthContext';
-import { FaCog, FaUser, FaSignOutAlt, FaUserCircle } from 'react-icons/fa';
+import { FaCog, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import ReactDOM from 'react-dom';
 
 const NavbarComponent = ({ onToggle }) => {
   const { user, logout } = useContext(AuthContext);
@@ -12,7 +13,9 @@ const NavbarComponent = ({ onToggle }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const target = useRef(null);
+
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const toggleRef = useRef(null);
 
   const handleToggle = () => {
     setExpanded(!expanded);
@@ -27,6 +30,15 @@ const NavbarComponent = ({ onToggle }) => {
     logout();
     navigate('/');
     setShowDropdown(false);
+  };
+
+  const handleToggleClick = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    setDropdownPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.right + window.scrollX - 200,
+    });
+    setShowDropdown(!showDropdown);
   };
 
   return (
@@ -60,22 +72,22 @@ const NavbarComponent = ({ onToggle }) => {
             <Nav.Link as={Link} to="/contact" style={navStyle(expanded, isActive('/contact'))}>Contact Us</Nav.Link>
             <Nav.Link as={Link} to="/ticket" style={navStyle(expanded, isActive('/ticket'))}>Tickets</Nav.Link>
             {user ? (
-              <Dropdown show={showDropdown} onToggle={(isOpen) => setShowDropdown(isOpen)}>
-                <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+              <>
+                <div ref={toggleRef} onClick={handleToggleClick} style={settingsButtonStyle}>
                   <FaCog size={24} />
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu style={dropdownMenuStyle}>
-                  <Dropdown.Item as="div">
+                </div>
+                {showDropdown && ReactDOM.createPortal(
+                  <CustomMenu style={{ ...dropdownMenuStyle, top: dropdownPosition.top, left: dropdownPosition.left }}>
                     <div style={userInfoStyle}>
                       <span>{user.name}</span>
                     </div>
-                  </Dropdown.Item>
-                  <Dropdown.Divider />
-                  <Dropdown.Item as={Link} to="/profile"><FaUserCircle /> View Profile</Dropdown.Item>
-                  <Dropdown.Item onClick={handleLogout}><FaSignOutAlt /> Logout</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+                    <Dropdown.Divider />
+                    <MenuItem icon={<FaUserCircle />} text="View Profile" to="/profile" />
+                    <MenuItem icon={<FaSignOutAlt />} text="Logout" onClick={handleLogout} />
+                  </CustomMenu>,
+                  document.body
+                )}
+              </>
             ) : (
               <>
                 <SignupModal />
@@ -89,19 +101,28 @@ const NavbarComponent = ({ onToggle }) => {
   );
 };
 
-const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-  <a
-    href=""
-    ref={ref}
-    onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
-    }}
-    style={settingsButtonStyle}
-  >
-    {children}
-  </a>
-));
+const CustomMenu = ({ children, style }) => {
+  return (
+    <div style={style}>
+      {children}
+    </div>
+  );
+};
+
+const MenuItem = ({ icon, text, to, onClick }) => {
+  const content = (
+    <div style={menuItemStyle}>
+      {icon}
+      <span style={{ marginLeft: '10px' }}>{text}</span>
+    </div>
+  );
+
+  return to ? (
+    <Link to={to} style={menuItemLinkStyle}>{content}</Link>
+  ) : (
+    <div onClick={onClick} style={menuItemLinkStyle}>{content}</div>
+  );
+};
 
 const navStyle = (expanded, isActive) => ({
   fontSize: '0.9rem',
@@ -119,6 +140,38 @@ const navStyle = (expanded, isActive) => ({
   alignItems: 'center',
 });
 
+const dropdownMenuStyle = {
+  position: 'absolute',
+  backgroundColor: '#fff',
+  border: '1px solid #ddd',
+  borderRadius: '8px',
+  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+  padding: '10px 0',
+  zIndex: 9999,
+  minWidth: '200px',
+};
+
+const userInfoStyle = {
+  padding: '10px 15px',
+  borderBottom: '1px solid #eee',
+  fontWeight: 'bold',
+};
+
+const menuItemStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  padding: '10px 15px',
+};
+
+const menuItemLinkStyle = {
+  color: '#333',
+  textDecoration: 'none',
+  display: 'block',
+  '&:hover': {
+    backgroundColor: '#f5f5f5',
+  },
+};
+
 const settingsButtonStyle = {
   color: '#ffffff',
   backgroundColor: 'transparent',
@@ -128,22 +181,7 @@ const settingsButtonStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   transition: 'all 0.3s ease',
-};
-
-const dropdownMenuStyle = {
-  backgroundColor: '#fff',
-  border: '1px solid #ddd',
-  borderRadius: '8px',
-  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-  padding: '10px 0',
-  zIndex: 1050,
-};
-
-const userInfoStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  padding: '10px 15px',
-  gap: '10px',
+  cursor: 'pointer',
 };
 
 export default NavbarComponent;

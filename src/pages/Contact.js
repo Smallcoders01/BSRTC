@@ -14,7 +14,7 @@ const Contact = () => {
     const timer = setTimeout(() => {
       setInitialLoading(false);
       console.log('Contact: Initial loading finished');
-    }, 2000);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, []);

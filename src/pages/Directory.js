@@ -12,7 +12,7 @@ const Directory = () => {
     const timer = setTimeout(() => {
       setInitialLoading(false);
       console.log('Directory: Initial loading finished');
-    }, 2000);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, []);

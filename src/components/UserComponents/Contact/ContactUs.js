@@ -3,6 +3,8 @@ import axios from 'axios';
 import config from '../../../config';
 import './HelplineNumbers.css';
 
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
 const HelplineNumbers = ({ onDataLoaded }) => {
   const [mainContact, setMainContact] = useState({ email: '', phoneNumber1: '', phoneNumber2: '' });
   const [divisions, setDivisions] = useState([]);
@@ -10,34 +12,69 @@ const HelplineNumbers = ({ onDataLoaded }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    console.log('HelplineNumbers: Fetching data');
-    Promise.all([
-      axios.get(`${config.apiBaseUrl}/contact-info`, { timeout: 10000 }),
-      axios.get(`${config.apiBaseUrl}/divisions`, { timeout: 10000 })
-    ])
-      .then(([contactResponse, divisionsResponse]) => {
+    const fetchData = async () => {
+      console.log('HelplineNumbers: Checking cache');
+      const cachedData = checkCache();
+      if (cachedData) {
+        console.log('HelplineNumbers: Using cached data');
+        setMainContact(cachedData.mainContact);
+        setDivisions(cachedData.divisions);
+        setLoading(false);
+        onDataLoaded();
+        return;
+      }
+
+      console.log('HelplineNumbers: Fetching fresh data');
+      try {
+        const [contactResponse, divisionsResponse] = await Promise.all([
+          axios.get(`${config.apiBaseUrl}/contact-info`, { timeout: 10000 }),
+          axios.get(`${config.apiBaseUrl}/divisions`, { timeout: 10000 })
+        ]);
+
         console.log('HelplineNumbers: Data fetched successfully');
         if (contactResponse.data.length > 0) {
           const contactInfo = contactResponse.data[0];
-          setMainContact({
+          const newMainContact = {
             email: contactInfo.email,
             phoneNumber1: contactInfo.phoneNumber1,
             phoneNumber2: contactInfo.phoneNumber2
-          });
+          };
+          setMainContact(newMainContact);
+          setDivisions(divisionsResponse.data || []);
+          cacheData(newMainContact, divisionsResponse.data || []);
         } else {
           setError('No contact information found');
         }
-        setDivisions(divisionsResponse.data || []);
-        setLoading(false);
-        onDataLoaded();
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('HelplineNumbers: Error fetching data', error);
         setError('Error fetching data');
+      } finally {
         setLoading(false);
         onDataLoaded();
-      });
+      }
+    };
+
+    fetchData();
   }, [onDataLoaded]);
+
+  const checkCache = () => {
+    const cachedData = localStorage.getItem('helplineData');
+    if (cachedData) {
+      const { data, timestamp } = JSON.parse(cachedData);
+      if (Date.now() - timestamp < CACHE_DURATION) {
+        return data;
+      }
+    }
+    return null;
+  };
+
+  const cacheData = (mainContact, divisions) => {
+    const dataToCache = {
+      data: { mainContact, divisions },
+      timestamp: Date.now()
+    };
+    localStorage.setItem('helplineData', JSON.stringify(dataToCache));
+  };
 
   console.log('HelplineNumbers: Render cycle', { loading, error });
 

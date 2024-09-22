@@ -40,6 +40,8 @@
   font-weight: bold !important;
   cursor: pointer !important;
   font-size: 13px;
+  background-color: #5a2d82; /* Purple background for inactive tabs */
+  color: white; /* White text for inactive tabs */
 }
 
 /* Ensure no border-radius for other items */
@@ -64,9 +66,29 @@
     font-size: 12px !important; /* Further reduced font size for mobile */
   }
 }
+
 .yellow{
   background-color: #ffd700;
   padding: 6px;
   color: #3f2060;
   border-radius: 16px;
+}
+
+/* Add this to your Directory.css file */
+
+.office-nav ul li.active:not(.head-office) {
+  background-color: #5a2d82; /* Keep purple background for active non-head-office tabs */
+}
+
+.office-nav ul li.active:not(.head-office) .yellow {
+  background-color: #ffd700; /* Yellow background for active division */
+  color: #3f2060; /* Purple text for active division */
+  padding: 6px;
+  border-radius: 16px;
+}
+
+/* Ensure the head office tab doesn't change on active state */
+.office-nav ul li.head-office.active {
+  background-color: #ffd700 !important;
+  color: #5a2d82 !important;
 }

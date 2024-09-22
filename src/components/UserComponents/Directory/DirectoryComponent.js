@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Table } from 'react-bootstrap';
 import axios from 'axios';
-import config from '../../../config'; // Ensure this path is correct
+import config from '../../../config';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./Directory.css"; // Import custom CSS for exact styling
+import "./Directory.css";
 import Footer from '../Footer/footer';
 
 const DirectoryComponent = ({ onDataLoaded }) => {
@@ -45,12 +45,16 @@ const DirectoryComponent = ({ onDataLoaded }) => {
             {divisions.map((division, index) => (
               <li
                 key={index}
-                className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''}`}
+                className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''} ${division.name === 'BSRTC Head Office' ? 'head-office' : ''}`}
                 onClick={() => setSelectedDivision(division)}
               >
-                <div className="yellow">
-                  {division.name}
-                </div>
+                {division.name === 'BSRTC Head Office' ? (
+                  division.name
+                ) : (
+                  <div className={selectedDivision && selectedDivision.name === division.name ? 'yellow' : ''}>
+                    {division.name}
+                  </div>
+                )}
               </li>
             ))}
           </ul>

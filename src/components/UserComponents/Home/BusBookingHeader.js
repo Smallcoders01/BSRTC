@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Card, Form, Row, Col, Button } from 'react-bootstrap';
 import backImage from '../../../img/bodhgayas.jpg';
 import bus from '../../../img/bus.png';
 import NavbarComponent from '../NavbarComponent';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const BusBookingHeader = () => {
+const BusBookingHeader = ({ bookingInfo }) => {
+  const [fromLocation, setFromLocation] = useState('');
+  const [toLocation, setToLocation] = useState('');
   const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
 
-  const handleNavbarToggle = (expanded) => {
-    setIsNavbarExpanded(expanded);
+  useEffect(() => {
+    console.log('BusBookingHeader useEffect, bookingInfo:', bookingInfo);
+    if (bookingInfo) {
+      setFromLocation(bookingInfo.from || '');
+      setToLocation(bookingInfo.to || '');
+    }
+  }, [bookingInfo]);
+
+  const handleNavbarToggle = () => {
+    setIsNavbarExpanded(!isNavbarExpanded);
   };
+
+  console.log('BusBookingHeader rendered, fromLocation:', fromLocation, 'toLocation:', toLocation);
 
   return (
     <div style={{ padding: '20px' }}>
@@ -25,6 +37,7 @@ const BusBookingHeader = () => {
         textAlign: 'left',
         borderRadius: '20px',
         overflow: 'hidden',
+        zIndex: 1 // Lower z-index
       }}>
         {/* Overlay */}
         <div style={{
@@ -51,13 +64,13 @@ const BusBookingHeader = () => {
             <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
               Book your bus ride <br />
             </h1>
-            <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we’ll do the rest!</h1>
+            <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we'll do the rest!</h1>
           </Container>
         )}
       </div>
 
       {/* Booking Form Section */}
-      <Card className="booking-form cardbotm" style={{
+      <Card id="booking-form" className="booking-form cardbotm" style={{
         position: 'absolute',
         top: '65%',
         left: '50%',
@@ -65,7 +78,7 @@ const BusBookingHeader = () => {
         width: '80%',
         borderRadius: '20px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 3
+        zIndex: 2 // Lower z-index, but still above the banner
       }}>
         <Card.Body style={{ position: 'relative' }} className='sect'>
           <h3 className="text-center mb-4">Book Your Journey</h3>
@@ -82,7 +95,12 @@ const BusBookingHeader = () => {
               <Col md={3}>
                 <Form.Group controlId="fromLocation">
                   <Form.Label>From</Form.Label>
-                  <Form.Control type="text" placeholder="Patna" />
+                  <Form.Control 
+                    type="text" 
+                    placeholder="Patna" 
+                    value={fromLocation}
+                    onChange={(e) => setFromLocation(e.target.value)}
+                  />
                 </Form.Group>
               </Col>
               <Col md={1} className="d-flex align-items-center justify-content-center">
@@ -91,7 +109,12 @@ const BusBookingHeader = () => {
               <Col md={3}>
                 <Form.Group controlId="toLocation">
                   <Form.Label>To</Form.Label>
-                  <Form.Control type="text" placeholder="Delhi" />
+                  <Form.Control 
+                    type="text" 
+                    placeholder="Delhi" 
+                    value={toLocation}
+                    onChange={(e) => setToLocation(e.target.value)}
+                  />
                 </Form.Group>
               </Col>
               <Col md={2}>
@@ -130,7 +153,7 @@ const BusBookingHeader = () => {
         top: '67%',
         left: '70%',
         transform: 'translate(-50%, -100%)',
-        zIndex: 4,
+        zIndex: 3 // Above the booking form, but below the navbar
       }}>
         <img src={bus} alt='busImg' style={{ width: '100%', maxWidth: '900px' }} />
       </div>

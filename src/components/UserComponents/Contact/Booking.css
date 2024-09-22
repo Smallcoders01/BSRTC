@@ -14,13 +14,14 @@ h2.text-center {
 }
 
 .policy-box {
-  background-color: white;
+  background-color: #f9f9f9;
   border: 1px solid #6b3eab;
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 20px;
-
 }
+
+
 
 .policy-box ul {
   padding-left: 0;

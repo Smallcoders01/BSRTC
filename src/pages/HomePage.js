@@ -6,22 +6,23 @@ import config from '../config'; // Adjust the path as needed
 
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState({
+    popularRoutes: [],
+    touristDestinations: []
+  });
   const [error, setError] = useState(null);
+  const [selectedDestination, setSelectedDestination] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        // Replace these API calls with the actual endpoints you need to fetch data for the home page
         const popularRoutesResponse = await axios.get(`${config.apiBaseUrl}/popular-routes`);
         const touristDestinationsResponse = await axios.get(`${config.apiBaseUrl}/tourist-destinations`);
-        // Add more API calls as needed
 
         setData({
           popularRoutes: popularRoutesResponse.data,
           touristDestinations: touristDestinationsResponse.data,
-          // Add more data as needed
         });
         setLoading(false);
       } catch (error) {
@@ -34,20 +35,31 @@ const HomePage = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
+  const handleBookNow = (destination) => {
+    console.log('handleBookNow called with:', destination);
+    setSelectedDestination(destination);
+    // Scroll to the booking form
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+      bookingForm.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.log('Booking form element not found');
+    }
+  };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <Loading />;
+  if (error) return <div>Error: {error}</div>;
+
+  console.log('Rendering HomePage with data:', data);
+  console.log('Selected destination:', selectedDestination);
 
   return (
     <div>
       <HomeSection 
         popularRoutes={data.popularRoutes}
         touristDestinations={data.touristDestinations}
-        // Pass more props as needed
+        onBookNow={handleBookNow}
+        selectedDestination={selectedDestination}
       />
     </div>
   );
