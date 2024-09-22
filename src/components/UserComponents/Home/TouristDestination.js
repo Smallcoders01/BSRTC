@@ -82,7 +82,7 @@ const TouristDestination = () => {
                   <div className="col-sm-6 mb-4" key={index}>
                     <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden rounded-3">
                       <img
-                        src={`${config.baseUrl}/${destination.image}`}
+                        src={`${config.baseUrl}${destination.image}`}
                         className="card-img-top img-fluid rounded-3"
                         alt={destination.name}
                         style={{ height: '200px', objectFit: 'cover' }} // Adjusted height
