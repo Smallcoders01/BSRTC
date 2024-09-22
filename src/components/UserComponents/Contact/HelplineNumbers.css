@@ -1,112 +1,130 @@
+/* Container for the entire helpline section */
 .helpline-container {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   position: relative;
+  width: 100%;
 }
 
+/* Contact Bar styling */
 .contact-bar {
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-  flex-wrap: wrap; /* Allow items to wrap */
-  width: 50%; /* Reduced the width */
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  top: -15vh; /* Move the bar -15vh above */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for this div */
-  z-index: 1; /* Ensure it's above other content */
+  background-color: #f9f9f9; /* Light background */
+  padding: 25px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: -12vh;
+  width: 50%; /* Center within the container */
+  z-index: 4;
 }
 
 .contact-item {
-  font-size: 1rem;
-  color: #333;
+  font-size: 1.2rem;
+  color: #6b3eab;
   margin-right: 20px;
   margin-bottom: 10px;
-  flex-basis: 100%; /* Full width in smaller screens */
-  text-align: center;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
 }
 
 .contact-item i {
-  margin-right: 5px;
+  margin-right: 10px;
+  font-size: 1.5rem; /* Icon size */
+  color: rgb(245, 205, 45); /* Purple color for icons */
 }
 
+.contact-item:last-child {
+  margin-right: 0;
+}
+
+.contact-item span {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Division cards styling */
 .container {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  position: relative;
-  z-index: 0; /* Keep the helpline container behind the contact bar */
+  padding: 20px;
 }
 
 .division-card {
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f8f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.10); /* Light shadow for card */
   text-align: center;
-  /* margin-bottom: 20px; */
+  margin-bottom: 20px;
+  transition: transform 0.3s ease-in-out; /* Add smooth hover effect */
 }
 
-h4 {
+.division-card:hover {
+  transform: scale(1.05); /* Card grows slightly on hover */
+}
+
+.division-card h4 {
+  color: #6b3eab; /* Match color with icons */
+  margin-bottom: 10px;
   font-size: 1.25rem;
+}
+
+.division-card p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+h2.text-center {
+  font-size: 1.75rem;
+  font-weight: bold;
   color: #444;
+  margin-bottom: 30px;
 }
 
-p {
-  font-size: 0.95rem;
-  color: #777;
-}
-
-/* Make the layout responsive */
+/* Media Queries for responsive layout */
 @media (max-width: 768px) {
   .contact-bar {
-    width: 80%; /* Reduce width on smaller screens */
+    width: 100%; /* Full width on smaller screens */
   }
 
   .contact-item {
-    flex-basis: 100%; /* Items stack vertically */
+    flex-basis: 100%; /* Stack items vertically */
+    justify-content: center;
   }
 
-  .col-md-4 {
-    width: 100%; /* Full width for each card */
-   
+  .division-card {
+    padding: 15px; /* Adjust padding for smaller screens */
+  }
+
+  h2.text-center {
+    font-size: 1.5rem; /* Slightly smaller for mobile */
   }
 }
 
 @media (max-width: 576px) {
   .division-card {
-    padding: 10px; /* Reduce padding for small screens */
+    padding: 10px; /* Further reduce padding on smaller screens */
   }
 
-  h4 {
-    font-size: 1rem; /* Smaller heading for small screens */
+  .division-card h4 {
+    font-size: 1.1rem; /* Adjust heading size */
   }
 
-  p {
-    font-size: 0.85rem; /* Smaller text for small screens */
+  .division-card p {
+    font-size: 0.9rem; /* Adjust text size */
+  }
+
+  h2.text-center {
+    font-size: 1.25rem; /* Smaller heading for mobile devices */
   }
 }
-
-  
-  /* Division cards */
-  .division-card {
-    background-color: #fef4ea;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
-    text-align: center;
-  }
-  
-  .division-card h4 {
-    color: #6b3eab;
-    margin-bottom: 10px;
-  }
-  
-  .division-card p {
-    margin: 5px 0;
-    color: #333;
-  }
-  
