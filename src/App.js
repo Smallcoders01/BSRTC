@@ -18,6 +18,7 @@ import AllTourist from './pages/AllTourist';
 import AdminPanel from './components/AdminComponents/AdminPanel';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import ViewProfile from './components/UserComponents/Profile/ViewProfile';
 
 function App() {
   console.log('Rendering App component');
@@ -38,6 +39,7 @@ function App() {
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/signup" element={<SignUpComponent />} />
           <Route path="/admin/*" element={<ProtectedRoute element={<AdminPanel />} />} />
+          <Route path="/profile" element={<ViewProfile />} />
           {/* Add more routes as needed */}
         </Routes>
       </AuthProvider>

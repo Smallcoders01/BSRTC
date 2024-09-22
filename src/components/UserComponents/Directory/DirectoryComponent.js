@@ -6,28 +6,37 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Directory.css"; // Import custom CSS for exact styling
 import Footer from '../Footer/footer';
 
-const DirectoryComponent = () => {
+const DirectoryComponent = ({ onDataLoaded }) => {
   const [divisions, setDivisions] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${config.apiBaseUrl}/phone-directory`)
+    console.log('DirectoryComponent: Fetching data');
+    axios.get(`${config.apiBaseUrl}/phone-directory`, { timeout: 10000 })
       .then(response => {
+        console.log('DirectoryComponent: Data fetched successfully');
         setDivisions(response.data);
-        setSelectedDivision(response.data[0]); // Set the first division as the default selected division
+        setSelectedDivision(response.data[0]);
         setLoading(false);
+        onDataLoaded();
       })
       .catch(error => {
+        console.error('DirectoryComponent: Error fetching data', error);
         setError('Error fetching officer data');
         setLoading(false);
+        onDataLoaded();
       });
-  }, []);
+  }, [onDataLoaded]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  console.log('DirectoryComponent: Render cycle', { loading, error });
 
+  if (loading || error) {
+    return null;
+  }
+
+  console.log('DirectoryComponent: Rendering content');
   return (
     <>
       <Container className="mt-4 office-details-container">

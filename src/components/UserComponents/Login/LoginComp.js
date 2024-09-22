@@ -40,7 +40,8 @@ const LoginModal = () => {
           variant="secondary"
           style={{ color: 'white', backgroundColor: '#6B4190', borderColor: 'transparent', marginTop:'-10px',width:'5rem' }}
           onClick={handleShow}
-        className='login'>
+          className='login'
+        >
           Login
         </Button>
       ) : (
