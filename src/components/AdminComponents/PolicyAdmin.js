@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import config from '../../config';
+import { AuthContext } from '../../context/AuthContext';
 import { Container, Typography, TextField, Button, CircularProgress, Alert, Box, IconButton, Paper } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 
 const PolicyAdmin = () => {
+    const { user } = useContext(AuthContext);
     const [policies, setPolicies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current policies
-        axios.get(`${config.apiBaseUrl}/policies`)
-            .then(response => {
-                if (response.data) {
-                    setPolicies(response.data);
-                } else {
-                    setError('Invalid response format');
-                }
-                setLoading(false);
-            })
-            .catch(error => {
-                setError('Error fetching policies');
-                setLoading(false);
-            });
+        axios.get(`${config.apiBaseUrl}/policies`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(response => {
+            if (response.data) {
+                setPolicies(response.data);
+            } else {
+                setError('Invalid response format');
+            }
+            setLoading(false);
+        })
+        .catch(error => {
+            setError('Error fetching policies');
+            setLoading(false);
+        });
     }, []);
 
     const handlePolicyChange = (index, field, value) => {
@@ -43,14 +48,17 @@ const PolicyAdmin = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         // Update the policies
-        axios.put(`${config.apiBaseUrl}/policies`, { policies })
-            .then(response => {
-                alert('Policies updated successfully');
-            })
-            .catch(error => {
-                setError('Error updating policies');
-            });
+        axios.put(`${config.apiBaseUrl}/policies`, { policies }, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(response => {
+            alert('Policies updated successfully');
+        })
+        .catch(error => {
+            setError('Error updating policies');
+        });
     };
 
     if (loading) return <CircularProgress />;

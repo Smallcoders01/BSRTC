@@ -10,8 +10,11 @@ const FAQAdmin = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current FAQs
-        axios.get(`${config.apiBaseUrl}/faq`)
+        axios.get(`${config.apiBaseUrl}/faq`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 setFaqs(response.data);
                 setLoading(false);
@@ -33,16 +36,30 @@ const FAQAdmin = () => {
     };
 
     const handleRemoveFAQ = (index) => {
-        const newFaqs = faqs.filter((_, i) => i !== index);
-        setFaqs(newFaqs);
+        const token = localStorage.getItem('token');
+        const faqId = faqs[index]._id;
+        axios.delete(`${config.apiBaseUrl}/faq/${faqId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                const newFaqs = faqs.filter((_, i) => i !== index);
+                setFaqs(newFaqs);
+                alert('FAQ deleted successfully');
+            })
+            .catch(error => {
+                setError('Error deleting FAQ');
+            });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         faqs.forEach(faq => {
             const url = faq._id ? `${config.apiBaseUrl}/faq/${faq._id}` : `${config.apiBaseUrl}/faq`;
             const method = faq._id ? 'put' : 'post';
-            axios[method](url, faq)
+            axios[method](url, faq, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
                 .then(response => {
                     alert('FAQs updated successfully');
                     // Update the faqs state with the new data

@@ -10,8 +10,11 @@ const TouristDestinationAdmin = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current tourist destinations
-        axios.get(`${config.apiBaseUrl}/tourist-destinations`)
+        axios.get(`${config.apiBaseUrl}/tourist-destinations`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 if (response.data) {
                     setDestinations(response.data);
@@ -43,12 +46,24 @@ const TouristDestinationAdmin = () => {
     };
 
     const handleRemoveDestination = (index) => {
-        const newDestinations = destinations.filter((_, i) => i !== index);
-        setDestinations(newDestinations);
+        const token = localStorage.getItem('token');
+        const destinationId = destinations[index]._id;
+        axios.delete(`${config.apiBaseUrl}/tourist-destinations/${destinationId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                const newDestinations = destinations.filter((_, i) => i !== index);
+                setDestinations(newDestinations);
+                alert('Destination deleted successfully');
+            })
+            .catch(error => {
+                setError('Error deleting destination');
+            });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         destinations.forEach(destination => {
             const formData = new FormData();
             formData.append('name', destination.name);
@@ -60,7 +75,8 @@ const TouristDestinationAdmin = () => {
             const method = destination._id ? 'put' : 'post';
             axios[method](url, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
                 }
             })
                 .then(response => {

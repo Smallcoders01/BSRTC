@@ -11,8 +11,11 @@ const AboutUsAdmin = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current content
-        axios.get(`${config.apiBaseUrl}/about-us`)
+        axios.get(`${config.apiBaseUrl}/about-us`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 if (response.data && response.data.content !== undefined) {
                     setContent(response.data.content);
@@ -29,8 +32,11 @@ const AboutUsAdmin = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         // Update the content
-        axios.post(`${config.apiBaseUrl}/about-us`, { content })
+        axios.post(`${config.apiBaseUrl}/about-us`, { content }, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 alert('Content updated successfully');
             })
