@@ -2,9 +2,9 @@ import React from 'react';
 import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
 import backImage from '../../../img/bodhgayas.avif';
 import bus from '../../../img/bus.png';
-import NavbarComponent from '../NavbarComponent'; // Import NavbarComponent
-import DatePicker from 'react-datepicker';
+import NavbarComponent from '../NavbarComponent';
 import 'react-datepicker/dist/react-datepicker.css';
+
 const BusBookingHeader = () => {
   return (
     <div style={{ padding: '20px' }}>
@@ -19,7 +19,6 @@ const BusBookingHeader = () => {
         textAlign: 'left',
         borderRadius: '20px',
         overflow: 'hidden',
-       
       }}>
         {/* Overlay */}
         <div style={{
@@ -40,17 +39,12 @@ const BusBookingHeader = () => {
         {/* Main Banner Text */}
         <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
           position: 'relative',
-          // zIndex: 1,
           marginTop: '-180px'
         }}>
           <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
             Book your bus ride <br />
           </h1>
-         
-          <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span >, we’ll do the rest!</h1>
-         <div className='busImage'>
-            <img src={bus} alt='busImg' />
-          </div>
+          <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we’ll do the rest!</h1>
         </Container>
       </div>
 
@@ -65,8 +59,7 @@ const BusBookingHeader = () => {
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         zIndex: 3
       }}>
-        <Card.Body style={{position:'relative'}} className='sect'>
-        
+        <Card.Body style={{ position: 'relative' }} className='sect'>
           <h3 className="text-center mb-4">Book Your Journey</h3>
           <Form>
             <Row className="mb-3">
@@ -102,7 +95,7 @@ const BusBookingHeader = () => {
               <Col md={2}>
                 <Form.Group controlId="returnDate">
                   <Form.Label>Return</Form.Label>
-                  <Form.Control type="date"  />
+                  <Form.Control type="date" />
                 </Form.Group>
               </Col>
             </Row>
@@ -122,6 +115,19 @@ const BusBookingHeader = () => {
           </Form>
         </Card.Body>
       </Card>
+
+      {/* Bus Image */}
+{/* Bus Image */}
+<div className="busImage" style={{
+  position: 'absolute',
+  top: '67%',
+  left: '70%',
+  transform: 'translate(-50%, -100%)', // Center horizontally and position above the card
+  zIndex: 4,
+}}>
+  <img src={bus} alt='busImg' style={{ width: '100%', maxWidth: '900px' }} /> {/* Increased maxWidth */}
+</div>
+
     </div>
   );
 };
