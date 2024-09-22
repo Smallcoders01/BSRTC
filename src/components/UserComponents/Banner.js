@@ -5,6 +5,11 @@ import busbImage from '../../img/busb.jpg';
 import NavbarComponent from './NavbarComponent'; // Import NavbarComponent
 
 const Banner = () => {
+  // Define the handleNavbarToggle function
+  const handleNavbarToggle = (expanded) => {
+    console.log("Navbar toggled:", expanded);
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       {/* Banner Section */}
@@ -13,7 +18,7 @@ const Banner = () => {
         backgroundImage: `url(${busbImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '40vh',
+        height: '50vh',
         color: 'white',
         textAlign: 'left',
         borderRadius: '20px',
@@ -30,9 +35,9 @@ const Banner = () => {
           zIndex: 1
         }}></div>
 
-        {/* Use NavbarComponent */}
+        {/* Use NavbarComponent with onToggle */}
         <div style={{ position: 'relative', zIndex: 3 }}>
-          <NavbarComponent />
+          <NavbarComponent onToggle={handleNavbarToggle} /> {/* Pass onToggle */}
         </div>
 
         {/* Main Banner Text */}

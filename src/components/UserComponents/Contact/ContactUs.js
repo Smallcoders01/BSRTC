@@ -4,15 +4,23 @@ import './HelplineNumbers.css'; // Import the external CSS file
 const HelplineNumbers = () => {
   return (
     <div className="helpline-container">
-       
       {/* Contact Details Section */}
-      <div className="contact-bar d-flex justify-content-center align-items-center">
-        
+      <div className="contact-bar d-flex justify-content-center align-items-center flex-wrap">
         <div className="contact-item">
-          <i className="bi bi-telephone-fill"></i> 9798047742, 9508633131
+          <div className="icon">
+            <i className="bi bi-telephone-fill"></i>
+          </div>
+          <div className="contact-text">
+            9798047742, 9508633131
+          </div>
         </div>
         <div className="contact-item">
-          <i className="bi bi-envelope-fill"></i> bsrtcreports@gmail.com
+          <div className="icon">
+            <i className="bi bi-envelope-fill"></i>
+          </div>
+          <div className="contact-text">
+            bsrtcreports@gmail.com
+          </div>
         </div>
       </div>
 

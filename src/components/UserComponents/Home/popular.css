@@ -15,3 +15,19 @@
     color: white;
     background-color: #552e9a;
   }
+
+  @media(min-width:1000px){
+    .biharpara{
+        
+        margin-bottom: 20px;
+    }
+  }
+  @media(max-width:1024px){
+   .grids{
+    flex-direction: column;
+    .grid-child{
+        width: 100%;
+    }
+   } 
+
+  }

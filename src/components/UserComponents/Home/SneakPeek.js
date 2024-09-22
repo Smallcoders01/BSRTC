@@ -37,27 +37,55 @@ const features = [
 ];
 
 const SneakPeek = () => {
+  const responsiveSettings = [
+    {
+      breakpoint: 768, // For tablets
+      settings: {
+        slidesToShow: 2, // Show 2 items
+      },
+    },
+    {
+      breakpoint: 480, // For mobile devices
+      settings: {
+        slidesToShow: 1, // Show 1 item
+      },
+    },
+    {
+      breakpoint: 992, // For larger screens
+      settings: {
+        slidesToShow: 3, // Show 3 items
+      },
+    },
+    {
+      breakpoint: 1200, // Default for desktop
+      settings: {
+        slidesToShow: 4, // Show 4 items
+      },
+    },
+  ];
+
   return (
     <div className="text-center mt-5" style={{ width: '100%', padding: '40px 60px', backgroundColor: '#fff' }}>
-      <h2 className="mb-3"style={{color:'#552e9a',fontWeight:'bold'}}>A Sneak Peek Into Our World</h2>
+      <h2 className="mb-3" style={{ color: '#552e9a', fontWeight: 'bold' }}>A Sneak Peek Into Our World</h2>
       <p>Experience the lavish amenities of BSRTC!</p>
 
       {/* Carousel for sliding cards */}
       <Carousel
-        slidesToShow={4} // Show 4 items at a time
-        slidesToScroll={1} // Scroll one at a time
+        dots={false} // Disable dots if needed
+        slidesToShow={4} // Default to 4 items
+        slidesToScroll={1}
         arrows
         prevArrow={<LeftOutlined />}
         nextArrow={<RightOutlined />}
         autoplay
-        style={{ margin: '20px 0', padding: '0 20px' }} // Add margin for the carousel
+        responsive={responsiveSettings} // Apply responsive settings
+        style={{ margin: '20px 0', padding: '0 20px' }}
       >
         {features.map((feature, index) => (
-          <div key={index} style={{ padding: '0 15px' }}> {/* Padding around the slide */}
+          <div key={index} style={{ padding: '0 15px' }}>
             <Card
               cover={
                 <div style={{ position: 'relative' }}>
-                  {/* Image */}
                   <img
                     src={feature.image}
                     alt={feature.alt}
@@ -68,7 +96,6 @@ const SneakPeek = () => {
                       borderRadius: '12px',
                     }}
                   />
-                  {/* Gradient overlay */}
                   <div
                     style={{
                       position: 'absolute',
@@ -76,15 +103,14 @@ const SneakPeek = () => {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      background: 'linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.5))', // Light to dark gradient
-                      borderRadius: '12px', // Ensure gradient follows the border radius
+                      background: 'linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0.5))',
+                      borderRadius: '12px',
                     }}
                   ></div>
-                  {/* Title over the image */}
                   <div
                     style={{
                       position: 'absolute',
-                      bottom: '10px', // Position text at the bottom
+                      bottom: '10px',
                       left: '0',
                       right: '0',
                       color: '#fff',
@@ -98,12 +124,12 @@ const SneakPeek = () => {
                 </div>
               }
               bordered={false}
-              bodyStyle={{ display: 'none' }} // Hide card body
+              bodyStyle={{ display: 'none' }}
               style={{
                 borderRadius: '12px',
                 overflow: 'hidden',
                 textAlign: 'center',
-                margin: '0', // No margin inside the card
+                margin: '0',
               }}
             />
           </div>
@@ -111,7 +137,7 @@ const SneakPeek = () => {
       </Carousel>
 
       {/* "View All" button */}
-      <Button type="primary" className="mt-4" style={{ backgroundColor: 'white', borderColor: '#552e9a', borderRadius: '10px', padding: '20px 20px',border: '2px solid #6f42c1',fontWeight:'bold',color:'#6f42c1'}}>
+      <Button type="primary" className="mt-4" style={{ backgroundColor: 'white', borderColor: '#552e9a', borderRadius: '10px', padding: '20px 20px', border: '2px solid #6f42c1', fontWeight: 'bold', color: '#6f42c1' }}>
         View All
       </Button>
     </div>

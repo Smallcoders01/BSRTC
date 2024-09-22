@@ -1,11 +1,17 @@
-import React from 'react';
-import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Card, Form, Row, Col, Button } from 'react-bootstrap';
 import backImage from '../../../img/bodhgayas.avif';
 import bus from '../../../img/bus.png';
 import NavbarComponent from '../NavbarComponent';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const BusBookingHeader = () => {
+  const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
+
+  const handleNavbarToggle = (expanded) => {
+    setIsNavbarExpanded(expanded);
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       {/* Banner Section */}
@@ -31,21 +37,23 @@ const BusBookingHeader = () => {
           zIndex: 1
         }}></div>
 
-        {/* Use NavbarComponent */}
+        {/* Use NavbarComponent with onToggle */}
         <div style={{ position: 'relative', zIndex: 3 }}>
-          <NavbarComponent />
+          <NavbarComponent onToggle={handleNavbarToggle} />
         </div>
 
-        {/* Main Banner Text */}
-        <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
-          position: 'relative',
-          marginTop: '-180px'
-        }}>
-          <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
-            Book your bus ride <br />
-          </h1>
-          <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we’ll do the rest!</h1>
-        </Container>
+        {/* Main Banner Text (conditionally rendered) */}
+        {!isNavbarExpanded && (
+          <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
+            position: 'relative',
+            marginTop: '-180px'
+          }}>
+            <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
+              Book your bus ride <br />
+            </h1>
+            <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we’ll do the rest!</h1>
+          </Container>
+        )}
       </div>
 
       {/* Booking Form Section */}
@@ -117,17 +125,15 @@ const BusBookingHeader = () => {
       </Card>
 
       {/* Bus Image */}
-{/* Bus Image */}
-<div className="busImage" style={{
-  position: 'absolute',
-  top: '67%',
-  left: '70%',
-  transform: 'translate(-50%, -100%)', // Center horizontally and position above the card
-  zIndex: 4,
-}}>
-  <img src={bus} alt='busImg' style={{ width: '100%', maxWidth: '900px' }} /> {/* Increased maxWidth */}
-</div>
-
+      <div className="busImage" style={{
+        position: 'absolute',
+        top: '67%',
+        left: '70%',
+        transform: 'translate(-50%, -100%)',
+        zIndex: 4,
+      }}>
+        <img src={bus} alt='busImg' style={{ width: '100%', maxWidth: '900px' }} />
+      </div>
     </div>
   );
 };

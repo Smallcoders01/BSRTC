@@ -13,9 +13,9 @@ const SignupModal = () => {
     <>
       <Button 
         variant="secondary"
-        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent',marginTop:'-10px' }}
+        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent',marginTop:'-10px',width:'6rem' }}
         onClick={handleShow}
-      >
+      className='sign'>
         Sign Up
       </Button>
 

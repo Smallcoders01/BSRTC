@@ -55,7 +55,7 @@ const AboutUs = () => {
           </Row>
         </Container>
       </div>
-      <Footer />
+      
     </>
   );
 };
