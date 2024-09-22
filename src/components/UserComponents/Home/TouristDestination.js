@@ -55,20 +55,21 @@ const TouristDestination = () => {
             </button>
           </div>
 
-          <div className="row">
+          <div className="row grids">
             {/* Left column */}
-            <div className="col-md-6 mb-4">
+            <div className="col-md-6 mb-4 grid-child">
               <div
                 className="card text-white p-4 h-100 border border-secondary rounded-3 shadow-sm"
                 style={{
                   backgroundColor: '#6B4190',
                   padding: '20px',
                   fontSize: '14px',
-                  letterSpacing: '1.2px',
+                  letterSpacing: '1px',
+                  lineHeight:'30px',
                   color: 'white',
                 }}
               >
-                <h3 className="fw-bold">Discover Bihar: A Treasure Trove of History and Culture</h3>
+                <h3 className="fw-bold biharpara">Discover Bihar: A Treasure Trove of History and Culture</h3>
                 <p>
                   Bihar is home to numerous architectural wonders, from the ancient stupas and monasteries to the grand forts and palaces. The ruins of Nalanda University, the Ashokan Pillar in Vaishali, and the Rajgir hills' ancient caves offer glimpses into the state's glorious past. The Golghar in Patna and the Barabar Caves near Gaya are also significant attractions.
                 </p>
@@ -76,7 +77,7 @@ const TouristDestination = () => {
             </div>
 
             {/* Right column with images */}
-            <div className="col-md-6">
+            <div className="col-md-6 grid-child">
               <div className="row">
                 {destinations.map((destination, index) => (
                   <div className="col-sm-6 mb-4" key={index}>

@@ -3,11 +3,11 @@ import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import backImage from '../../../img/bodhgayas.jpg';
 import bus from '../../../img/bus.png';
-import NavbarComponent from '../NavbarComponent'; // Import NavbarComponent
-import DatePicker from 'react-datepicker';
+import NavbarComponent from '../NavbarComponent';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const BusBookingHeader = () => {
+  const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
   const [formData, setFormData] = useState({
     journeyType: 'one-way',
     fromLocation: '',
@@ -16,6 +16,10 @@ const BusBookingHeader = () => {
     returnDate: '',
     passengerType: ''
   });
+
+  const handleNavbarToggle = (expanded) => {
+    setIsNavbarExpanded(expanded);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,14 +31,12 @@ const BusBookingHeader = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('${config.apiBaseUrl}/bookings', formData) // Update this URL to match your backend endpoint
+    axios.post('${config.apiBaseUrl}/bookings', formData)
       .then(response => {
         alert('Booking successful!');
-        // Handle success response
       })
       .catch(error => {
         alert('Booking failed!');
-        // Handle error response
       });
   };
 
@@ -63,24 +65,23 @@ const BusBookingHeader = () => {
           zIndex: 1
         }}></div>
 
-        {/* Use NavbarComponent */}
+        {/* Use NavbarComponent with onToggle */}
         <div style={{ position: 'relative', zIndex: 3 }}>
-          <NavbarComponent />
+          <NavbarComponent onToggle={handleNavbarToggle} />
         </div>
 
-        {/* Main Banner Text */}
-        <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
-          position: 'relative',
-          marginTop: '-180px'
-        }}>
-          <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
-            Book your bus ride <br />
-          </h1>
-          <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we’ll do the rest!</h1>
-          <div className='busImage'>
-            <img src={bus} alt='busImg' />
-          </div>
-        </Container>
+        {/* Main Banner Text (conditionally rendered) */}
+        {!isNavbarExpanded && (
+          <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
+            position: 'relative',
+            marginTop: '-180px'
+          }}>
+            <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
+              Book your bus ride <br />
+            </h1>
+            <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we’ll do the rest!</h1>
+          </Container>
+        )}
       </div>
 
       {/* Booking Form Section */}
@@ -95,122 +96,4 @@ const BusBookingHeader = () => {
         zIndex: 3
       }}>
         <Card.Body style={{ position: 'relative' }} className='sect'>
-          <h3 className="text-center mb-4">Book Your Journey</h3>
-          <Form onSubmit={handleSubmit}>
-            <Row className="mb-3">
-              <Col xs={6} md={3}>
-                <Form.Check
-                  inline
-                  label="One Way"
-                  name="journeyType"
-                  type="radio"
-                  id="one-way"
-                  value="one-way"
-                  checked={formData.journeyType === 'one-way'}
-                  onChange={handleChange}
-                />
-              </Col>
-              <Col xs={6} md={3}>
-                <Form.Check
-                  inline
-                  label="Round Trip"
-                  name="journeyType"
-                  type="radio"
-                  id="round-trip"
-                  value="round-trip"
-                  checked={formData.journeyType === 'round-trip'}
-                  onChange={handleChange}
-                />
-              </Col>
-            </Row>
-            <Row className="mb-3">
-              <Col md={3}>
-                <Form.Group controlId="fromLocation">
-                  <Form.Label>From</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Patna"
-                    name="fromLocation"
-                    value={formData.fromLocation}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={1} className="d-flex align-items-center justify-content-center">
-                <span style={{ fontSize: '1.5rem', color: '#6f42c1' }}>⇆</span>
-              </Col>
-              <Col md={3}>
-                <Form.Group controlId="toLocation">
-                  <Form.Label>To</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Delhi"
-                    name="toLocation"
-                    value={formData.toLocation}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={2}>
-                <Form.Group controlId="departureDate">
-                  <Form.Label>Departure</Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="departureDate"
-                    value={formData.departureDate}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={2}>
-                <Form.Group controlId="returnDate">
-                  <Form.Label>Return</Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="returnDate"
-                    value={formData.returnDate}
-                    onChange={handleChange}
-                    disabled={formData.journeyType === 'one-way'}
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row className="mb-3">
-              <Col xs={6} md={3}>
-                <Form.Check
-                  inline
-                  label="Single Lady"
-                  name="passengerType"
-                  type="radio"
-                  id="single-lady"
-                  value="single-lady"
-                  checked={formData.passengerType === 'single-lady'}
-                  onChange={handleChange}
-                />
-              </Col>
-              <Col xs={6} md={3}>
-                <Form.Check
-                  inline
-                  label="Senior Citizen"
-                  name="passengerType"
-                  type="radio"
-                  id="senior-citizen"
-                  value="senior-citizen"
-                  checked={formData.passengerType === 'senior-citizen'}
-                  onChange={handleChange}
-                />
-              </Col>
-            </Row>
-            <div className="text-center mt-4">
-              <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }} type="submit">
-                <i className="fas fa-bus"></i> Show Buses
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-      </Card>
-    </div>
-  );
-};
-
-export default BusBookingHeader;
+          <h3 className="

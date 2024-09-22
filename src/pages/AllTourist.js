@@ -3,7 +3,8 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../config'; // Adjust the path to the correct location of your config file
 import '../components/UserComponents/Home/popular.css';
-
+import Footer from '../components/UserComponents/Footer/footer'
+import Banner from '../components/UserComponents/Banner';
 const AllTourist = () => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,6 +27,8 @@ const AllTourist = () => {
   if (error) return <div>{error}</div>;
 
   return (
+    <>
+    <Banner/>
     <Container className="py-5 mt-5 pop">
       <h2 className="fw-bold mb-4 text-center">Explore All Tourist Destinations In Bihar</h2>
       <Row>
@@ -76,6 +79,8 @@ const AllTourist = () => {
         ))}
       </Row>
     </Container>
+    <Footer/>
+    </>
   );
 };
 

@@ -52,12 +52,14 @@ const HelplineNumbers = () => {
   return (
     <div className="helpline-container">
       {/* Contact Details Section */}
+
       <div className="contact-bar d-flex justify-content-center align-items-center">
         <div className="contact-item">
           <i className="bi bi-telephone-fill"></i> {mainContact.phoneNumber1}, {mainContact.phoneNumber2}
         </div>
         <div className="contact-item">
           <i className="bi bi-envelope-fill"></i> {mainContact.email}
+
         </div>
       </div>
 
