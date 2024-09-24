@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LoginModal from '../UserComponents/Login/LoginComp';
 import SignupModal from '../UserComponents/Login/SignComp';
 import { AuthContext } from '../../context/AuthContext';
-import { FaCog, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaCog, FaUserCircle, FaSignOutAlt, FaTicketAlt } from 'react-icons/fa'; // Import the new icon
 import ReactDOM from 'react-dom';
 
 const NavbarComponent = ({ onToggle }) => {
@@ -83,6 +83,10 @@ const NavbarComponent = ({ onToggle }) => {
                     </div>
                     <Dropdown.Divider />
                     <MenuItem icon={<FaUserCircle />} text="View Profile" to="/profile" />
+                    {user.role === 'admin' && ( // Check if user is admin
+                      <MenuItem icon={<FaCog />} text="Admin" to="/admin" />
+                    )}
+                    <MenuItem icon={<FaTicketAlt />} text="My Booking" to="/my-booking" /> {/* Updated icon */}
                     <MenuItem icon={<FaSignOutAlt />} text="Logout" onClick={handleLogout} />
                   </CustomMenu>,
                   document.body

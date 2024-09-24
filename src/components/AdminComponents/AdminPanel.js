@@ -1,6 +1,7 @@
-import React from 'react';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
-import { AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Typography, Box, IconButton, useTheme, useMediaQuery } from '@mui/material';
+// src/components/AdminPanel.js
+import React, { useContext } from 'react';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Typography, Box, IconButton, useTheme, useMediaQuery, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
@@ -13,6 +14,7 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import DescriptionIcon from '@mui/icons-material/Description';
 
+import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
 import AboutUsAdmin from './AboutUsAdmin';
 import UsersAdmin from './UsersAdmin';
 import ContactUsAdmin from './ContactUsAdmin';
@@ -31,9 +33,16 @@ const AdminPanel = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const { logout } = useContext(AuthContext); // Get logout from context
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
+    };
+
+    const handleLogout = () => {
+        logout(); // Call the logout function
+        navigate('/'); // Redirect to home
     };
 
     const menuItems = [
@@ -84,9 +93,11 @@ const AdminPanel = () => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
                         Admin Panel
                     </Typography>
+                    <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                    <Button color="inherit" component={Link} to="/">Back to Home</Button>
                 </Toolbar>
             </AppBar>
             <Box
