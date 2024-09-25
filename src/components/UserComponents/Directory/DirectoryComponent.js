@@ -47,28 +47,32 @@ const DirectoryComponent = () => {
           </ul>
         </nav>
         <div className="table-responsive">
-          <Table bordered hover className="custom-table text-center">
-            <thead>
-              <tr>
-                <th>OFFICER NAME</th>
-                <th>DESIGNATION</th>
-                <th>OFFICE</th>
-                <th>MOBILE NUMBER</th>
-                <th>EMAIL ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedDivision && selectedDivision.officers.map((officer, officerIndex) => (
-                <tr key={officerIndex}>
-                  <td>{officer.name}</td>
-                  <td>{officer.designation}</td>
-                  <td>{officer.office}</td>
-                  <td>{officer.phoneNumber}</td>
-                  <td>{officer.email}</td>
+          {selectedDivision && selectedDivision.officers.length > 0 ? (
+            <Table bordered hover className="custom-table text-center">
+              <thead>
+                <tr>
+                  <th>OFFICER NAME</th>
+                  <th>DESIGNATION</th>
+                  <th>OFFICE</th>
+                  <th>MOBILE NUMBER</th>
+                  <th>EMAIL ID</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {selectedDivision.officers.map((officer, officerIndex) => (
+                  <tr key={officerIndex}>
+                    <td>{officer.name}</td>
+                    <td>{officer.designation}</td>
+                    <td>{officer.office}</td>
+                    <td>{officer.phoneNumber}</td>
+                    <td>{officer.email}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ) : (
+            <div>No officers found for the selected division</div>
+          )}
         </div>
       </Container>
       <Footer />
