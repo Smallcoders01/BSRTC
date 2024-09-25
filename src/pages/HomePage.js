@@ -1,36 +1,66 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import HomeSection from '../components/UserComponents/Home/HomeSection';
-import Loading from '../components/UserComponents/Loading'; // Import the Loading spinner component
+import Loading from '../components/UserComponents/Loading';
+import axios from 'axios';
+import config from '../config'; // Adjust the path as needed
 
 const HomePage = () => {
-  const [loading, setLoading] = useState(true); // Set initial loading state to true
-  const isFirstRender = useRef(true); // Track if this is the first render (mount)
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({
+    popularRoutes: [],
+    touristDestinations: []
+  });
+  const [error, setError] = useState(null);
+  const [selectedDestination, setSelectedDestination] = useState('');
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      // If it's the first render, show the loading spinner
-      const timer = setTimeout(() => {
-        setLoading(false); // Hide loading after content is "loaded"
-        isFirstRender.current = false; // Mark that the component has loaded once
-      }, 2000); // Adjust the timeout for your loading time
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const popularRoutesResponse = await axios.get(`${config.apiBaseUrl}/popular-routes`);
+        const touristDestinationsResponse = await axios.get(`${config.apiBaseUrl}/tourist-destinations`);
 
-      // Cleanup the timer on component unmount
-      return () => clearTimeout(timer);
-    } else {
-      // If the component has already rendered before, don't show the loading spinner
-      setLoading(false);
-    }
+        setData({
+          popularRoutes: popularRoutesResponse.data,
+          touristDestinations: touristDestinationsResponse.data,
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Failed to load data. Please try again later.');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  // If loading is true, show the spinner
-  if (loading) {
-    return <Loading />;
-  }
+  const handleBookNow = (destination) => {
+    console.log('handleBookNow called with:', destination);
+    setSelectedDestination(destination);
+    // Scroll to the booking form
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+      bookingForm.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      console.log('Booking form element not found');
+    }
+  };
 
-  // Once loading is false, show the actual page content
+  if (loading) return <Loading />;
+  if (error) return <div>Error: {error}</div>;
+
+  console.log('Rendering HomePage with data:', data);
+  console.log('Selected destination:', selectedDestination);
+
   return (
     <div>
-      <HomeSection />
+      <HomeSection 
+        popularRoutes={data.popularRoutes}
+        touristDestinations={data.touristDestinations}
+        onBookNow={handleBookNow}
+        selectedDestination={selectedDestination}
+      />
     </div>
   );
 };

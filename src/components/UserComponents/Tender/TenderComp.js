@@ -3,7 +3,7 @@ import { Container, Table, Button } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../../../config'; // Ensure this path is correct
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "../Directory/Directory.css"; // Import custom CSS for exact styling
+// import "../Directory/Directory.css"; // Import custom CSS for exact styling
 import Footer from '../Footer/footer';
 
 const TenderComp = () => {

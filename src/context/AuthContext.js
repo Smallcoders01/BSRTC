@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import config from '../config';
 
@@ -8,41 +8,42 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    console.log('AuthProvider useEffect called');
+  const fetchUser = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (token) {
-      axios.get(`${config.apiBaseUrl}/auth/profile`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(response => {
+      try {
+        const response = await axios.get(`${config.apiBaseUrl}/auth/profile`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setUser(response.data);
-        setLoading(false);
-      })
-      .catch(() => {
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
         localStorage.removeItem('token');
-        setLoading(false);
-      });
+        setUser(null);
+      }
     } else {
-      setLoading(false);
+      setUser(null);
     }
+    setLoading(false);
   }, []);
 
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
   const login = async (email, password) => {
-    console.log('AuthProvider login called');
     const response = await axios.post(`${config.apiBaseUrl}/auth/login`, { email, password });
     localStorage.setItem('token', response.data.token);
-    setUser(response.data.user);
+    await fetchUser(); // Fetch user data immediately after login
   };
 
   const logout = () => {
-    console.log('AuthProvider logout called');
     localStorage.removeItem('token');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, fetchUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,68 +1,82 @@
-import React, { useState } from 'react';
-import './Booking.css'; // Add external CSS for custom styles
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import config from '../../../config';
+import './Booking.css';
 
 const Booking = () => {
-  // Manage the open/close state of each accordion section
-  const [isOpen, setIsOpen] = useState({
-    cancellationPolicy: false,
-    luggagePolicy: false,
-  });
+  const [policies, setPolicies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [openSections, setOpenSections] = useState({});
+  const [showAll, setShowAll] = useState(false);
 
-  // Toggle function to expand/collapse accordion sections
-  const toggleAccordion = (section) => {
-    setIsOpen((prevState) => ({
+  useEffect(() => {
+    fetchPolicies();
+  }, []);
+
+  const fetchPolicies = async () => {
+    try {
+      const response = await axios.get(`${config.apiBaseUrl}/policies`);
+      setPolicies(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching policies:', err);
+      setError('Failed to load policies. Please try again later.');
+      setLoading(false);
+    }
+  };
+
+  const toggleAccordion = (policyId) => {
+    setOpenSections(prevState => ({
       ...prevState,
-      [section]: !prevState[section],
+      [policyId]: !prevState[policyId]
     }));
   };
 
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
+
+  if (loading) return <div>Loading policies...</div>;
+  if (error) return <div>{error}</div>;
+
+  const displayedPolicies = showAll ? policies : policies.slice(0, 2);
+
   return (
-    <div className="booking-policies-container ">
-      <h2 className="mb-4">Booking Policies</h2>
+    <div className="booking-policies-container">
+      <h2 className="text-center">Policies</h2>
 
-      {/* Policy list */}
-      <div className="policy-box">
-        <ul>
-          <li>1) Objectionable articles* (Items) are not allowed to be carried on the bus.</li>
-          <li>2) Travelers under the influence of Alcohol/Intoxicating Drugs will not be allowed to travel in the bus.</li>
-          <li>3) Travelers are requested to maintain the decorum.</li>
-          <li>4) BSRTC will not be responsible for any kind of theft of the luggage carried by the passenger inside the bus with him/her.</li>
-          <li>5) Any kind of misbehavior with a female passenger will not be tolerated and the passenger will be asked to leave the bus.</li>
-          <li>6) Pets are not allowed.</li>
-        </ul>
-      </div>
-
-      {/* Cancellation Policy Accordion */}
-      <div className="accordion-item">
-        <div
-          className="accordion-header"
-          onClick={() => toggleAccordion('cancellationPolicy')}
-        >
-          <span>Cancellation Policy</span>
-          <span>{isOpen.cancellationPolicy ? 'x' : '+'}</span>
+      {displayedPolicies.map(policy => (
+        <div key={policy._id} className="policy-box">
+          <h3>{policy.name}</h3>
+          <div dangerouslySetInnerHTML={{ __html: policy.content }} />
+          {policy.details && (
+            <div className="accordion-item">
+              <div
+                className="accordion-header"
+                onClick={() => toggleAccordion(policy._id)}
+              >
+                <span>View Details</span>
+                <span>{openSections[policy._id] ? '−' : '+'}</span>
+              </div>
+              {openSections[policy._id] && (
+                <div className="accordion-content">
+                  <div dangerouslySetInnerHTML={{ __html: policy.details }} />
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        {isOpen.cancellationPolicy && (
-          <div className="accordion-content">
-            <p>Here are the details of the cancellation policy...</p>
-          </div>
-        )}
-      </div>
+      ))}
 
-      {/* Luggage Policy Accordion */}
-      <div className="accordion-item">
-        <div
-          className="accordion-header"
-          onClick={() => toggleAccordion('luggagePolicy')}
-        >
-          <span>Luggage Policy</span>
-          <span>{isOpen.luggagePolicy ? 'x' : '+'}</span>
-        </div>
-        {isOpen.luggagePolicy && (
-          <div className="accordion-content">
-            <p>Here are the details of the luggage policy...</p>
+      {policies.length > 2 && (
+        <div className="accordion-item">
+          <div className="accordion-header" onClick={toggleShowAll}>
+            <span>{showAll ? 'Show Less' : 'Show More'}</span>
+            <span>{showAll ? '−' : '+'}</span>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

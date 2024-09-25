@@ -4,6 +4,8 @@ import config from '../../config';
 import { AuthContext } from '../../context/AuthContext';
 import { Container, Typography, TextField, Button, CircularProgress, Alert, Box, IconButton, Paper } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const PolicyAdmin = () => {
     const { user } = useContext(AuthContext);
@@ -13,7 +15,6 @@ const PolicyAdmin = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        // Fetch the current policies
         axios.get(`${config.apiBaseUrl}/policies`, {
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -49,7 +50,6 @@ const PolicyAdmin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-        // Update the policies
         axios.put(`${config.apiBaseUrl}/policies`, { policies }, {
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -82,14 +82,21 @@ const PolicyAdmin = () => {
                             />
                         </Box>
                         <Box mb={2}>
-                            <TextField
-                                label="Policy Content"
-                                variant="outlined"
-                                fullWidth
-                                multiline
-                                rows={4}
+                            <Typography variant="subtitle1" gutterBottom>
+                                Policy Content
+                            </Typography>
+                            <ReactQuill
                                 value={policy.content}
-                                onChange={(e) => handlePolicyChange(policyIndex, 'content', e.target.value)}
+                                onChange={(content) => handlePolicyChange(policyIndex, 'content', content)}
+                                modules={{
+                                    toolbar: [
+                                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                                        ['link', 'image'],
+                                        ['clean']
+                                    ],
+                                }}
                             />
                         </Box>
                         <Box mt={2}>

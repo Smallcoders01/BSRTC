@@ -3,31 +3,38 @@ import HelplineNumbers from '../components/UserComponents/Contact/ContactUs';
 import Banner from '../components/UserComponents/Banner';
 import Footer from '../components/UserComponents/Footer/footer';
 import Booking from '../components/UserComponents/Contact/Booking';
-import Loading from '../components/UserComponents/Loading'; // Import the Loading spinner component
+import Loading from '../components/UserComponents/Loading';
 
 const Contact = () => {
-  const [loading, setLoading] = useState(true); // Set initial loading state to true
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [contactReady, setContactReady] = useState(false);
 
   useEffect(() => {
-    // Simulate loading or a data fetch
+    console.log('Contact: Initial loading started');
     const timer = setTimeout(() => {
-      setLoading(false); // Set loading to false after the content is "loaded"
-    }, 2000); // Adjust the timeout for your actual loading time
+      setInitialLoading(false);
+      console.log('Contact: Initial loading finished');
+    }, 200);
 
-    // Cleanup timeout when the component unmounts
     return () => clearTimeout(timer);
   }, []);
 
-  // If loading is true, show the spinner
-  if (loading) {
+  const handleContactLoaded = () => {
+    console.log('Contact: HelplineNumbers component data loaded');
+    setContactReady(true);
+  };
+
+  console.log('Contact: Render cycle', { initialLoading, contactReady });
+
+  if (initialLoading) {
     return <Loading />;
   }
 
-  // Once loading is false, show the actual page content
   return (
     <div>
       <Banner />
-      <HelplineNumbers />
+      <HelplineNumbers onDataLoaded={handleContactLoaded} />
+      {!contactReady && <Loading />}
       <Booking />
       <Footer />
     </div>

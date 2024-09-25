@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button, Carousel } from 'react-bootstrap';
 import axios from 'axios';
-import config from '../../../config'; // Updated path
-import './popular.css'; // Ensure this contains the necessary CSS for arrow colors
 
-const PopularRoutes = () => {
+import config from '../../../config';
+import './popular.css';
+
+const PopularRoutes = ({ onBookNow }) => {
   const navigate = useNavigate();
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +24,6 @@ const PopularRoutes = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch the popular routes from the backend API
     axios.get(`${config.apiBaseUrl}/popular-routes`)
       .then(response => {
         setRoutes(response.data);
@@ -34,6 +34,14 @@ const PopularRoutes = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleBookNow = (route) => {
+    if (onBookNow) {
+      onBookNow(route.from, route.to);
+    } else {
+      console.log('Booking:', route.from, 'to', route.to);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -54,7 +62,7 @@ const PopularRoutes = () => {
         <div>
           <h2 className="fw-bold">Popular Routes</h2>
           <p>
-            Going somewhere to celebrate this season? Whether you’re going home or somewhere to roam, we’ve got the travel tools to get you to your destination.
+            Going somewhere to celebrate this season? Whether you're going home or somewhere to roam, we've got the travel tools to get you to your destination.
           </p>
         </div>
         <Button
@@ -67,6 +75,7 @@ const PopularRoutes = () => {
             width: '100px',
             marginLeft: '20px',
             fontSize: '12px',
+            cursor: 'pointer',
           }}
           onClick={() => navigate('/all-routes')}
         >
@@ -83,6 +92,7 @@ const PopularRoutes = () => {
               <Carousel.Item key={route._id}>
                 <Card
                   className="shadow-sm h-100 text-white"
+
                   style={{
                     borderRadius: '10px',
                     overflow: 'hidden',
@@ -136,6 +146,7 @@ const PopularRoutes = () => {
                 <Card
                   className="shadow-sm h-100 text-white"
                   style={{
+
                     borderRadius: '10px',
                     overflow: 'hidden',
                     position: 'relative',
@@ -156,7 +167,9 @@ const PopularRoutes = () => {
                       background: 'rgba(0, 0, 0, 0.3)', // dark overlay for readability
                       padding: '20px',
                       borderRadius: '0 0 15px 15px',
+
                     }}
+                    onClick={() => handleBookNow(route)}
                   >
                     <Card.Title className="fw-bold">{route.title}</Card.Title>
                     <Card.Text>{route.description}</Card.Text>

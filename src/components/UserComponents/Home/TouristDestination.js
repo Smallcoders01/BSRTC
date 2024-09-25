@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import config from '../../../config'; // Adjust the path to the correct location of your config file
+import config from '../../../config';
 import '../../UserComponents/Home/popular.css';
 
-const TouristDestination = () => {
-  const navigate = useNavigate();
+const TouristDestination = ({ onBookNow }) => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -49,7 +46,7 @@ const TouristDestination = () => {
                 width: '100px',
                 marginLeft: '20px'
               }}
-              onClick={() => navigate('/all-tourist')}
+              onClick={() => {/* Handle view all click */}}
             >
               View All
             </button>
@@ -90,9 +87,16 @@ const TouristDestination = () => {
                       />
                       <div className="card-overlay d-flex justify-content-between align-items-end p-3 rounded-3">
                         <h5 className="card-title text-white">{destination.name}</h5>
-                        <a href="#" className="btn text-white btn-sm shadow-sm" style={{ backgroundColor: '#7A1CAC' }}>
+                        <button 
+                          onClick={() => {
+                            console.log('Book Now clicked for:', destination.name);
+                            onBookNow(destination.name);
+                          }}
+                          className="btn text-white btn-sm shadow-sm" 
+                          style={{ backgroundColor: '#7A1CAC' }}
+                        >
                           Book Now
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>

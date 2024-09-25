@@ -5,30 +5,58 @@ import Footer from '../Footer/footer';
 import axios from 'axios';
 import config from '../../../config';
 
-const Gallery = () => {
+const CACHE_KEY = 'galleryImages';
+const CACHE_EXPIRATION = 60 * 60 * 1000; // 1 hour in milliseconds
+
+const GalleryComponent = ({ onDataLoaded }) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch images from the backend API
-    axios.get(`${config.apiBaseUrl}/gallery`)
-      .then(response => {
+    const fetchImages = async () => {
+      const cachedData = localStorage.getItem(CACHE_KEY);
+      const cachedTimestamp = localStorage.getItem(`${CACHE_KEY}_timestamp`);
+
+      if (cachedData && cachedTimestamp) {
+        const now = new Date().getTime();
+        if (now - parseInt(cachedTimestamp) < CACHE_EXPIRATION) {
+          console.log('GalleryComponent: Using cached data');
+          setImages(JSON.parse(cachedData));
+          setLoading(false);
+          onDataLoaded();
+          return;
+        }
+      }
+
+      console.log('GalleryComponent: Fetching fresh data');
+      try {
+        const response = await axios.get(`${config.apiBaseUrl}/gallery`, { timeout: 10000 });
         setImages(response.data);
+        localStorage.setItem(CACHE_KEY, JSON.stringify(response.data));
+        localStorage.setItem(`${CACHE_KEY}_timestamp`, new Date().getTime().toString());
         setLoading(false);
-      })
-      .catch(error => {
+        onDataLoaded();
+      } catch (error) {
+        console.error('GalleryComponent: Error fetching data', error);
         setError('Error fetching images');
         setLoading(false);
-      });
-  }, []);
+        onDataLoaded();
+      }
+    };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+    fetchImages();
+  }, [onDataLoaded]);
+
+  console.log('GalleryComponent: Render cycle', { loading, error });
+
+  if (loading || error) {
+    return null;
+  }
 
   return (
     <>
-      <div className="container my-5" style={{ width: '80%' }}> {/* Set width to 80% */}
+      <div className="container my-5" style={{ width: '80%' }}>
         <h1 className='text-center mb-5'>Gallery</h1>
         <div className="gallery-grid">
           {images.map((image, index) => (
@@ -46,4 +74,4 @@ const Gallery = () => {
   );
 };
 
-export default Gallery;
+export default GalleryComponent;
