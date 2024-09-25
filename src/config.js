@@ -1,6 +1,6 @@
 const config = {
-    apiBaseUrl: 'https://sltc-goabackend.onrender.com/api',
-    baseUrl: 'https://sltc-goabackend.onrender.com' // Added base URL
+    apiBaseUrl: 'http://localhost:5000/api',
+    baseUrl: 'http://localhost:5000' // Added base URL
 };
 
 export default config;

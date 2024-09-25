@@ -28,7 +28,7 @@ const TouristDestination = ({ onBookNow }) => {
     <div className="container my-5 border-secondary rounded-4 p-4 shadow-lg bg-light" style={{ width: '80%' }}>
       <div className="row justify-content-center">
         <div className="col-lg-11 col-md-10">
-          <div className="d-flex justify-content-between align-items-center mb-4">
+          <div className="d-flex justify-content-between align-items-center mb-4 popFLex">
             <div>
               <h2 className="fw-bold">Tourist Destinations</h2>
               <p className="text-muted">
