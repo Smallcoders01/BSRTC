@@ -31,3 +31,11 @@
    } 
 
   }
+
+  @media(max-width:540px){
+    .popFLex{
+        flex-direction: column;
+    }
+  }
+/* Style for black side arrows */
+

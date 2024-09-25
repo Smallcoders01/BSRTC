@@ -109,7 +109,35 @@
   
   /* Smooth transform for symbol rotation (optional) */
 
-  .faq-question.open .faq-toggle-symbol {
+  /* .faq-question.open .faq-toggle-symbol {
     transform: rotate(45deg); /* Optional symbol rotation */
-  }
+  /* }  */
 
+@media(max-width:768px){
+  .faq-title{
+    text-align: start;
+    font-size: 30px;
+  }
+  .faqs{
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .view-all-btn{
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+}
+@media(max-width:425px){
+  .faq-question h5{
+    font-size: 1rem;
+  }
+  .faq-answer p{
+    font-size: 0.8rem;
+   }
+}
+@media(max-width:350px){
+ .row{
+  --bs-gutter-x: 4.5rem;
+ }
+
+}
