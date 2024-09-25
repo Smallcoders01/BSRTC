@@ -3,8 +3,8 @@ import { Container, Table, Button } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../../../config'; // Ensure this path is correct
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import "../Directory/Directory.css"; // Import custom CSS for exact styling
 import Footer from '../Footer/footer';
+import './tender.css'; // Import custom CSS for additional styles
 
 const TenderComp = () => {
   const [tenders, setTenders] = useState([]);
@@ -51,9 +51,11 @@ const TenderComp = () => {
                   <td>
                     <Button
                       variant="primary"
+                      size="sm" // Keep the button small
                       href={`${config.baseUrl}/${tender.pdf}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="download-button" // Add a class for custom styling
                     >
                       Download PDF
                     </Button>

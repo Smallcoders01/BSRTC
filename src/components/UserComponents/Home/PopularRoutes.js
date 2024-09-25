@@ -65,22 +65,6 @@ const PopularRoutes = ({ onBookNow }) => {
             Going somewhere to celebrate this season? Whether you're going home or somewhere to roam, we've got the travel tools to get you to your destination.
           </p>
         </div>
-        <Button
-          variant=""
-          className="fw-bold view"
-          style={{
-            borderRadius: '8px',
-            border: '2px solid #6f42c1',
-            padding: '6px 18px',
-            width: '100px',
-            marginLeft: '20px',
-            fontSize: '12px',
-            cursor: 'pointer',
-          }}
-          onClick={() => navigate('/all-routes')}
-        >
-          View All
-        </Button>
       </div>
 
       {/* Responsive Layout: Carousel for small screens, Grid for larger screens */}
@@ -92,7 +76,6 @@ const PopularRoutes = ({ onBookNow }) => {
               <Carousel.Item key={route._id}>
                 <Card
                   className="shadow-sm h-100 text-white"
-
                   style={{
                     borderRadius: '10px',
                     overflow: 'hidden',
@@ -128,6 +111,7 @@ const PopularRoutes = ({ onBookNow }) => {
                         backgroundColor: '#ffcc00',
                         border: 'none',
                       }}
+                      onClick={() => handleBookNow(route)}
                     >
                       Book Now
                     </Button>
@@ -146,7 +130,6 @@ const PopularRoutes = ({ onBookNow }) => {
                 <Card
                   className="shadow-sm h-100 text-white"
                   style={{
-
                     borderRadius: '10px',
                     overflow: 'hidden',
                     position: 'relative',
@@ -167,9 +150,7 @@ const PopularRoutes = ({ onBookNow }) => {
                       background: 'rgba(0, 0, 0, 0.3)', // dark overlay for readability
                       padding: '20px',
                       borderRadius: '0 0 15px 15px',
-
                     }}
-                    onClick={() => handleBookNow(route)}
                   >
                     <Card.Title className="fw-bold">{route.title}</Card.Title>
                     <Card.Text>{route.description}</Card.Text>
@@ -183,6 +164,7 @@ const PopularRoutes = ({ onBookNow }) => {
                         backgroundColor: '#ffcc00',
                         border: 'none',
                       }}
+                      onClick={() => handleBookNow(route)}
                     >
                       Book Now
                     </Button>
@@ -193,6 +175,26 @@ const PopularRoutes = ({ onBookNow }) => {
           })}
         </Row>
       )}
+
+      {/* View All Button below the images */}
+      <div className="text-center mt-4">
+        <Button
+          variant=""
+          className="fw-bold view"
+          style={{
+            borderRadius: '8px',
+            border: '2px solid #6f42c1',
+            padding: '6px 18px',
+            width: '100px',
+            marginLeft: '20px',
+            fontSize: '12px',
+            cursor: 'pointer',
+          }}
+          onClick={() => navigate('/all-routes')}
+        >
+          View All
+        </Button>
+      </div>
     </Container>
   );
 };

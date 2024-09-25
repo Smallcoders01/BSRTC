@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../../../config';
 import '../../UserComponents/Home/popular.css';
+import { Carousel } from 'react-bootstrap'; // Add this import
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const TouristDestination = ({ onBookNow }) => {
   const [destinations, setDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767); // Track mobile view
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     // Fetch the tourist destinations from the backend API
@@ -19,6 +23,15 @@ const TouristDestination = ({ onBookNow }) => {
         setError('Error fetching tourist destinations');
         setLoading(false);
       });
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767); // Update mobile view on resize
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   if (loading) return <div>Loading...</div>;
@@ -35,6 +48,94 @@ const TouristDestination = ({ onBookNow }) => {
                 Planning to explore Bihar this season? Whether you're heading home or off on an adventure, we have the travel resources to get you to your destination.
               </p>
             </div>
+          </div>
+
+          {/* Responsive Layout: Carousel for small screens, Grid for larger screens */}
+          {isMobile ? (
+            <Carousel interval={null} indicators={false} controls={true}>
+              {destinations.map((destination, index) => (
+                <Carousel.Item key={index}>
+                  <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden rounded-3">
+                    <img
+                      src={`${config.baseUrl}${destination.image}`}
+                      className="card-img-top img-fluid rounded-3"
+                      alt={destination.name}
+                      style={{ height: '200px', objectFit: 'cover' }} // Adjusted height
+                    />
+                    <div className="card-overlay d-flex flex-column justify-content-end p-3 rounded-3">
+                      <h5 className="card-title text-white">{destination.name}</h5>
+                      <button 
+                        onClick={() => {
+                          console.log('Book Now clicked for:', destination.name);
+                          onBookNow(destination.name);
+                        }}
+                        className="btn text-white btn-sm shadow-sm" 
+                        style={{ backgroundColor: '#7A1CAC' }}
+                      >
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          ) : (
+            <div className="row grids">
+              {/* Left column */}
+              <div className="col-md-6 mb-4 grid-child">
+                <div
+                  className="card text-white p-4 h-100 border border-secondary rounded-3 shadow-sm"
+                  style={{
+                    backgroundColor: '#6B4190',
+                    padding: '20px',
+                    fontSize: '14px',
+                    letterSpacing: '1px',
+                    lineHeight: '30px',
+                    color: 'white',
+                  }}
+                >
+                  <h3 className="fw-bold biharpara">Discover Bihar: A Treasure Trove of History and Culture</h3>
+                  <p>
+                    Bihar is home to numerous architectural wonders, from the ancient stupas and monasteries to the grand forts and palaces. The ruins of Nalanda University, the Ashokan Pillar in Vaishali, and the Rajgir hills' ancient caves offer glimpses into the state's glorious past. The Golghar in Patna and the Barabar Caves near Gaya are also significant attractions.
+                  </p>
+                </div>
+              </div>
+
+              {/* Right column with images */}
+              <div className="col-md-6 grid-child">
+                <div className="row">
+                  {destinations.map((destination, index) => (
+                    <div className="col-sm-6 mb-4" key={index}>
+                      <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden rounded-3">
+                        <img
+                          src={`${config.baseUrl}${destination.image}`}
+                          className="card-img-top img-fluid rounded-3"
+                          alt={destination.name}
+                          style={{ height: '200px', objectFit: 'cover' }} // Adjusted height
+                        />
+                        <div className="card-overlay d-flex justify-content-between align-items-end p-3 rounded-3">
+                          <h5 className="card-title text-white">{destination.name}</h5>
+                          <button 
+                            onClick={() => {
+                              console.log('Book Now clicked for:', destination.name);
+                              onBookNow(destination.name);
+                            }}
+                            className="btn text-white btn-sm shadow-sm" 
+                            style={{ backgroundColor: '#7A1CAC' }}
+                          >
+                            Book Now
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* View All Button below the images */}
+          <div className="text-center mt-4">
             <button
               className="btn view"
               style={{
@@ -44,67 +145,12 @@ const TouristDestination = ({ onBookNow }) => {
                 fontSize: '12px',
                 fontWeight: 'bold',
                 width: '100px',
-                marginLeft: '20px'
               }}
-              onClick={() => {/* Handle view all click */}}
+              onClick={() => navigate('/all-tourist')} // Navigate to AllTourist page
             >
               View All
             </button>
           </div>
-
-          <div className="row grids">
-            {/* Left column */}
-            <div className="col-md-6 mb-4 grid-child">
-              <div
-                className="card text-white p-4 h-100 border border-secondary rounded-3 shadow-sm"
-                style={{
-                  backgroundColor: '#6B4190',
-                  padding: '20px',
-                  fontSize: '14px',
-                  letterSpacing: '1px',
-                  lineHeight:'30px',
-                  color: 'white',
-                }}
-              >
-                <h3 className="fw-bold biharpara">Discover Bihar: A Treasure Trove of History and Culture</h3>
-                <p>
-                  Bihar is home to numerous architectural wonders, from the ancient stupas and monasteries to the grand forts and palaces. The ruins of Nalanda University, the Ashokan Pillar in Vaishali, and the Rajgir hills' ancient caves offer glimpses into the state's glorious past. The Golghar in Patna and the Barabar Caves near Gaya are also significant attractions.
-                </p>
-              </div>
-            </div>
-
-            {/* Right column with images */}
-            <div className="col-md-6 grid-child">
-              <div className="row">
-                {destinations.map((destination, index) => (
-                  <div className="col-sm-6 mb-4" key={index}>
-                    <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden rounded-3">
-                      <img
-                        src={`${config.baseUrl}${destination.image}`}
-                        className="card-img-top img-fluid rounded-3"
-                        alt={destination.name}
-                        style={{ height: '200px', objectFit: 'cover' }} // Adjusted height
-                      />
-                      <div className="card-overlay d-flex justify-content-between align-items-end p-3 rounded-3">
-                        <h5 className="card-title text-white">{destination.name}</h5>
-                        <button 
-                          onClick={() => {
-                            console.log('Book Now clicked for:', destination.name);
-                            onBookNow(destination.name);
-                          }}
-                          className="btn text-white btn-sm shadow-sm" 
-                          style={{ backgroundColor: '#7A1CAC' }}
-                        >
-                          Book Now
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>

@@ -1,0 +1,13 @@
+/* src/components/UserComponents/Tender/TenderComp.css */
+.download-button {
+    padding: 4px 8px; /* Adjust padding */
+    font-size: 12px; /* Increase font size */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .download-button {
+      font-size: 10px; /* Smaller font size for mobile */
+      padding: 2px 4px; /* Adjust padding for mobile */
+    }
+  }
