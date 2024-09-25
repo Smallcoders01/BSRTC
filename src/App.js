@@ -12,17 +12,17 @@ import Gallery from './pages/Gallery';
 import Directory from './pages/Directory';
 import Ticket from './pages/Ticket';
 import Tender from './pages/Tender';
-// import Footer from './components/UserComponents/Footer/footer';
 import AllRoutes from './pages/AllRoutes';
 import AllTourist from './pages/AllTourist';
 import AdminPanel from './components/AdminComponents/AdminPanel';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import ViewProfile from './components/UserComponents/Profile/ViewProfile';
+import MyBooking from './components/UserComponents/Mybooking/MyBooking'; // Ensure the import is correct
 
 function App() {
   console.log('Rendering App component');
   return (
-
     <>
       <AuthProvider>
         <Routes>
@@ -38,11 +38,12 @@ function App() {
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/signup" element={<SignUpComponent />} />
           <Route path="/admin/*" element={<ProtectedRoute element={<AdminPanel />} />} />
+          <Route path="/profile" element={<ViewProfile />} />
+          <Route path="/my-booking" element={<MyBooking />} /> {/* Corrected here */}
           {/* Add more routes as needed */}
         </Routes>
       </AuthProvider>
     </>
-
   );
 }
 

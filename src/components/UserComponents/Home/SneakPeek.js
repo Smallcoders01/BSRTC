@@ -137,9 +137,7 @@ const SneakPeek = () => {
       </Carousel>
 
       {/* "View All" button */}
-      <Button type="primary" className="mt-4" style={{ backgroundColor: 'white', borderColor: '#552e9a', borderRadius: '10px', padding: '20px 20px', border: '2px solid #6f42c1', fontWeight: 'bold', color: '#6f42c1' }}>
-        View All
-      </Button>
+      
     </div>
   );
 };

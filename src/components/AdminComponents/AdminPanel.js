@@ -1,6 +1,20 @@
-import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
-import { AppBar, Toolbar, Drawer, List, ListItem, ListItemText, CssBaseline, Typography, Box } from '@mui/material';
+// src/components/AdminPanel.js
+import React, { useContext } from 'react';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText, CssBaseline, Typography, Box, IconButton, useTheme, useMediaQuery, Button } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PeopleIcon from '@mui/icons-material/People';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import PhoneIcon from '@mui/icons-material/Phone';
+import PolicyIcon from '@mui/icons-material/Policy';
+import MapIcon from '@mui/icons-material/Map';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import LocationCityIcon from '@mui/icons-material/LocationCity';
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import DescriptionIcon from '@mui/icons-material/Description';
+
+import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
 import AboutUsAdmin from './AboutUsAdmin';
 import UsersAdmin from './UsersAdmin';
 import ContactUsAdmin from './ContactUsAdmin';
@@ -10,68 +24,104 @@ import PopularRouteAdmin from './PopularRouteAdmin';
 import GalleryAdmin from './GalleryAdmin';
 import TouristDestinationAdmin from './TouristDestinationAdmin';
 import FAQAdmin from './FAQAdmin';
-import TenderAdmin from './TenderAdmin'; // Import the new component
+import TenderAdmin from './TenderAdmin';
 
 const drawerWidth = 240;
 
 const AdminPanel = () => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { logout } = useContext(AuthContext); // Get logout from context
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+    const handleLogout = () => {
+        logout(); // Call the logout function
+        navigate('/'); // Redirect to home
+    };
+
+    const menuItems = [
+        { text: 'About Us', icon: <DashboardIcon />, path: '/admin/about-us' },
+        { text: 'Users', icon: <PeopleIcon />, path: '/admin/users' },
+        { text: 'Contact Us', icon: <ContactMailIcon />, path: '/admin/contact-us' },
+        { text: 'Phone Directory', icon: <PhoneIcon />, path: '/admin/phone-directory' },
+        { text: 'Policy', icon: <PolicyIcon />, path: '/admin/policy' },
+        { text: 'Popular Routes', icon: <MapIcon />, path: '/admin/popular-routes' },
+        { text: 'Gallery', icon: <PhotoLibraryIcon />, path: '/admin/gallery' },
+        { text: 'Tourist Destinations', icon: <LocationCityIcon />, path: '/admin/tourist-destinations' },
+        { text: 'FAQs', icon: <QuestionAnswerIcon />, path: '/admin/faq' },
+        { text: 'Tenders', icon: <DescriptionIcon />, path: '/admin/tenders' },
+    ];
+
+    const drawer = (
+        <div>
+            <Toolbar />
+            <List>
+                {menuItems.map((item) => (
+                    <ListItem 
+                        button 
+                        key={item.text} 
+                        component={Link} 
+                        to={item.path}
+                        selected={location.pathname === item.path}
+                        onClick={isMobile ? handleDrawerToggle : undefined}
+                    >
+                        <ListItemIcon>{item.icon}</ListItemIcon>
+                        <ListItemText primary={item.text} />
+                    </ListItem>
+                ))}
+            </List>
+        </div>
+    );
+
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar>
-                    <Typography variant="h6" noWrap>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { sm: 'none' } }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
                         Admin Panel
                     </Typography>
+                    <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                    <Button color="inherit" component={Link} to="/">Back to Home</Button>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                variant="permanent"
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
-                }}
+            <Box
+                component="nav"
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                aria-label="mailbox folders"
             >
-                <Toolbar />
-                <Box sx={{ overflow: 'auto' }}>
-                    <List>
-                        <ListItem button component={Link} to="/admin/about-us">
-                            <ListItemText primary="About Us" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/users">
-                            <ListItemText primary="Users" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/contact-us">
-                            <ListItemText primary="Contact Us" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/phone-directory">
-                            <ListItemText primary="Phone Directory" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/policy">
-                            <ListItemText primary="Policy" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/popular-routes">
-                            <ListItemText primary="Popular Routes" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/gallery">
-                            <ListItemText primary="Gallery" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/tourist-destinations">
-                            <ListItemText primary="Tourist Destinations" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/faq">
-                            <ListItemText primary="FAQs" />
-                        </ListItem>
-                        <ListItem button component={Link} to="/admin/tenders"> {/* Add new drawer item */}
-                            <ListItemText primary="Tenders" />
-                        </ListItem>
-                    </List>
-                </Box>
-            </Drawer>
+                <Drawer
+                    variant={isMobile ? 'temporary' : 'permanent'}
+                    open={isMobile ? mobileOpen : true}
+                    onClose={isMobile ? handleDrawerToggle : undefined}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    sx={{
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+            </Box>
             <Box
                 component="main"
-                sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, marginLeft: `${drawerWidth}px` }}
+                sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
                 <Routes>
@@ -84,7 +134,7 @@ const AdminPanel = () => {
                     <Route path="gallery" element={<GalleryAdmin />} />
                     <Route path="tourist-destinations" element={<TouristDestinationAdmin />} />
                     <Route path="faq" element={<FAQAdmin />} />
-                    <Route path="tenders" element={<TenderAdmin />} /> {/* Add new route */}
+                    <Route path="tenders" element={<TenderAdmin />} />
                 </Routes>
             </Box>
         </Box>

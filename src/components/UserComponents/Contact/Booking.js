@@ -1,55 +1,82 @@
-import React, { useState } from 'react';
-import './Booking.css'; // External CSS for custom styling
-import { Accordion, Card, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import config from '../../../config';
+import './Booking.css';
 
 const Booking = () => {
-  const [showPolicy, setShowPolicy] = useState(true);
+  const [policies, setPolicies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [openSections, setOpenSections] = useState({});
+  const [showAll, setShowAll] = useState(false);
 
-  const handleClosePolicy = () => {
-    setShowPolicy(false);
+  useEffect(() => {
+    fetchPolicies();
+  }, []);
+
+  const fetchPolicies = async () => {
+    try {
+      const response = await axios.get(`${config.apiBaseUrl}/policies`);
+      setPolicies(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching policies:', err);
+      setError('Failed to load policies. Please try again later.');
+      setLoading(false);
+    }
   };
+
+  const toggleAccordion = (policyId) => {
+    setOpenSections(prevState => ({
+      ...prevState,
+      [policyId]: !prevState[policyId]
+    }));
+  };
+
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
+
+  if (loading) return <div>Loading policies...</div>;
+  if (error) return <div>{error}</div>;
+
+  const displayedPolicies = showAll ? policies : policies.slice(0, 2);
 
   return (
     <div className="booking-policies-container">
-      {showPolicy && (
-        <div className="booking-policies-card">
-          <div className="card-header d-flex justify-content-between align-items-center">
-            <h2>Booking Policies</h2>
-            <Button variant="link" onClick={handleClosePolicy} className="close-button">
-              <i className="bi bi-x-circle-fill"></i>
-            </Button>
-          </div>
-          <div className="card-body">
-            <ol>
-              <li>Objectionable articles* (Items) are not allowed to be carried on the bus.</li>
-              <li>Travelers under the influence of Alcohol/Intoxicating Drugs will not be allowed to travel in the bus.</li>
-              <li>Travelers are requested to maintain the decorum.</li>
-              <li>BSRTC will not be responsible for any kind of theft of the luggage carried by the passenger inside the bus with him/her.</li>
-              <li>Any kind of misbehavior with a female passenger will not be tolerated and the passenger will be asked to leave the bus.</li>
-              <li>Pets are not allowed.</li>
-            </ol>
+      <h2 className="text-center">Policies</h2>
+
+      {displayedPolicies.map(policy => (
+        <div key={policy._id} className="policy-box">
+          <h3>{policy.name}</h3>
+          <div dangerouslySetInnerHTML={{ __html: policy.content }} />
+          {policy.details && (
+            <div className="accordion-item">
+              <div
+                className="accordion-header"
+                onClick={() => toggleAccordion(policy._id)}
+              >
+                <span>View Details</span>
+                <span>{openSections[policy._id] ? '−' : '+'}</span>
+              </div>
+              {openSections[policy._id] && (
+                <div className="accordion-content">
+                  <div dangerouslySetInnerHTML={{ __html: policy.details }} />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+
+      {policies.length > 2 && (
+        <div className="accordion-item">
+          <div className="accordion-header" onClick={toggleShowAll}>
+            <span>{showAll ? 'Show Less' : 'Show More'}</span>
+            <span>{showAll ? '−' : '+'}</span>
           </div>
         </div>
       )}
-
-      <Accordion className="mt-3">
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="0">
-            Cancellation Policy
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="0">
-            <Card.Body>Details about the cancellation policy go here.</Card.Body>
-          </Accordion.Collapse>
-        </Card>
-        <Card>
-          <Accordion.Toggle as={Card.Header} eventKey="1">
-            Luggage Policy
-          </Accordion.Toggle>
-          <Accordion.Collapse eventKey="1">
-            <Card.Body>Details about the luggage policy go here.</Card.Body>
-          </Accordion.Collapse>
-        </Card>
-      </Accordion>
     </div>
   );
 };

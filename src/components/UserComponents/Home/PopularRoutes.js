@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
-import config from '../../../config'; // Updated path
+import config from '../../../config';
 import './popular.css';
 
-const PopularRoutes = () => {
+const PopularRoutes = ({ onBookNow }) => {
   const navigate = useNavigate();
   const [routes, setRoutes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Fetch the popular routes from the backend API
     axios.get(`${config.apiBaseUrl}/popular-routes`)
       .then(response => {
         setRoutes(response.data);
@@ -23,6 +22,14 @@ const PopularRoutes = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleBookNow = (route) => {
+    if (onBookNow) {
+      onBookNow(route.from, route.to);
+    } else {
+      console.log('Booking:', route.from, 'to', route.to);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -43,7 +50,7 @@ const PopularRoutes = () => {
         <div>
           <h2 className="fw-bold">Popular Routes</h2>
           <p>
-            Going somewhere to celebrate this season? Whether you’re going home or somewhere to roam, we’ve got the travel tools to get you to your destination.
+            Going somewhere to celebrate this season? Whether you're going home or somewhere to roam, we've got the travel tools to get you to your destination.
           </p>
         </div>
         <Button
@@ -56,6 +63,7 @@ const PopularRoutes = () => {
             width: '100px',
             marginLeft: '20px',
             fontSize: '12px',
+            cursor: 'pointer',
           }}
           onClick={() => navigate('/all-routes')}
         >
@@ -63,7 +71,6 @@ const PopularRoutes = () => {
         </Button>
       </div>
 
-      {/* Routes Cards Section */}
       <Row>
         {routes.map((route) => {
           const imageUrl = `${config.baseUrl}${route.imageUrl}`;
@@ -89,13 +96,13 @@ const PopularRoutes = () => {
                 <Card.ImgOverlay
                   className="d-flex flex-column justify-content-end"
                   style={{
-                    background: 'rgba(0, 0, 0, 0.3)', // dark overlay for readability
+                    background: 'rgba(0, 0, 0, 0.3)',
                     padding: '20px',
                     borderRadius: '0 0 15px 15px',
                   }}
                 >
                   <Card.Title className="fw-bold">{route.title}</Card.Title>
-                  <Card.Text>{route.description}</Card.Text>
+                  <Card.Text>{`${route.from} to ${route.to}`}</Card.Text>
                   <Button
                     variant="warning"
                     className="fw-bold"
@@ -105,7 +112,9 @@ const PopularRoutes = () => {
                       padding: '5px 10px',
                       backgroundColor: '#ffcc00',
                       border: 'none',
+                      cursor: 'pointer',
                     }}
+                    onClick={() => handleBookNow(route)}
                   >
                     Book Now
                   </Button>

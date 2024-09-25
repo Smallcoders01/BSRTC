@@ -1,50 +1,60 @@
 .booking-policies-container {
-    padding: 20px;
-    background-color: #f9f9ff;
-  }
-  
-  .booking-policies-card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: transparent;
-    border-bottom: none;
-  }
-  
-  .close-button {
-    font-size: 24px;
-    color: #6b3eab;
-  }
-  
-  .card-body ol {
-    padding-left: 20px;
-  }
-  
-  .card-body ol li {
-    margin-bottom: 10px;
-  }
-  
-  .accordion .card-header {
-    background-color: #f9f9ff;
-    cursor: pointer;
-  }
-  
-  .accordion .card-body {
-    background-color: #ffffff;
-    padding: 15px;
-    border-top: none;
-  }
-  
-  .accordion .card {
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-  }
-  
+ width: 80%;
+  ; /* Max width for larger screens */
+  margin: 0 auto;
+  padding: 30px; /* Padding applied only once */
+}
+
+h2.text-center {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.policy-box {
+  background-color: #f9f9f9;
+  border: 1px solid #6b3eab;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+
+
+.policy-box ul {
+  padding-left: 0;
+  list-style-position: inside;
+  line-height: 2.5;
+  font-size: 1.1rem;
+  list-style: none;
+}
+
+.accordion-item {
+  background-color: white;
+  border: 1px solid #6b3eab;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.accordion-header {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: #6b3eab;
+}
+
+.accordion-content {
+  padding: 15px 20px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.accordion-content p {
+  margin: 0;
+}
