@@ -152,3 +152,65 @@
     font-size: 0.3rem;
   }
 }
+
+.table-responsive {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  font-size: 1rem; /* Default font size */
+}
+
+@media (max-width: 750px) {
+  .table-responsive {
+    font-size: 0.9rem; /* Increase font size for smaller screens */
+  }
+}
+
+@media (max-width: 552px) {
+  .table-responsive {
+    font-size: 0.8rem; /* Further increase font size for very small screens */
+  }
+}
+
+.custom-table th, .custom-table td {
+  padding: 10px; /* Add padding for better spacing */
+  text-align: center; /* Center align text */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+@media (max-width: 600px) {
+  .custom-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .custom-table thead {
+    display: none;
+  }
+
+  .custom-table tr {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+  }
+
+  .custom-table td {
+    flex: 1 1 50%;
+    text-align: left;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .custom-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    display: inline-block;
+    width: 120px; /* Increase width for labels */
+    margin-right: 10px; /* Add space between label and data */
+    white-space: nowrap; /* Prevent label from wrapping */
+  }
+}

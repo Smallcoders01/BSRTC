@@ -1,7 +1,29 @@
 import React from 'react';
-import { Card, Button, Carousel } from 'antd';
-import { RightOutlined, LeftOutlined } from '@ant-design/icons';
+import { Card, Carousel } from 'antd';
 import './SneakPeek.css'; // Import a CSS file for extra styling if needed
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+
+const CustomPrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <LeftOutlined
+      className={className}
+      style={{ ...style, fontSize: '24px', color: '#552e9a', zIndex: 1 }}
+      onClick={onClick}
+    />
+  );
+};
+
+const CustomNextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <RightOutlined
+      className={className}
+      style={{ ...style, fontSize: '24px', color: '#552e9a', zIndex: 1 }}
+      onClick={onClick}
+    />
+  );
+};
 
 const features = [
   {
@@ -65,7 +87,7 @@ const SneakPeek = () => {
   ];
 
   return (
-    <div className="text-center mt-5" style={{ width: '100%', padding: '40px 60px', backgroundColor: '#fff' }}>
+    <div className="text-center mt-5" style={{ width: '100%', padding: '20px', backgroundColor: '#fff' }}>
       <h2 className="mb-3" style={{ color: '#552e9a', fontWeight: 'bold' }}>A Sneak Peek Into Our World</h2>
       <p>Experience the lavish amenities of BSRTC!</p>
 
@@ -74,15 +96,15 @@ const SneakPeek = () => {
         dots={false} // Disable dots if needed
         slidesToShow={4} // Default to 4 items
         slidesToScroll={1}
-        arrows
-        prevArrow={<LeftOutlined />}
-        nextArrow={<RightOutlined />}
+        arrows={false}
+        prevArrow={<CustomPrevArrow />}
+        nextArrow={<CustomNextArrow />}
         autoplay
         responsive={responsiveSettings} // Apply responsive settings
-        style={{ margin: '20px 0', padding: '0 20px' }}
+        style={{ margin: '20px 0' }}
       >
         {features.map((feature, index) => (
-          <div key={index} style={{ padding: '0 15px' }}>
+          <div key={index} style={{ padding: '0 5px' }}>
             <Card
               cover={
                 <div style={{ position: 'relative' }}>

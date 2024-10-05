@@ -1,14 +1,46 @@
 /* SneakPeek.css */
 .ant-carousel .slick-slide {
-    padding: 0 15px; /* Adds padding between carousel slides */
+    padding: 0 5px; /* Reduce padding between slides */
   }
   
   .ant-carousel .slick-list {
-    margin: 0 -15px; /* Ensures even padding on the left and right edges */
+    margin: 0; /* Remove extra margin */
   }
   
   .ant-carousel .slick-slide > div {
     display: flex;
     justify-content: center; /* Ensures content is centered within the carousel */
+    width: 100%; /* Ensure full width */
   }
   
+  .card-img {
+    width: 100%; /* Ensure images take full width */
+  }
+  
+  .ant-carousel .slick-prev, .ant-carousel .slick-next {
+    font-size: 24px; /* Increase arrow size */
+    color: #552e9a; /* Change arrow color */
+    z-index: 1;
+  }
+  
+  .ant-carousel .slick-prev:hover, .ant-carousel .slick-next:hover {
+    color: #86469C; /* Change color on hover for better visibility */
+  }
+
+/* Custom arrow styles */
+.custom-arrow {
+  font-size: 24px;
+  color: #552e9a;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.custom-arrow:hover {
+  color: #86469C;
+}
+
+@media (max-width: 480px) {
+  .ant-carousel .slick-slide > div {
+    width: 100%; /* Full width on mobile */
+  }
+}

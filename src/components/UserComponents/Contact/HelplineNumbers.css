@@ -104,6 +104,7 @@ h2.text-center {
 
   .division-card {
     padding: 15px; /* Adjust padding for smaller screens */
+    margin: 5px 10px; /* Add margin to fill the sides */
   }
 
   h2.text-center {
@@ -114,6 +115,7 @@ h2.text-center {
 @media (max-width: 576px) {
   .division-card {
     padding: 10px; /* Further reduce padding on smaller screens */
+    margin: 10px -15px; /* Increase margin to fill the sides */
   }
 
   .division-card h4 {

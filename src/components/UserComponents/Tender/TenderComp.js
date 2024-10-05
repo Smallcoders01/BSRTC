@@ -44,11 +44,11 @@ const TenderComp = () => {
             <tbody>
               {tenders.map((tender, index) => (
                 <tr key={index}>
-                  <td>{tender.name}</td>
-                  <td>{tender.referenceNo}</td>
-                  <td>{new Date(tender.closingDate).toLocaleDateString()}</td>
-                  <td>{new Date(tender.bidOpeningDate).toLocaleDateString()}</td>
-                  <td>
+                  <td data-label="Name">{tender.name}</td>
+                  <td data-label="Reference No">{tender.referenceNo}</td>
+                  <td data-label="Closing Date">{new Date(tender.closingDate).toLocaleDateString()}</td>
+                  <td data-label="Bid Opening Date">{new Date(tender.bidOpeningDate).toLocaleDateString()}</td>
+                  <td data-label="PDF">
                     <Button
                       variant="primary"
                       size="sm" // Keep the button small

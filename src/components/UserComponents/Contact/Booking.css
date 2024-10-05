@@ -58,3 +58,20 @@ h2.text-center {
 .accordion-content p {
   margin: 0;
 }
+
+/* Media Queries for responsive layout */
+@media (max-width: 768px) {
+  .booking-policies-container {
+    width: 100%; /* Full width on smaller screens */
+  }
+
+  .policy-box {
+    margin: 5px 10px; /* Add margin to fill the sides */
+  }
+}
+
+@media (max-width: 576px) {
+  .policy-box {
+    margin: 10px -15px; /* Increase margin to fill the sides */
+  }
+}

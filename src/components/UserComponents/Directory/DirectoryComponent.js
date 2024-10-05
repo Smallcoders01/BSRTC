@@ -74,11 +74,11 @@ const DirectoryComponent = ({ onDataLoaded }) => {
               <tbody>
                 {selectedDivision.officers.map((officer, officerIndex) => (
                   <tr key={officerIndex}>
-                    <td>{officer.name}</td>
-                    <td>{officer.designation}</td>
-                    <td>{officer.office}</td>
-                    <td>{officer.phoneNumber}</td>
-                    <td>{officer.email}</td>
+                    <td data-label="OFFICER NAME">{officer.name}</td>
+                    <td data-label="DESIGNATION">{officer.designation}</td>
+                    <td data-label="OFFICE">{officer.office}</td>
+                    <td data-label="MOBILE NUMBER">{officer.phoneNumber}</td>
+                    <td data-label="EMAIL ID">{officer.email}</td>
                   </tr>
                 ))}
               </tbody>

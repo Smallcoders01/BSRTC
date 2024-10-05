@@ -11,3 +11,46 @@
       padding: 2px 4px; /* Adjust padding for mobile */
     }
   }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  @media (max-width: 768px) {
+    .custom-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .custom-table thead {
+      display: none; /* Hide table headers */
+    }
+
+    .custom-table tr {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+    }
+
+    .custom-table td {
+      flex: 1 1 50%;
+      text-align: left;
+      padding: 10px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .custom-table td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      display: inline-block;
+      width: 120px;
+      margin-right: 10px;
+      white-space: nowrap;
+    }
+  }
