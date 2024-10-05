@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import config from '../../config'; // Adjust the path to the correct location of your config file
+import config from '../../config'; // Updated path
 import { Container, Typography, TextField, Button, CircularProgress, Alert, Box, IconButton, Paper } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 
@@ -10,8 +10,11 @@ const TenderAdmin = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current tenders
-        axios.get(`${config.apiBaseUrl}/tenders`)
+        axios.get(`${config.apiBaseUrl}/tenders`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 setTenders(response.data);
                 setLoading(false);
@@ -39,12 +42,24 @@ const TenderAdmin = () => {
     };
 
     const handleRemoveTender = (index) => {
-        const newTenders = tenders.filter((_, i) => i !== index);
-        setTenders(newTenders);
+        const token = localStorage.getItem('token');
+        const tenderId = tenders[index]._id;
+        axios.delete(`${config.apiBaseUrl}/tenders/${tenderId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                const newTenders = tenders.filter((_, i) => i !== index);
+                setTenders(newTenders);
+                alert('Tender deleted successfully');
+            })
+            .catch(error => {
+                setError('Error deleting tender');
+            });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         tenders.forEach(tender => {
             const formData = new FormData();
             formData.append('name', tender.name);
@@ -59,7 +74,8 @@ const TenderAdmin = () => {
             const method = tender._id ? 'put' : 'post';
             axios[method](url, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
                 }
             })
                 .then(response => {
@@ -139,7 +155,7 @@ const TenderAdmin = () => {
                                 onChange={(e) => handleFileChange(tenderIndex, e.target.files[0])}
                             />
                             {tender.pdf && (
-                                <a href={`${config.baseUrl}${tender.pdf}`} target="_blank" rel="noopener noreferrer">
+                                <a href={`${config.baseUrl}/${tender.pdf}`} target="_blank" rel="noopener noreferrer">
                                     View PDF
                                 </a>
                             )}

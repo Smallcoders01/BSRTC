@@ -27,6 +27,8 @@ const TicketDetails = () => {
   };
 
   return (
+    <>
+   
     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh', position: 'relative', padding: '10px' }}>
       <div
         className="card p-4"
@@ -121,7 +123,10 @@ const TicketDetails = () => {
           </Alert>
         )}
       </div>
+     
     </div>
+ 
+    </>
   );
 };
 

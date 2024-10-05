@@ -12,8 +12,11 @@ const GalleryAdmin = () => {
   const [newPhotoName, setNewPhotoName] = useState('');
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     // Fetch the current photos
-    axios.get(`${config.apiBaseUrl}/gallery`)
+    axios.get(`${config.apiBaseUrl}/gallery`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(response => {
         setPhotos(response.data);
         setLoading(false);
@@ -33,13 +36,15 @@ const GalleryAdmin = () => {
   };
 
   const handleAddPhoto = () => {
+    const token = localStorage.getItem('token');
     const formData = new FormData();
     formData.append('name', newPhotoName);
     formData.append('photo', newPhoto);
 
     axios.post(`${config.apiBaseUrl}/gallery`, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`
       }
     })
       .then(response => {
@@ -53,7 +58,10 @@ const GalleryAdmin = () => {
   };
 
   const handleDeletePhoto = (id) => {
-    axios.delete(`${config.apiBaseUrl}/gallery/${id}`)
+    const token = localStorage.getItem('token');
+    axios.delete(`${config.apiBaseUrl}/gallery/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(response => {
         setPhotos(photos.filter(photo => photo._id !== id));
       })

@@ -14,8 +14,11 @@ const ContactUsAdmin = () => {
     const [contactInfoId, setContactInfoId] = useState(null);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current contact information
-        axios.get(`${config.apiBaseUrl}/contact-info`)
+        axios.get(`${config.apiBaseUrl}/contact-info`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 console.log('Contact Info Response:', response.data); // Debugging log
                 if (response.data.length > 0) {
@@ -36,7 +39,9 @@ const ContactUsAdmin = () => {
             });
 
         // Fetch the current divisions
-        axios.get(`${config.apiBaseUrl}/divisions`)
+        axios.get(`${config.apiBaseUrl}/divisions`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 console.log('Divisions Response:', response.data); // Debugging log
                 setDivisions(response.data || []);
@@ -60,8 +65,11 @@ const ContactUsAdmin = () => {
     };
 
     const handleRemoveDivision = (index) => {
+        const token = localStorage.getItem('token');
         const divisionId = divisions[index]._id;
-        axios.delete(`${config.apiBaseUrl}/divisions/${divisionId}`)
+        axios.delete(`${config.apiBaseUrl}/divisions/${divisionId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 const newDivisions = divisions.filter((_, i) => i !== index);
                 setDivisions(newDivisions);
@@ -75,8 +83,11 @@ const ContactUsAdmin = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         // Update the contact information
-        axios.put(`${config.apiBaseUrl}/contact-info/${contactInfoId}`, { email: mainEmail, phoneNumber1, phoneNumber2 })
+        axios.put(`${config.apiBaseUrl}/contact-info/${contactInfoId}`, { email: mainEmail, phoneNumber1, phoneNumber2 }, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 alert('Contact information updated successfully');
             })
@@ -88,7 +99,9 @@ const ContactUsAdmin = () => {
         // Update the divisions
         divisions.forEach(division => {
             if (division._id) {
-                axios.put(`${config.apiBaseUrl}/divisions/${division._id}`, division)
+                axios.put(`${config.apiBaseUrl}/divisions/${division._id}`, division, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
                     .then(response => {
                         console.log('Division updated successfully');
                     })
@@ -97,7 +110,9 @@ const ContactUsAdmin = () => {
                         setError('Error updating division');
                     });
             } else {
-                axios.post(`${config.apiBaseUrl}/divisions`, division)
+                axios.post(`${config.apiBaseUrl}/divisions`, division, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
                     .then(response => {
                         console.log('Division added successfully');
                     })

@@ -10,8 +10,11 @@ const PopularRouteAdmin = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current popular routes
-        axios.get(`${config.apiBaseUrl}/popular-routes`)
+        axios.get(`${config.apiBaseUrl}/popular-routes`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 if (response.data) {
                     setRoutes(response.data);
@@ -43,12 +46,24 @@ const PopularRouteAdmin = () => {
     };
 
     const handleRemoveRoute = (index) => {
-        const newRoutes = routes.filter((_, i) => i !== index);
-        setRoutes(newRoutes);
+        const token = localStorage.getItem('token');
+        const routeId = routes[index]._id;
+        axios.delete(`${config.apiBaseUrl}/popular-routes/${routeId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                const newRoutes = routes.filter((_, i) => i !== index);
+                setRoutes(newRoutes);
+                alert('Route deleted successfully');
+            })
+            .catch(error => {
+                setError('Error deleting route');
+            });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         routes.forEach(route => {
             const formData = new FormData();
             formData.append('from', route.from);
@@ -62,7 +77,8 @@ const PopularRouteAdmin = () => {
             const method = route._id ? 'put' : 'post';
             axios[method](url, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${token}`
                 }
             })
                 .then(response => {

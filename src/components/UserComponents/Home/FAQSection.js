@@ -37,7 +37,7 @@ const FAQSection = () => {
   return (
     <div className="container-fluid faq-container">
       <div className="row justify-content-center">
-        <div className="col-12 col-md-10 col-lg-8">
+        <div className="col-12 col-md-10 col-lg-8 faqs">
           <h2 className="faq-title">FAQs</h2>
           {faqs.map((faq, index) => (
             <div className="faq-item" key={index}>

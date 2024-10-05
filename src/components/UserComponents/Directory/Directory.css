@@ -30,6 +30,7 @@
   background-color: #5a2d82 !important; /* Purple background for the nav */
   border-radius: 8px !important;
   align-items: center;
+  overflow-x: auto; /* Enable horizontal scrolling */
 }
 
 .office-nav ul li {
@@ -40,6 +41,8 @@
   font-weight: bold !important;
   cursor: pointer !important;
   font-size: 13px;
+  background-color: #5a2d82; /* Purple background for inactive tabs */
+  color: white; /* White text for inactive tabs */
 }
 
 /* Ensure no border-radius for other items */
@@ -47,10 +50,36 @@
   border-radius: 0 !important;
 }
 
+/* Styling the yellow division */
+.yellow {
+  background-color: #ffd700;
+  padding: 6px;
+  color: #3f2060;
+  border-radius: 16px;
+}
+
+/* Active state for non-head-office tabs */
+.office-nav ul li.active:not(.head-office) {
+  background-color: #5a2d82; /* Keep purple background for active non-head-office tabs */
+}
+
+.office-nav ul li.active:not(.head-office) .yellow {
+  background-color: #ffd700; /* Yellow background for active division */
+  color: #3f2060; /* Purple text for active division */
+  padding: 6px;
+  border-radius: 16px;
+}
+
+/* Ensure the head office tab doesn't change on active state */
+.office-nav ul li.head-office.active {
+  background-color: #ffd700 !important;
+  color: #5a2d82 !important;
+}
+
 /* Responsive design */
-@media (max-width: 768px) {
+@media (max-width: 770px) {
   .office-nav ul {
-    flex-direction: column !important;
+    flex-direction: row;
   }
 
   .office-nav ul li {
@@ -63,10 +92,63 @@
     margin-bottom: 10px !important;
     font-size: 12px !important; /* Further reduced font size for mobile */
   }
+
+  
+
+  .division div {
+    font-size: 0.63rem;
+  }
 }
-.yellow{
-  background-color: #ffd700;
-  padding: 6px;
-  color: #3f2060;
-  border-radius: 16px;
+
+/* Base styling for office-nav */
+.office-nav {
+  position: relative;
+  overflow: hidden; /* Hide overflowing items */
+}
+
+.office-nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Flexbox layout for horizontal scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  scroll-snap-type: x mandatory; /* Snap to items for better sliding experience */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+}
+
+.office-nav ul li {
+  min-width: 150px; /* Set a minimum width to control the size of the list items */
+  flex-shrink: 0; /* Prevent shrinking */
+  scroll-snap-align: start; /* Ensure the items snap when scrolling */
+  margin-right: 10px; /* Space between items */
+}
+
+/* On small screens */
+@media (max-width: 600px) {
+  .office-nav ul {
+    width: 100%;
+    max-width: 100%; /* Allow full width for scrolling */
+    overflow-x: scroll; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent items from wrapping */
+  }
+
+  .office-nav ul::-webkit-scrollbar {
+    display: none; /* Hide the scrollbar for a cleaner look */
+  }
+
+  .office-nav ul li {
+    display: inline-block;
+    margin-right: 10px; /* Space between the items */
+    max-width: 50%; /* Show only two items at a time */
+  }
+}
+@media(max-width:750px){
+  .table-responsive{
+    font-size: 0.6rem;
+  }
+}
+@media(max-width:552px){
+  .table-responsive{
+    font-size: 0.3rem;
+  }
 }

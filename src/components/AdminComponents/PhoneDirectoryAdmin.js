@@ -10,8 +10,11 @@ const PhoneDirectoryAdmin = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
         // Fetch the current divisions
-        axios.get(`${config.apiBaseUrl}/phone-directory`)
+        axios.get(`${config.apiBaseUrl}/phone-directory`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 if (response.data) {
                     setDivisions(response.data);
@@ -49,8 +52,19 @@ const PhoneDirectoryAdmin = () => {
     };
 
     const handleRemoveDivision = (index) => {
-        const newDivisions = divisions.filter((_, i) => i !== index);
-        setDivisions(newDivisions);
+        const token = localStorage.getItem('token');
+        const divisionId = divisions[index]._id;
+        axios.delete(`${config.apiBaseUrl}/phone-directory/${divisionId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                const newDivisions = divisions.filter((_, i) => i !== index);
+                setDivisions(newDivisions);
+                alert('Division deleted successfully');
+            })
+            .catch(error => {
+                setError('Error deleting division');
+            });
     };
 
     const handleRemoveOfficer = (divisionIndex, officerIndex) => {
@@ -61,8 +75,11 @@ const PhoneDirectoryAdmin = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
         // Update the divisions
-        axios.put(`${config.apiBaseUrl}/phone-directory`, { divisions })
+        axios.put(`${config.apiBaseUrl}/phone-directory`, { divisions }, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
             .then(response => {
                 alert('Phone directory updated successfully');
             })

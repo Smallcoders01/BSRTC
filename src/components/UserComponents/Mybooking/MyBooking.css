@@ -1,0 +1,172 @@
+/* src/components/UserComponents/Mybooking/MyBooking.css */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse farthest-corner at center top, #ECECEC, #999);
+  color: #363c44;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.bus-tickets-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping of tickets */
+  justify-content: center; /* Center tickets */
+  gap: 20px; /* Space between tickets */
+  padding: 20px; /* Padding around the container */
+}
+
+.bus-ticket {
+  width: 100%; /* Full width on small screens */
+  max-width: 350px; /* Max width for larger screens */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, .2);
+  overflow: hidden;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ticket-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c394f; /* Dark color for title */
+}
+
+.ticket-id {
+  font-size: 12px;
+  color: #A2A9B3;
+}
+
+.route-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Center align items */
+  margin-bottom: 20px;
+}
+
+.route {
+  text-align: center;
+}
+
+.route strong {
+  font-size: 24px;
+  display: block;
+}
+
+.route small {
+  font-size: 12px;
+  color: #A2A9B3;
+}
+
+.bus-image {
+  width: 50px; /* Adjust size as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin: 0 10px; /* Space around the image */
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #A2A9B3;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.detail {
+  text-align: center;
+  flex: 1;
+}
+
+.detail small {
+  font-size: 10px;
+  color: #A2A9B3;
+}
+
+.detail strong {
+  font-size: 14px;
+  display: block;
+}
+
+.passenger-info {
+  margin-top: 20px;
+  text-align: center;
+  position: relative; /* Position relative for the pseudo-element */
+}
+
+.passenger-info::before {
+  content: ''; /* Empty content for the pseudo-element */
+  position: absolute; /* Position it absolutely */
+  top: 0; /* Align to the top of the passenger-info section */
+  left: 50%; /* Center it horizontally */
+  transform: translateX(-50%); /* Adjust to center */
+  width: 80%; /* Width of the line */
+  border-top: 1px dotted #A2A9B3; /* Dotted line style */
+  margin-bottom: 10px; /* Space between line and text */
+}
+
+.passenger,
+.fare {
+  margin-bottom: 10px;
+}
+
+.passenger small,
+.fare small {
+  font-size: 10px;
+  color: #A2A9B3;
+}
+
+.passenger strong,
+.fare strong {
+  font-size: 14px;
+  display: block;
+}
+
+/* Media Queries for Responsiveness */
+@media (min-width: 768px) {
+  .bus-ticket {
+    width: calc(50% - 20px); /* Two tickets per row on larger screens */
+  }
+}
+
+@media (min-width: 1024px) {
+  .bus-ticket {
+    width: calc(33.33% - 20px); /* Three tickets per row on even larger screens */
+  }
+}
+
+.status-buttons {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  margin-bottom: 20px; /* Space below the buttons */
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+.status-button {
+  background-color: #f0f0f0; /* Light background */
+  border: none;
+  border-radius: 20px; /* Rounded corners */
+  padding: 10px 20px; /* Padding for buttons */
+  margin: 5px; /* Space between buttons */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+.status-button.active {
+  background-color: #6a5acd; /* Active button color */
+  color: white; /* Text color for active button */
+}
+
+.status-button:hover {
+  background-color: #dcdcdc; /* Change background on hover */
+}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Modal, Form, Button, Col, Row, Alert } from 'react-bootstrap';
 import axios from 'axios';
-import bus from '../../../img/loginbus.jpeg'; // Adjust the path as necessary
+import config from '../../../config'; // Make sure this path is correct
+import bus from '../../../img/loginbus.jpg'; // Adjust the path as necessary
 import './login.css'; // Import custom CSS
 
 const SignupModal = () => {
@@ -20,33 +21,60 @@ const SignupModal = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormData(prevState => ({
+      ...prevState,
       [name]: value
-    });
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post('${config.apiBaseUrl}/auth/signup', formData) // Update the URL to match your backend endpoint
-      .then(response => {
-        setSuccess('Signup successful!');
-        setError('');
-        setShow(false);
-      })
-      .catch(error => {
-        setError('Error signing up. Please try again.');
-        setSuccess('');
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await axios.post(`${config.apiBaseUrl}/auth/signup`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any necessary headers here
+        },
+        withCredentials: true // If your API uses cookies for authentication
       });
+
+      if (response.data && response.data.message) {
+        setSuccess(response.data.message);
+        setShow(false);
+        // Optionally, clear the form
+        setFormData({name: '', email: '', phoneNumber: '', password: ''});
+      } else {
+        setSuccess('Signup successful!');
+        setShow(false);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setError(error.response.data.message || 'Error signing up. Please try again.');
+      } else if (error.request) {
+        // The request was made but no response was received
+        setError('No response from server. Please try again later.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setError('Error setting up request. Please try again.');
+      }
+    }
   };
 
   return (
     <>
       <Button 
         variant="secondary"
-        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent', marginTop: '-10px' }}
+
+        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent',marginTop:'-10px',width:'6rem' }}
+
         onClick={handleShow}
-      >
+      className='sign'>
         Sign Up
       </Button>
 
