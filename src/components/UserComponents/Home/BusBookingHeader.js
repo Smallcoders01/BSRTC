@@ -9,9 +9,9 @@ const BusBookingHeader = ({ bookingInfo }) => {
   const [fromLocation, setFromLocation] = useState('');
   const [toLocation, setToLocation] = useState('');
   const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
+  const language = localStorage.getItem('language') || 'en'; // Get the selected language
 
   useEffect(() => {
-    console.log('BusBookingHeader useEffect, bookingInfo:', bookingInfo);
     if (bookingInfo) {
       setFromLocation(bookingInfo.from || '');
       setToLocation(bookingInfo.to || '');
@@ -21,8 +21,6 @@ const BusBookingHeader = ({ bookingInfo }) => {
   const handleNavbarToggle = () => {
     setIsNavbarExpanded(!isNavbarExpanded);
   };
-
-  console.log('BusBookingHeader rendered, fromLocation:', fromLocation, 'toLocation:', toLocation);
 
   return (
     <div style={{ padding: '20px' }}>
@@ -37,7 +35,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
         textAlign: 'left',
         borderRadius: '20px',
         overflow: 'hidden',
-        zIndex: 1 // Lower z-index
+        zIndex: 1
       }}>
         {/* Overlay */}
         <div style={{
@@ -62,9 +60,11 @@ const BusBookingHeader = ({ bookingInfo }) => {
             marginTop: '-180px'
           }}>
             <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
-              Book your bus ride <br />
+              {language === 'en' ? 'Book your bus ride' : 'अपनी बस यात्रा बुक करें'} <br />
             </h1>
-            <h1 style={{ zIndex: '10' }}><span className='fw-bold'>now</span>, we'll do the rest!</h1>
+            <h1 style={{ zIndex: '10' }}>
+              <span className='fw-bold'>{language === 'en' ? 'now' : 'अभी'}</span>, {language === 'en' ? "we'll do the rest!" : 'हम बाकी का ध्यान रखेंगे!'}
+            </h1>
           </Container>
         )}
       </div>
@@ -78,26 +78,26 @@ const BusBookingHeader = ({ bookingInfo }) => {
         width: '80%',
         borderRadius: '20px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 2 // Lower z-index, but still above the banner
+        zIndex: 2
       }}>
         <Card.Body style={{ position: 'relative' }} className='sect'>
-          <h3 className="text-center mb-4">Book Your Journey</h3>
+          <h3 className="text-center mb-4">{language === 'en' ? 'Book Your Journey' : 'अपनी यात्रा बुक करें'}</h3>
           <Form>
             <Row className="mb-3">
               <Col xs={6} md={3}>
-                <Form.Check inline label="One Way" name="journeyType" type="radio" id="one-way" defaultChecked />
+                <Form.Check inline label={language === 'en' ? 'One Way' : 'एक तरफा'} name="journeyType" type="radio" id="one-way" defaultChecked />
               </Col>
               <Col xs={6} md={3}>
-                <Form.Check inline label="Round Trip" name="journeyType" type="radio" id="round-trip" />
+                <Form.Check inline label={language === 'en' ? 'Round Trip' : 'राउंड ट्रिप'} name="journeyType" type="radio" id="round-trip" />
               </Col>
             </Row>
             <Row className="mb-3">
               <Col md={3}>
                 <Form.Group controlId="fromLocation">
-                  <Form.Label>From</Form.Label>
+                  <Form.Label>{language === 'en' ? 'From' : 'से'}</Form.Label>
                   <Form.Control 
                     type="text" 
-                    placeholder="Patna" 
+                    placeholder={language === 'en' ? 'Patna' : 'पटना'} 
                     value={fromLocation}
                     onChange={(e) => setFromLocation(e.target.value)}
                   />
@@ -108,10 +108,10 @@ const BusBookingHeader = ({ bookingInfo }) => {
               </Col>
               <Col md={3}>
                 <Form.Group controlId="toLocation">
-                  <Form.Label>To</Form.Label>
+                  <Form.Label>{language === 'en' ? 'To' : 'तक'}</Form.Label>
                   <Form.Control 
                     type="text" 
-                    placeholder="Delhi" 
+                    placeholder={language === 'en' ? 'Delhi' : 'दिल्ली'} 
                     value={toLocation}
                     onChange={(e) => setToLocation(e.target.value)}
                   />
@@ -119,28 +119,28 @@ const BusBookingHeader = ({ bookingInfo }) => {
               </Col>
               <Col md={2}>
                 <Form.Group controlId="departureDate">
-                  <Form.Label>Departure</Form.Label>
+                  <Form.Label>{language === 'en' ? 'Departure' : 'प्रस्थान'}</Form.Label>
                   <Form.Control type="date" />
                 </Form.Group>
               </Col>
               <Col md={2}>
                 <Form.Group controlId="returnDate">
-                  <Form.Label>Return</Form.Label>
+                  <Form.Label>{language === 'en' ? 'Return' : 'वापसी'}</Form.Label>
                   <Form.Control type="date" />
                 </Form.Group>
               </Col>
             </Row>
             <Row className="mb-3">
               <Col xs={6} md={3}>
-                <Form.Check inline label="Single Lady" name="passengerType" type="radio" id="single-lady" />
+                <Form.Check inline label={language === 'en' ? 'Single Lady' : 'एकल महिला'} name="passengerType" type="radio" id="single-lady" />
               </Col>
               <Col xs={6} md={3}>
-                <Form.Check inline label="Senior Citizen" name="passengerType" type="radio" id="senior-citizen" />
+                <Form.Check inline label={language === 'en' ? 'Senior Citizen' : 'वरिष्ठ नागरिक'} name="passengerType" type="radio" id="senior-citizen" />
               </Col>
             </Row>
             <div className="text-center mt-4">
               <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }}>
-                <i className="fas fa-bus"></i> Show Buses
+                <i className="fas fa-bus"></i> {language === 'en' ? 'Show Buses' : 'बसें दिखाएं'}
               </Button>
             </div>
           </Form>
@@ -153,7 +153,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
         top: '67%',
         left: '70%',
         transform: 'translate(-50%, -100%)',
-        zIndex: 3 // Above the booking form, but below the navbar
+        zIndex: 3
       }}>
         <img src={bus} alt='busImg' style={{ width: '100%', maxWidth: '900px' }} />
       </div>

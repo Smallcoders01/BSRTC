@@ -10,24 +10,22 @@ const PhoneDirectoryAdmin = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        // Fetch the current divisions
-        axios.get(`${config.apiBaseUrl}/phone-directory`, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                if (response.data) {
-                    setDivisions(response.data);
-                } else {
-                    setError('Invalid response format');
-                }
-                setLoading(false);
-            })
-            .catch(error => {
-                setError('Error fetching divisions');
-                setLoading(false);
-            });
+        fetchDivisions();
     }, []);
+
+    const fetchDivisions = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await axios.get(`${config.apiBaseUrl}/phone-directory`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setDivisions(response.data);
+            setLoading(false);
+        } catch (err) {
+            setError('Error fetching divisions');
+            setLoading(false);
+        }
+    };
 
     const handleDivisionChange = (index, field, value) => {
         const newDivisions = [...divisions];
@@ -42,12 +40,12 @@ const PhoneDirectoryAdmin = () => {
     };
 
     const handleAddDivision = () => {
-        setDivisions([...divisions, { name: '', officers: [{ name: '', designation: '', office: '', phoneNumber: '', email: '' }] }]);
+        setDivisions([...divisions, { nameEn: '', nameHi: '', officers: [{ nameEn: '', nameHi: '', designationEn: '', designationHi: '', officeEn: '', officeHi: '', phoneNumber: '', email: '' }] }]);
     };
 
     const handleAddOfficer = (divisionIndex) => {
         const newDivisions = [...divisions];
-        newDivisions[divisionIndex].officers.push({ name: '', designation: '', office: '', phoneNumber: '', email: '' });
+        newDivisions[divisionIndex].officers.push({ nameEn: '', nameHi: '', designationEn: '', designationHi: '', officeEn: '', officeHi: '', phoneNumber: '', email: '' });
         setDivisions(newDivisions);
     };
 
@@ -76,7 +74,6 @@ const PhoneDirectoryAdmin = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-        // Update the divisions
         axios.put(`${config.apiBaseUrl}/phone-directory`, { divisions }, {
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -101,11 +98,18 @@ const PhoneDirectoryAdmin = () => {
                     <Paper key={division._id || divisionIndex} sx={{ p: 2, mb: 2 }}>
                         <Box mb={2}>
                             <TextField
-                                label="Division Name"
+                                label="Division Name (English)"
                                 variant="outlined"
                                 fullWidth
-                                value={division.name}
-                                onChange={(e) => handleDivisionChange(divisionIndex, 'name', e.target.value)}
+                                value={division.nameEn}
+                                onChange={(e) => handleDivisionChange(divisionIndex, 'nameEn', e.target.value)}
+                            />
+                            <TextField
+                                label="Division Name (Hindi)"
+                                variant="outlined"
+                                fullWidth
+                                value={division.nameHi}
+                                onChange={(e) => handleDivisionChange(divisionIndex, 'nameHi', e.target.value)}
                             />
                         </Box>
                         <Typography variant="h6" component="h2" gutterBottom>
@@ -116,29 +120,50 @@ const PhoneDirectoryAdmin = () => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
-                                            label="Officer Name"
+                                            label="Officer Name (English)"
                                             variant="outlined"
                                             fullWidth
-                                            value={officer.name}
-                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'name', e.target.value)}
+                                            value={officer.nameEn}
+                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'nameEn', e.target.value)}
+                                        />
+                                        <TextField
+                                            label="Officer Name (Hindi)"
+                                            variant="outlined"
+                                            fullWidth
+                                            value={officer.nameHi}
+                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'nameHi', e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
-                                            label="Designation"
+                                            label="Designation (English)"
                                             variant="outlined"
                                             fullWidth
-                                            value={officer.designation}
-                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'designation', e.target.value)}
+                                            value={officer.designationEn}
+                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'designationEn', e.target.value)}
+                                        />
+                                        <TextField
+                                            label="Designation (Hindi)"
+                                            variant="outlined"
+                                            fullWidth
+                                            value={officer.designationHi}
+                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'designationHi', e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
-                                            label="Office"
+                                            label="Office (English)"
                                             variant="outlined"
                                             fullWidth
-                                            value={officer.office}
-                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'office', e.target.value)}
+                                            value={officer.officeEn}
+                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'officeEn', e.target.value)}
+                                        />
+                                        <TextField
+                                            label="Office (Hindi)"
+                                            variant="outlined"
+                                            fullWidth
+                                            value={officer.officeHi}
+                                            onChange={(e) => handleOfficerChange(divisionIndex, officerIndex, 'officeHi', e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>

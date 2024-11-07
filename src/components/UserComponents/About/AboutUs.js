@@ -8,20 +8,25 @@ const CACHE_KEY = 'aboutUsContent';
 const CACHE_EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
 const AboutUs = ({ onDataLoaded }) => {
-  const [aboutContent, setAboutContent] = useState('');
+  const [content, setContent] = useState({
+    aboutUs: '',
+    vision: '',
+    mission: ''
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const language = localStorage.getItem('language') || 'en';
 
   useEffect(() => {
-    const fetchAboutContent = async () => {
-      const cachedData = localStorage.getItem(CACHE_KEY);
-      const cachedTimestamp = localStorage.getItem(`${CACHE_KEY}_timestamp`);
+    const fetchContent = async () => {
+      const cachedData = localStorage.getItem(`${CACHE_KEY}_${language}`);
+      const cachedTimestamp = localStorage.getItem(`${CACHE_KEY}_${language}_timestamp`);
 
       if (cachedData && cachedTimestamp) {
         const now = new Date().getTime();
         if (now - parseInt(cachedTimestamp) < CACHE_EXPIRATION) {
           console.log('AboutUs: Using cached data');
-          setAboutContent(JSON.parse(cachedData));
+          setContent(JSON.parse(cachedData));
           setLoading(false);
           onDataLoaded();
           return;
@@ -30,24 +35,27 @@ const AboutUs = ({ onDataLoaded }) => {
 
       console.log('AboutUs: Fetching fresh data');
       try {
-        const response = await axios.get(`${config.apiBaseUrl}/about-us`, { timeout: 10000 });
-        setAboutContent(response.data.content);
-        localStorage.setItem(CACHE_KEY, JSON.stringify(response.data.content));
-        localStorage.setItem(`${CACHE_KEY}_timestamp`, new Date().getTime().toString());
+        const response = await axios.get(`${config.apiBaseUrl}/about-us?lang=${language}`, { timeout: 10000 });
+        const data = {
+          aboutUs: response.data[`aboutUs${language === 'en' ? 'En' : 'Hi'}`],
+          vision: response.data[`vision${language === 'en' ? 'En' : 'Hi'}`],
+          mission: response.data[`mission${language === 'en' ? 'En' : 'Hi'}`]
+        };
+        setContent(data);
+        localStorage.setItem(`${CACHE_KEY}_${language}`, JSON.stringify(data));
+        localStorage.setItem(`${CACHE_KEY}_${language}_timestamp`, new Date().getTime().toString());
         setLoading(false);
         onDataLoaded();
       } catch (error) {
         console.error('AboutUs: Error fetching data', error);
-        setError('Error fetching About Us content');
+        setError('Error fetching content');
         setLoading(false);
         onDataLoaded();
       }
     };
 
-    fetchAboutContent();
-  }, [onDataLoaded]);
-
-  console.log('AboutUs: Render cycle', { loading, error });
+    fetchContent();
+  }, [onDataLoaded, language]);
 
   if (loading || error) {
     return null;
@@ -65,8 +73,18 @@ const AboutUs = ({ onDataLoaded }) => {
       >
         <Row>
           <Col md={7}>
-            <h2 style={{ color: '#5c3b92', fontSize: '40px' }}>About Us</h2>
-            <div dangerouslySetInnerHTML={{ __html: aboutContent }} />
+            <h2 style={{ color: '#5c3b92', fontSize: '40px' }}>
+              {language === 'en' ? 'About Us' : 'हमारे बारे में'}
+            </h2>
+            <div dangerouslySetInnerHTML={{ __html: content.aboutUs }} />
+            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '20px' }}>
+              {language === 'en' ? 'Vision' : 'दृष्टि'}
+            </h3>
+            <div dangerouslySetInnerHTML={{ __html: content.vision }} />
+            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '20px' }}>
+              {language === 'en' ? 'Mission' : 'लक्ष्य'}
+            </h3>
+            <div dangerouslySetInnerHTML={{ __html: content.mission }} />
           </Col>
           <Col md={5} className="d-flex justify-content-center align-items-center" style={{ position: 'relative' }}>
             <img

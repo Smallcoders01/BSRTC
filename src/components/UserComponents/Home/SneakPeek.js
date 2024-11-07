@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Carousel } from 'antd';
-import './SneakPeek.css'; // Import a CSS file for extra styling if needed
+import './SneakPeek.css';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 const CustomPrevArrow = (props) => {
@@ -27,80 +27,91 @@ const CustomNextArrow = (props) => {
 
 const features = [
   {
-    title: "Comfortable Seating",
+    titleEn: "Comfortable Seating",
+    titleHi: "आरामदायक बैठने की व्यवस्था",
     image: process.env.PUBLIC_URL + "/Routes/cs.jpg",
     alt: "Comfortable Seating",
   },
   {
-    title: "Air Conditioning",
+    titleEn: "Air Conditioning",
+    titleHi: "वातानुकूलन",
     image: process.env.PUBLIC_URL + "/Routes/ac.png",
     alt: "Air Conditioning",
   },
   {
-    title: "Luggage Storage",
+    titleEn: "Luggage Storage",
+    titleHi: "सामान भंडारण",
     image: process.env.PUBLIC_URL + "/Routes/lb.jpg",
     alt: "Luggage Storage",
   },
   {
-    title: "Eco-Friendly Buses",
+    titleEn: "Eco-Friendly Buses",
+    titleHi: "पर्यावरण के अनुकूल बसें",
     image: process.env.PUBLIC_URL + "/Routes/eb.jpg",
     alt: "Eco-Friendly Buses",
   },
   {
-    title: "Onboard Entertainment",
+    titleEn: "Onboard Entertainment",
+    titleHi: "ऑनबोर्ड मनोरंजन",
     image: process.env.PUBLIC_URL + "/Routes/tv.jpg",
     alt: "Onboard Entertainment",
   },
   {
-    title: "Free Wi-Fi",
+    titleEn: "Free Wi-Fi",
+    titleHi: "मुफ्त वाई-फाई",
     image: process.env.PUBLIC_URL + "/Routes/wifi.jpg",
     alt: "Free Wi-Fi",
   },
 ];
 
 const SneakPeek = () => {
+  const language = localStorage.getItem('language') || 'en'; // Get the selected language
+
   const responsiveSettings = [
     {
-      breakpoint: 768, // For tablets
+      breakpoint: 768,
       settings: {
-        slidesToShow: 2, // Show 2 items
+        slidesToShow: 2,
       },
     },
     {
-      breakpoint: 480, // For mobile devices
+      breakpoint: 480,
       settings: {
-        slidesToShow: 1, // Show 1 item
+        slidesToShow: 1,
       },
     },
     {
-      breakpoint: 992, // For larger screens
+      breakpoint: 992,
       settings: {
-        slidesToShow: 3, // Show 3 items
+        slidesToShow: 3,
       },
     },
     {
-      breakpoint: 1200, // Default for desktop
+      breakpoint: 1200,
       settings: {
-        slidesToShow: 4, // Show 4 items
+        slidesToShow: 4,
       },
     },
   ];
 
   return (
     <div className="text-center mt-5" style={{ width: '100%', padding: '20px', backgroundColor: '#fff' }}>
-      <h2 className="mb-3" style={{ color: '#552e9a', fontWeight: 'bold' }}>A Sneak Peek Into Our World</h2>
-      <p>Experience the lavish amenities of BSRTC!</p>
+      <h2 className="mb-3" style={{ color: '#552e9a', fontWeight: 'bold' }}>
+        {language === 'en' ? 'A Sneak Peek Into Our World' : 'हमारी दुनिया में एक झलक'}
+      </h2>
+      <p>
+        {language === 'en' ? 'Experience the lavish amenities of BSRTC!' : 'बीएसआरटीसी की शानदार सुविधाओं का अनुभव करें!'}
+      </p>
 
-      {/* Carousel for sliding cards */}
       <Carousel
-        dots={false} // Disable dots if needed
-        slidesToShow={4} // Default to 4 items
+        dots={false}
+        slidesToShow={4}
         slidesToScroll={1}
         arrows={false}
         prevArrow={<CustomPrevArrow />}
         nextArrow={<CustomNextArrow />}
         autoplay
-        responsive={responsiveSettings} // Apply responsive settings
+        responsive={responsiveSettings}
         style={{ margin: '20px 0' }}
       >
         {features.map((feature, index) => (
@@ -141,7 +152,7 @@ const SneakPeek = () => {
                       fontSize: '16px',
                     }}
                   >
-                    {feature.title}
+                    {language === 'en' ? feature.titleEn : feature.titleHi}
                   </div>
                 </div>
               }
@@ -157,9 +168,6 @@ const SneakPeek = () => {
           </div>
         ))}
       </Carousel>
-
-      {/* "View All" button */}
-      
     </div>
   );
 };

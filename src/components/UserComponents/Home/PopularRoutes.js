@@ -12,8 +12,8 @@ const PopularRoutes = ({ onBookNow }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+  const language = localStorage.getItem('language') || 'en'; // Get the selected language
 
-  // Check for screen width changes to toggle between slider and grid
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 767);
@@ -60,14 +60,17 @@ const PopularRoutes = ({ onBookNow }) => {
     >
       <div className="d-flex justify-content-between align-items-center mb-4 popFLex">
         <div>
-          <h2 className="fw-bold">Popular Routes</h2>
+          <h2 className="fw-bold">
+            {language === 'en' ? 'Popular Routes' : 'लोकप्रिय मार्ग'}
+          </h2>
           <p>
-            Going somewhere to celebrate this season? Whether you're going home or somewhere to roam, we've got the travel tools to get you to your destination.
+            {language === 'en'
+              ? "Going somewhere to celebrate this season? Whether you're going home or somewhere to roam, we've got the travel tools to get you to your destination."
+              : 'इस मौसम में जश्न मनाने के लिए कहीं जा रहे हैं? चाहे आप घर जा रहे हों या कहीं घूमने जा रहे हों, हमारे पास आपको आपके गंतव्य तक पहुंचाने के लिए यात्रा उपकरण हैं।'}
           </p>
         </div>
       </div>
 
-      {/* Responsive Layout: Carousel for small screens, Grid for larger screens */}
       {isMobile ? (
         <Carousel interval={null} indicators={false} controls={true}>
           {routes.map((route) => {
@@ -94,7 +97,7 @@ const PopularRoutes = ({ onBookNow }) => {
                   <Card.ImgOverlay
                     className="d-flex flex-column justify-content-end"
                     style={{
-                      background: 'rgba(0, 0, 0, 0.3)', // dark overlay for readability
+                      background: 'rgba(0, 0, 0, 0.3)',
                       padding: '20px',
                       borderRadius: '0 0 15px 15px',
                     }}
@@ -113,7 +116,7 @@ const PopularRoutes = ({ onBookNow }) => {
                       }}
                       onClick={() => handleBookNow(route)}
                     >
-                      Book Now
+                      {language === 'en' ? 'Book Now' : 'अभी बुक करें'}
                     </Button>
                   </Card.ImgOverlay>
                 </Card>
@@ -147,7 +150,7 @@ const PopularRoutes = ({ onBookNow }) => {
                   <Card.ImgOverlay
                     className="d-flex flex-column justify-content-end"
                     style={{
-                      background: 'rgba(0, 0, 0, 0.3)', // dark overlay for readability
+                      background: 'rgba(0, 0, 0, 0.3)',
                       padding: '20px',
                       borderRadius: '0 0 15px 15px',
                     }}
@@ -166,7 +169,7 @@ const PopularRoutes = ({ onBookNow }) => {
                       }}
                       onClick={() => handleBookNow(route)}
                     >
-                      Book Now
+                      {language === 'en' ? 'Book Now' : 'अभी बुक करें'}
                     </Button>
                   </Card.ImgOverlay>
                 </Card>
@@ -176,7 +179,6 @@ const PopularRoutes = ({ onBookNow }) => {
         </Row>
       )}
 
-      {/* View All Button below the images */}
       <div className="text-center mt-4">
         <Button
           variant=""
@@ -192,7 +194,7 @@ const PopularRoutes = ({ onBookNow }) => {
           }}
           onClick={() => navigate('/all-routes')}
         >
-          View All
+          {language === 'en' ? 'View All' : 'सभी देखें'}
         </Button>
       </div>
     </Container>

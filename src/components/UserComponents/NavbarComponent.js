@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import LoginModal from '../UserComponents/Login/LoginComp';
 import SignupModal from '../UserComponents/Login/SignComp';
 import { AuthContext } from '../../context/AuthContext';
-import { FaCog, FaUserCircle, FaSignOutAlt, FaTicketAlt } from 'react-icons/fa'; // Import the new icon
+import { FaCog, FaUserCircle, FaSignOutAlt, FaTicketAlt } from 'react-icons/fa';
 import ReactDOM from 'react-dom';
 
 const NavbarComponent = ({ onToggle }) => {
@@ -16,6 +16,8 @@ const NavbarComponent = ({ onToggle }) => {
 
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const toggleRef = useRef(null);
+
+  const language = localStorage.getItem('language') || 'en';
 
   const handleToggle = () => {
     setExpanded(!expanded);
@@ -65,12 +67,24 @@ const NavbarComponent = ({ onToggle }) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto justify-content-center w-100">
-            <Nav.Link as={Link} to="/" style={navStyle(expanded, isActive('/'))}>Home</Nav.Link>
-            <Nav.Link as={Link} to="/about" style={navStyle(expanded, isActive('/about'))}>About Us</Nav.Link>
-            <Nav.Link as={Link} to="/gallery" style={navStyle(expanded, isActive('/gallery'))}>Gallery</Nav.Link>
-            <Nav.Link as={Link} to="/directory" style={navStyle(expanded, isActive('/directory'))}>Directory</Nav.Link>
-            <Nav.Link as={Link} to="/contact" style={navStyle(expanded, isActive('/contact'))}>Contact Us</Nav.Link>
-            <Nav.Link as={Link} to="/ticket" style={navStyle(expanded, isActive('/ticket'))}>Tickets</Nav.Link>
+            <Nav.Link as={Link} to="/" style={navStyle(expanded, isActive('/'))}>
+              {language === 'en' ? 'Home' : 'होम'}
+            </Nav.Link>
+            <Nav.Link as={Link} to="/about" style={navStyle(expanded, isActive('/about'))}>
+              {language === 'en' ? 'About Us' : 'हमारे बारे में'}
+            </Nav.Link>
+            <Nav.Link as={Link} to="/gallery" style={navStyle(expanded, isActive('/gallery'))}>
+              {language === 'en' ? 'Gallery' : 'गैलरी'}
+            </Nav.Link>
+            <Nav.Link as={Link} to="/directory" style={navStyle(expanded, isActive('/directory'))}>
+              {language === 'en' ? 'Directory' : 'निर्देशिका'}
+            </Nav.Link>
+            <Nav.Link as={Link} to="/contact" style={navStyle(expanded, isActive('/contact'))}>
+              {language === 'en' ? 'Contact Us' : 'संपर्क करें'}
+            </Nav.Link>
+            <Nav.Link as={Link} to="/ticket" style={navStyle(expanded, isActive('/ticket'))}>
+              {language === 'en' ? 'Tickets' : 'टिकट'}
+            </Nav.Link>
             {user ? (
               <>
                 <div ref={toggleRef} onClick={handleToggleClick} style={settingsButtonStyle}>
@@ -82,12 +96,12 @@ const NavbarComponent = ({ onToggle }) => {
                       <span>{user.name}</span>
                     </div>
                     <Dropdown.Divider />
-                    <MenuItem icon={<FaUserCircle />} text="View Profile" to="/profile" />
-                    {user.role === 'admin' && ( // Check if user is admin
-                      <MenuItem icon={<FaCog />} text="Admin" to="/admin" />
+                    <MenuItem icon={<FaUserCircle />} text={language === 'en' ? 'View Profile' : 'प्रोफ़ाइल देखें'} to="/profile" />
+                    {user.role === 'admin' && (
+                      <MenuItem icon={<FaCog />} text={language === 'en' ? 'Admin' : 'प्रशासन'} to="/admin" />
                     )}
-                    <MenuItem icon={<FaTicketAlt />} text="My Booking" to="/my-booking" /> {/* Updated icon */}
-                    <MenuItem icon={<FaSignOutAlt />} text="Logout" onClick={handleLogout} />
+                    <MenuItem icon={<FaTicketAlt />} text={language === 'en' ? 'My Booking' : 'मेरी बुकिंग'} to="/my-booking" />
+                    <MenuItem icon={<FaSignOutAlt />} text={language === 'en' ? 'Logout' : 'लॉग आउट'} onClick={handleLogout} />
                   </CustomMenu>,
                   document.body
                 )}

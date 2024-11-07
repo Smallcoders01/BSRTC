@@ -39,7 +39,7 @@ const PolicyAdmin = () => {
     };
 
     const handleAddPolicy = () => {
-        setPolicies([...policies, { name: '', content: '' }]);
+        setPolicies([...policies, { nameEn: '', nameHi: '', contentEn: '', contentHi: '' }]);
     };
 
     const handleRemovePolicy = (index) => {
@@ -74,20 +74,47 @@ const PolicyAdmin = () => {
                     <Paper key={policy._id || policyIndex} sx={{ p: 2, mb: 2 }}>
                         <Box mb={2}>
                             <TextField
-                                label="Policy Name"
+                                label="Policy Name (English)"
                                 variant="outlined"
                                 fullWidth
-                                value={policy.name}
-                                onChange={(e) => handlePolicyChange(policyIndex, 'name', e.target.value)}
+                                value={policy.nameEn}
+                                onChange={(e) => handlePolicyChange(policyIndex, 'nameEn', e.target.value)}
+                            />
+                        </Box>
+                        <Box mb={2}>
+                            <TextField
+                                label="Policy Name (Hindi)"
+                                variant="outlined"
+                                fullWidth
+                                value={policy.nameHi}
+                                onChange={(e) => handlePolicyChange(policyIndex, 'nameHi', e.target.value)}
                             />
                         </Box>
                         <Box mb={2}>
                             <Typography variant="subtitle1" gutterBottom>
-                                Policy Content
+                                Policy Content (English)
                             </Typography>
                             <ReactQuill
-                                value={policy.content}
-                                onChange={(content) => handlePolicyChange(policyIndex, 'content', content)}
+                                value={policy.contentEn}
+                                onChange={(content) => handlePolicyChange(policyIndex, 'contentEn', content)}
+                                modules={{
+                                    toolbar: [
+                                        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                                        ['bold', 'italic', 'underline', 'strike'],
+                                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                                        ['link', 'image'],
+                                        ['clean']
+                                    ],
+                                }}
+                            />
+                        </Box>
+                        <Box mb={2}>
+                            <Typography variant="subtitle1" gutterBottom>
+                                Policy Content (Hindi)
+                            </Typography>
+                            <ReactQuill
+                                value={policy.contentHi}
+                                onChange={(content) => handlePolicyChange(policyIndex, 'contentHi', content)}
                                 modules={{
                                     toolbar: [
                                         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],

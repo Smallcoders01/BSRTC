@@ -32,7 +32,7 @@ const FAQAdmin = () => {
     };
 
     const handleAddFAQ = () => {
-        setFaqs([...faqs, { question: '', answer: '' }]);
+        setFaqs([...faqs, { questionEn: '', answerEn: '', questionHi: '', answerHi: '' }]);
     };
 
     const handleRemoveFAQ = (index) => {
@@ -93,20 +93,38 @@ const FAQAdmin = () => {
                     <Paper key={faq._id || faqIndex} sx={{ p: 2, mb: 2 }}>
                         <Box mb={2}>
                             <TextField
-                                label="Question"
+                                label="Question (English)"
                                 variant="outlined"
                                 fullWidth
-                                value={faq.question}
-                                onChange={(e) => handleFAQChange(faqIndex, 'question', e.target.value)}
+                                value={faq.questionEn}
+                                onChange={(e) => handleFAQChange(faqIndex, 'questionEn', e.target.value)}
                             />
                         </Box>
                         <Box mb={2}>
                             <TextField
-                                label="Answer"
+                                label="Answer (English)"
                                 variant="outlined"
                                 fullWidth
-                                value={faq.answer}
-                                onChange={(e) => handleFAQChange(faqIndex, 'answer', e.target.value)}
+                                value={faq.answerEn}
+                                onChange={(e) => handleFAQChange(faqIndex, 'answerEn', e.target.value)}
+                            />
+                        </Box>
+                        <Box mb={2}>
+                            <TextField
+                                label="Question (Hindi)"
+                                variant="outlined"
+                                fullWidth
+                                value={faq.questionHi}
+                                onChange={(e) => handleFAQChange(faqIndex, 'questionHi', e.target.value)}
+                            />
+                        </Box>
+                        <Box mb={2}>
+                            <TextField
+                                label="Answer (Hindi)"
+                                variant="outlined"
+                                fullWidth
+                                value={faq.answerHi}
+                                onChange={(e) => handleFAQChange(faqIndex, 'answerHi', e.target.value)}
                             />
                         </Box>
                         <Box mt={2}>

@@ -10,6 +10,7 @@ const HelplineNumbers = ({ onDataLoaded }) => {
   const [divisions, setDivisions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const language = localStorage.getItem('language') || 'en'; // Get the selected language
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +95,9 @@ const HelplineNumbers = ({ onDataLoaded }) => {
       </div>
 
       <div className="container mt-5">
-        <h2 className="text-center">BSRTC Helpline Number</h2>
+        <h2 className="text-center">
+          {language === 'en' ? 'BSRTC Helpline Number' : 'बीएसआरटीसी हेल्पलाइन नंबर'}
+        </h2>
         <div className="row mt-4">
           {divisions.map((division, index) => (
             <div className="col-md-4" key={index}>

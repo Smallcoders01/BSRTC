@@ -12,6 +12,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const language = localStorage.getItem('language') || 'en';
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -57,7 +58,9 @@ const GalleryComponent = ({ onDataLoaded }) => {
   return (
     <>
       <div className="container my-5" style={{ width: '80%' }}>
-        <h1 className='text-center mb-5'>Gallery</h1>
+        <h1 className='text-center mb-5'>
+          {language === 'en' ? 'Gallery' : 'गैलरी'}
+        </h1>
         <div className="gallery-grid">
           {images.map((image, index) => (
             <div className="gallery-item" key={index}>

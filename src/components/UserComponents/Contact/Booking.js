@@ -9,14 +9,18 @@ const Booking = () => {
   const [error, setError] = useState('');
   const [openSections, setOpenSections] = useState({});
   const [showAll, setShowAll] = useState(false);
+  const language = localStorage.getItem('language') || 'en'; // Get the selected language
 
   useEffect(() => {
     fetchPolicies();
-  }, []);
+  }, [language]); // Re-fetch policies when language changes
 
   const fetchPolicies = async () => {
     try {
-      const response = await axios.get(`${config.apiBaseUrl}/policies`);
+      const response = await axios.get(`${config.apiBaseUrl}/policies`, {
+        params: { lang: language } // Ensure lang is passed as a query parameter
+      });
+      console.log('Fetched policies:', response.data); // Debugging: log the fetched data
       setPolicies(response.data);
       setLoading(false);
     } catch (err) {
@@ -44,10 +48,12 @@ const Booking = () => {
 
   return (
     <div className="booking-policies-container">
-      <h2 className="text-center">Policies</h2>
+      <h2 className="text-center">
+        {language === 'en' ? 'Policies' : 'नीतियाँ'}
+      </h2>
 
       {displayedPolicies.map(policy => (
-        <div key={policy._id} className="policy-box">
+        <div key={policy._id} className="policy-box"> {/* Ensure _id is unique */}
           <h3>{policy.name}</h3>
           <div dangerouslySetInnerHTML={{ __html: policy.content }} />
           {policy.details && (
@@ -56,7 +62,7 @@ const Booking = () => {
                 className="accordion-header"
                 onClick={() => toggleAccordion(policy._id)}
               >
-                <span>View Details</span>
+                <span>{language === 'en' ? 'View Details' : 'विवरण देखें'}</span>
                 <span>{openSections[policy._id] ? '−' : '+'}</span>
               </div>
               {openSections[policy._id] && (
@@ -72,7 +78,7 @@ const Booking = () => {
       {policies.length > 2 && (
         <div className="accordion-item">
           <div className="accordion-header" onClick={toggleShowAll}>
-            <span>{showAll ? 'Show Less' : 'Show More'}</span>
+            <span>{showAll ? (language === 'en' ? 'Show Less' : 'कम दिखाएं') : (language === 'en' ? 'Show More' : 'और दिखाएं')}</span>
             <span>{showAll ? '−' : '+'}</span>
           </div>
         </div>
