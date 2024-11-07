@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import GalleryComponent from '../components/UserComponents/Gallery/GalleryComponent';
 import Banner from '../components/UserComponents/Banner';
+import Footer from '../components/UserComponents/Footer/footer';
 import Loading from '../components/UserComponents/Loading';
 
 const Gallery = () => {
@@ -33,6 +34,7 @@ const Gallery = () => {
       <Banner />
       <GalleryComponent onDataLoaded={handleGalleryLoaded} />
       {!galleryReady && <Loading />}
+      <Footer />
     </div>
   );
 };

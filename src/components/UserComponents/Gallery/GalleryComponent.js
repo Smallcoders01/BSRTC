@@ -1,45 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Gallery.css'; // Custom CSS file
+import './Gallery.css';
 import Footer from '../Footer/footer';
 import axios from 'axios';
 import config from '../../../config';
-
-const CACHE_KEY = 'galleryImages';
-const CACHE_EXPIRATION = 60 * 60 * 1000; // 1 hour in milliseconds
+import { Carousel } from 'react-bootstrap';
+import { ButtonGroup, Button } from '@mui/material';
 
 const GalleryComponent = ({ onDataLoaded }) => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [filter, setFilter] = useState('all');
   const language = localStorage.getItem('language') || 'en';
 
   useEffect(() => {
     const fetchImages = async () => {
-      const cachedData = localStorage.getItem(CACHE_KEY);
-      const cachedTimestamp = localStorage.getItem(`${CACHE_KEY}_timestamp`);
-
-      if (cachedData && cachedTimestamp) {
-        const now = new Date().getTime();
-        if (now - parseInt(cachedTimestamp) < CACHE_EXPIRATION) {
-          console.log('GalleryComponent: Using cached data');
-          setImages(JSON.parse(cachedData));
-          setLoading(false);
-          onDataLoaded();
-          return;
-        }
-      }
-
-      console.log('GalleryComponent: Fetching fresh data');
       try {
-        const response = await axios.get(`${config.apiBaseUrl}/gallery`, { timeout: 10000 });
+        const response = await axios.get(`${config.apiBaseUrl}/gallery`);
+        console.log('Fetched images:', response.data); // Debug log
         setImages(response.data);
-        localStorage.setItem(CACHE_KEY, JSON.stringify(response.data));
-        localStorage.setItem(`${CACHE_KEY}_timestamp`, new Date().getTime().toString());
         setLoading(false);
         onDataLoaded();
       } catch (error) {
-        console.error('GalleryComponent: Error fetching data', error);
+        console.error('Error fetching images:', error);
         setError('Error fetching images');
         setLoading(false);
         onDataLoaded();
@@ -49,31 +33,83 @@ const GalleryComponent = ({ onDataLoaded }) => {
     fetchImages();
   }, [onDataLoaded]);
 
-  console.log('GalleryComponent: Render cycle', { loading, error });
+  const filteredImages = images.filter(image => {
+    console.log('Filtering image:', image.type, 'Current filter:', filter); // Debug log
+    return filter === 'all' ? true : image.type === filter;
+  });
 
   if (loading || error) {
     return null;
   }
 
   return (
-    <>
-      <div className="container my-5" style={{ width: '80%' }}>
-        <h1 className='text-center mb-5'>
-          {language === 'en' ? 'Gallery' : 'गैलरी'}
-        </h1>
-        <div className="gallery-grid">
-          {images.map((image, index) => (
-            <div className="gallery-item" key={index}>
-              <img
-                src={`${config.baseUrl}${image.photo}`}
-                alt={image.name}
-                className="gallery-img" />
-            </div>
-          ))}
-        </div>
+    <div className="gallery-section">
+      {/* Filter Buttons */}
+      <div className="gallery-filter-buttons">
+        <ButtonGroup 
+          orientation={window.innerWidth <= 600 ? "vertical" : "horizontal"}
+          size={window.innerWidth <= 600 ? "small" : "medium"}
+        >
+          <Button 
+            onClick={() => setFilter('all')}
+            variant={filter === 'all' ? 'contained' : 'outlined'}
+            className={filter === 'all' ? 'active' : ''}
+          >
+            ALL
+          </Button>
+          <Button 
+            onClick={() => setFilter('EV')}
+            variant={filter === 'EV' ? 'contained' : 'outlined'}
+            className={filter === 'EV' ? 'active' : ''}
+          >
+            EV
+          </Button>
+          <Button 
+            onClick={() => setFilter('petrol')}
+            variant={filter === 'petrol' ? 'contained' : 'outlined'}
+            className={filter === 'petrol' ? 'active' : ''}
+          >
+            PETROL
+          </Button>
+          <Button 
+            onClick={() => setFilter('diesel')}
+            variant={filter === 'diesel' ? 'contained' : 'outlined'}
+            className={filter === 'diesel' ? 'active' : ''}
+          >
+            DIESEL
+          </Button>
+        </ButtonGroup>
       </div>
-      <Footer />
-    </>
+
+      {/* Carousel */}
+      <div className="gallery-carousel-container">
+        {filteredImages.length > 0 ? (
+          <Carousel 
+            controls={false}
+            indicators={false}
+            interval={3000}
+            pause={false}
+            className="gallery-carousel"
+          >
+            {filteredImages.map((image, index) => (
+              <Carousel.Item key={index}>
+                <div className="gallery-image-wrapper">
+                  <img
+                    src={`${config.baseUrl}${image.photo}`}
+                    alt=""
+                    className="gallery-image"
+                  />
+                </div>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        ) : (
+          <div className="no-images">
+            <h3>No images found</h3>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

@@ -61,3 +61,281 @@
     grid-template-columns: repeat(1, 1fr); /* 1 image per row on extra small screens */
   }
 }
+
+.gallery-carousel {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.gallery-carousel .carousel-control-prev,
+.gallery-carousel .carousel-control-next {
+  width: 5%;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 50%;
+  height: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.gallery-carousel .carousel-indicators {
+  bottom: -50px;
+}
+
+.gallery-carousel .carousel-indicators button {
+  background-color: #666;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 5px;
+}
+
+.gallery-carousel .carousel-indicators .active {
+  background-color: #000;
+}
+
+.carousel-caption {
+  background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.7));
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+}
+
+.gallery-container {
+  position: relative;
+  min-height: calc(100vh - 60px); /* Adjust based on your navbar height */
+  background-color: #000;
+  margin-top: 60px; /* Should match your navbar height */
+}
+
+.filter-buttons {
+  position: fixed;
+  top: 80px; /* Increased to account for navbar */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.filter-buttons .MuiButton-root {
+  background-color: transparent !important;
+  color: white !important;
+  border: 1px solid white !important;
+  margin: 0 5px !important;
+  min-width: 100px;
+}
+
+.filter-buttons .active {
+  background-color: #1976d2 !important;
+}
+
+.carousel-wrapper {
+  position: fixed;
+  top: 60px; /* Should match your navbar height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullscreen-carousel {
+  width: 100%;
+  height: calc(100vh - 60px); /* Adjust based on your navbar height */
+}
+
+.carousel-image-container {
+  width: 100%;
+  height: calc(100vh - 60px); /* Adjust based on your navbar height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+
+.carousel-image {
+  max-width: 90%;
+  max-height: calc(100vh - 120px); /* Adjust to leave space for navbar and buttons */
+  object-fit: contain;
+  margin: auto;
+}
+
+.no-images {
+  color: white;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Fade animation for carousel */
+.carousel-item {
+  transition: opacity 0.6s ease-in-out !important;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+.carousel-item:not(.active) {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+}
+
+/* Active button state */
+.filter-buttons .MuiButton-root.active {
+  background-color: #1976d2 !important;
+  border-color: #1976d2 !important;
+}
+
+/* Footer positioning */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Button hover effect */
+.filter-buttons .MuiButton-root:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.gallery-section {
+  width: 100%;
+  height: 800px;
+  position: relative;
+  background: white;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.gallery-filter-buttons {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.gallery-filter-buttons .MuiButton-root {
+  background-color: transparent !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+  margin: 0 5px !important;
+  min-width: 80px;
+  font-weight: bold !important;
+}
+
+.gallery-filter-buttons .active {
+  background-color: #b319d2 !important;
+  color: white !important;
+  border-color: #1976d2 !important;
+}
+
+.gallery-carousel-container {
+  width: 100%;
+  height: calc(100% - 80px);
+  margin-top: 60px;
+}
+
+.gallery-carousel {
+  height: 100%;
+}
+
+.gallery-image-wrapper {
+  width: 100%;
+  height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 20px;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: white;
+}
+
+.carousel-item {
+  transition: opacity 0.6s ease-in-out !important;
+}
+
+.carousel-item.active {
+  opacity: 1;
+}
+
+.carousel-item:not(.active) {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+}
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .gallery-section {
+    height: 800px;
+  }
+  .gallery-image-wrapper {
+    height: 700px;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1399px) {
+  .gallery-section {
+    height: 700px;
+  }
+  .gallery-image-wrapper {
+    height: 600px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .gallery-section {
+    height: 600px;
+  }
+  .gallery-image-wrapper {
+    height: 500px;
+    padding: 15px;
+  }
+  .gallery-filter-buttons .MuiButton-root {
+    min-width: 70px;
+    font-size: 14px !important;
+  }
+}
+
+/* Mobile Large */
+@media (max-width: 768px) {
+  .gallery-section {
+    height: 500px;
+  }
+  .gallery-image-wrapper {
+    height: 400px;
+    padding: 10px;
+  }
+  .gallery-filter-buttons {
+    top: 10px;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 576px) {
+  .gallery-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 image per row on extra small screens */
+  }
+}
+
+.no-images {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 1.5rem;
+}

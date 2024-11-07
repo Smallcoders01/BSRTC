@@ -9,6 +9,14 @@ const ContactUsAdmin = () => {
     const [phoneNumber1, setPhoneNumber1] = useState('');
     const [phoneNumber2, setPhoneNumber2] = useState('');
     const [divisions, setDivisions] = useState([]);
+    const initialDivisionState = {
+        nameEn: '',
+        nameHi: '',
+        personInChargeEn: '',
+        personInChargeHi: '',
+        phoneNumber: '',
+        email: ''
+    };
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [contactInfoId, setContactInfoId] = useState(null);
@@ -61,7 +69,7 @@ const ContactUsAdmin = () => {
     };
 
     const handleAddDivision = () => {
-        setDivisions([...divisions, { name: '', personInCharge: '', phoneNumber: '', email: '' }]);
+        setDivisions([...divisions, initialDivisionState]);
     };
 
     const handleRemoveDivision = (index) => {
@@ -98,26 +106,35 @@ const ContactUsAdmin = () => {
 
         // Update the divisions
         divisions.forEach(division => {
+            const divisionData = {
+                nameEn: division.nameEn,
+                nameHi: division.nameHi,
+                personInChargeEn: division.personInChargeEn,
+                personInChargeHi: division.personInChargeHi,
+                phoneNumber: division.phoneNumber,
+                email: division.email
+            };
+
             if (division._id) {
-                axios.put(`${config.apiBaseUrl}/divisions/${division._id}`, division, {
+                axios.put(`${config.apiBaseUrl}/divisions/${division._id}`, divisionData, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
                     .then(response => {
                         console.log('Division updated successfully');
                     })
                     .catch(error => {
-                        console.error('Error updating division:', error); // Debugging log
+                        console.error('Error updating division:', error);
                         setError('Error updating division');
                     });
             } else {
-                axios.post(`${config.apiBaseUrl}/divisions`, division, {
+                axios.post(`${config.apiBaseUrl}/divisions`, divisionData, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
                     .then(response => {
                         console.log('Division added successfully');
                     })
                     .catch(error => {
-                        console.error('Error adding division:', error); // Debugging log
+                        console.error('Error adding division:', error);
                         setError('Error adding division');
                     });
             }
@@ -164,26 +181,65 @@ const ContactUsAdmin = () => {
                     Divisions
                 </Typography>
                 {divisions.map((division, index) => (
-                    <Box key={index} mb={2}>
+                    <Box key={index} mb={4} p={2} border={1} borderColor="grey.300" borderRadius={1}>
                         <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <Typography variant="subtitle1" gutterBottom>
+                                    Division {index + 1}
+                                </Typography>
+                            </Grid>
+                            
+                            {/* English Fields */}
+                            <Grid item xs={12}>
+                                <Typography variant="subtitle2" color="primary">
+                                    English Details
+                                </Typography>
+                            </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label="Division Name"
+                                    label="Division Name (English)"
                                     variant="outlined"
                                     fullWidth
-                                    value={division.name}
-                                    onChange={(e) => handleDivisionChange(index, 'name', e.target.value)}
+                                    value={division.nameEn}
+                                    onChange={(e) => handleDivisionChange(index, 'nameEn', e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    label="Person In Charge"
+                                    label="Person In Charge (English)"
                                     variant="outlined"
                                     fullWidth
-                                    value={division.personInCharge}
-                                    onChange={(e) => handleDivisionChange(index, 'personInCharge', e.target.value)}
+                                    value={division.personInChargeEn}
+                                    onChange={(e) => handleDivisionChange(index, 'personInChargeEn', e.target.value)}
                                 />
                             </Grid>
+
+                            {/* Hindi Fields */}
+                            <Grid item xs={12}>
+                                <Typography variant="subtitle2" color="primary">
+                                    Hindi Details
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Division Name (Hindi)"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={division.nameHi}
+                                    onChange={(e) => handleDivisionChange(index, 'nameHi', e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    label="Person In Charge (Hindi)"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={division.personInChargeHi}
+                                    onChange={(e) => handleDivisionChange(index, 'personInChargeHi', e.target.value)}
+                                />
+                            </Grid>
+
+                            {/* Common Fields */}
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     label="Phone Number"
@@ -203,18 +259,33 @@ const ContactUsAdmin = () => {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <IconButton onClick={() => handleRemoveDivision(index)} color="secondary">
+                                <IconButton 
+                                    onClick={() => handleRemoveDivision(index)} 
+                                    color="secondary"
+                                    aria-label="delete division"
+                                >
                                     <Delete />
                                 </IconButton>
                             </Grid>
                         </Grid>
                     </Box>
                 ))}
-                <Button variant="contained" color="primary" onClick={handleAddDivision} startIcon={<Add />}>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={handleAddDivision} 
+                    startIcon={<Add />}
+                    sx={{ mb: 2 }}
+                >
                     Add Division
                 </Button>
                 <Box mt={3}>
-                    <Button variant="contained" color="primary" type="submit">
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        type="submit"
+                        size="large"
+                    >
                         Update Contact Information
                     </Button>
                 </Box>

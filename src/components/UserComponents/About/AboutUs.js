@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../../../config';
 import busImage from '../../../img/aboutBus.png';
+import modi from '../../../asserts/images/modi.png';
 
 const CACHE_KEY = 'aboutUsContent';
 const CACHE_EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -57,6 +58,29 @@ const AboutUs = ({ onDataLoaded }) => {
     fetchContent();
   }, [onDataLoaded, language]);
 
+  const teamMembers = [
+    {
+      name: 'Narendra Modi',
+      title: 'PM',
+      image: modi
+    },
+    {
+      name: 'Jane Smith',
+      title: 'Operations Director',
+      image: 'path/to/operations-image.jpg'
+    },
+    {
+      name: 'Mike Johnson',
+      title: 'Technical Director',
+      image: 'path/to/technical-image.jpg'
+    },
+    {
+      name: 'Sarah Williams',
+      title: 'Finance Director',
+      image: 'path/to/finance-image.jpg'
+    }
+  ];
+
   if (loading || error) {
     return null;
   }
@@ -86,7 +110,7 @@ const AboutUs = ({ onDataLoaded }) => {
             </h3>
             <div dangerouslySetInnerHTML={{ __html: content.mission }} />
           </Col>
-          <Col md={5} className="d-flex justify-content-center align-items-center" style={{ position: 'relative' }}>
+          <Col md={5} className="d-none d-md-flex justify-content-center align-items-center" style={{ position: 'relative' }}>
             <img
               src={busImage}
               alt="BSRTC Bus"
@@ -95,8 +119,59 @@ const AboutUs = ({ onDataLoaded }) => {
                 height: 'auto',
                 borderRadius: '10px',
                 zIndex: 2,
-              }} />
+              }} 
+            />
           </Col>
+        </Row>
+        
+        <Row className="mt-5">
+          <Col xs={12}>
+            <h2 style={{ color: '#5c3b92', fontSize: '40px', textAlign: 'center', marginBottom: '40px' }}>
+              {language === 'en' ? 'Our Team' : 'हमारी टीम'}
+            </h2>
+          </Col>
+          {teamMembers.map((member, index) => (
+            <Col key={index} xs={12} sm={6} md={3}>
+              <Card className="border-0 text-center mb-4 team-card">
+                <div style={{
+                  width: '200px',
+                  height: '200px',
+                  margin: '0 auto',
+                  overflow: 'hidden',
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+                  transition: 'transform 0.3s ease',
+                }}>
+                  <Card.Img
+                    variant="top"
+                    src={member.image}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.3s ease',
+                    }}
+                  />
+                </div>
+                <Card.Body>
+                  <Card.Title style={{ 
+                    color: '#5c3b92', 
+                    fontSize: '20px', 
+                    marginTop: '15px',
+                    fontWeight: 'bold' 
+                  }}>
+                    {member.name}
+                  </Card.Title>
+                  <Card.Text style={{ 
+                    color: '#666',
+                    fontSize: '16px'
+                  }}>
+                    {member.title}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </Container>
     </div>

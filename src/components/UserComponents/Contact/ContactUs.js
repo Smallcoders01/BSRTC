@@ -29,7 +29,7 @@ const HelplineNumbers = ({ onDataLoaded }) => {
       try {
         const [contactResponse, divisionsResponse] = await Promise.all([
           axios.get(`${config.apiBaseUrl}/contact-info`, { timeout: 10000 }),
-          axios.get(`${config.apiBaseUrl}/divisions`, { timeout: 10000 })
+          axios.get(`${config.apiBaseUrl}/divisions/${language}`, { timeout: 10000 })
         ]);
 
         console.log('HelplineNumbers: Data fetched successfully');
@@ -56,7 +56,7 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     };
 
     fetchData();
-  }, [onDataLoaded]);
+  }, [onDataLoaded, language]);
 
   const checkCache = () => {
     const cachedData = localStorage.getItem('helplineData');
