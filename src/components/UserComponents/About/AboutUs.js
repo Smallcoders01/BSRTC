@@ -101,16 +101,8 @@ const AboutUs = ({ onDataLoaded }) => {
               {language === 'en' ? 'About Us' : 'हमारे बारे में'}
             </h2>
             <div dangerouslySetInnerHTML={{ __html: content.aboutUs }} />
-            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '20px' }}>
-              {language === 'en' ? 'Vision' : 'दृष्टि'}
-            </h3>
-            <div dangerouslySetInnerHTML={{ __html: content.vision }} />
-            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '20px' }}>
-              {language === 'en' ? 'Mission' : 'लक्ष्य'}
-            </h3>
-            <div dangerouslySetInnerHTML={{ __html: content.mission }} />
           </Col>
-          <Col md={5} className="d-none d-md-flex justify-content-center align-items-center" style={{ position: 'relative' }}>
+          <Col md={5} className="d-none d-md-flex justify-content-center align-items-center">
             <img
               src={busImage}
               alt="BSRTC Bus"
@@ -123,13 +115,8 @@ const AboutUs = ({ onDataLoaded }) => {
             />
           </Col>
         </Row>
-        
+
         <Row className="mt-5">
-          <Col xs={12}>
-            <h2 style={{ color: '#5c3b92', fontSize: '40px', textAlign: 'center', marginBottom: '40px' }}>
-              {language === 'en' ? 'Our Team' : 'हमारी टीम'}
-            </h2>
-          </Col>
           {teamMembers.map((member, index) => (
             <Col key={index} xs={12} sm={6} md={3}>
               <Card className="border-0 text-center mb-4 team-card">
@@ -156,9 +143,9 @@ const AboutUs = ({ onDataLoaded }) => {
                 <Card.Body>
                   <Card.Title style={{ 
                     color: '#5c3b92', 
-                    fontSize: '20px', 
+                    fontSize: '22px',
                     marginTop: '15px',
-                    fontWeight: 'bold' 
+                    fontWeight: '800'
                   }}>
                     {member.name}
                   </Card.Title>
@@ -172,6 +159,21 @@ const AboutUs = ({ onDataLoaded }) => {
               </Card>
             </Col>
           ))}
+        </Row>
+
+        <Row className="mt-5">
+          <Col md={12}>
+            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '20px' }}>
+              {language === 'en' ? 'Vision' : 'दृष्टि'}
+            </h3>
+            <div dangerouslySetInnerHTML={{ __html: content.vision }} />
+          </Col>
+          <Col md={12}>
+            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '40px' }}>
+              {language === 'en' ? 'Mission' : 'लक्ष्य'}
+            </h3>
+            <div dangerouslySetInnerHTML={{ __html: content.mission }} />
+          </Col>
         </Row>
       </Container>
     </div>

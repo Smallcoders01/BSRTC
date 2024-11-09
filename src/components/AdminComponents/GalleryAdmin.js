@@ -10,7 +10,7 @@ const GalleryAdmin = () => {
   const [error, setError] = useState('');
   const [newPhoto, setNewPhoto] = useState(null);
   const [newPhotoName, setNewPhotoName] = useState('');
-  const [newPhotoType, setNewPhotoType] = useState('EV');
+  const [newPhotoType, setNewPhotoType] = useState('AC');
   const [editingPhoto, setEditingPhoto] = useState(null);
   const [editName, setEditName] = useState('');
   const [editType, setEditType] = useState('');
@@ -72,7 +72,7 @@ const GalleryAdmin = () => {
       // Reset form
       setNewPhoto(null);
       setNewPhotoName('');
-      setNewPhotoType('EV');
+      setNewPhotoType('AC');
       
       // Reset file input
       const fileInput = document.querySelector('input[type="file"]');
@@ -186,9 +186,9 @@ const GalleryAdmin = () => {
             width: '150px'
           }}
         >
+          <option value="AC">AC BUS</option>
+          <option value="Volvo">VOLVO</option>
           <option value="EV">EV</option>
-          <option value="petrol">Petrol</option>
-          <option value="diesel">Diesel</option>
         </select>
         <input
           type="file"
@@ -256,9 +256,9 @@ const GalleryAdmin = () => {
                       border: '1px solid #ccc'
                     }}
                   >
+                    <option value="AC">AC BUS</option>
+                    <option value="Volvo">VOLVO</option>
                     <option value="EV">EV</option>
-                    <option value="petrol">Petrol</option>
-                    <option value="diesel">Diesel</option>
                   </select>
                   <Box sx={{ display: 'flex', gap: 1, justifyContent: 'flex-end' }}>
                     <Button 
