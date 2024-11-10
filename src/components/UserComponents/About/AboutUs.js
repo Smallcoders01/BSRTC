@@ -5,6 +5,8 @@ import config from '../../../config';
 import busImage from '../../../img/aboutBus.png';
 import person1 from '../../../asserts/images/person1.jpg';
 import person2 from '../../../asserts/images/person2.jpg';
+import person3 from '../../../asserts/images/person3.jpg';
+import person4 from '../../../asserts/images/person4.jpeg';
 
 
 const CACHE_KEY = 'aboutUsContent';
@@ -74,12 +76,12 @@ const AboutUs = ({ onDataLoaded }) => {
     {
       name: 'Shri. Sanjay Kumar Agrawal',
       title: 'Secretary Transport',
-      image: person1
+      image: person3
     },
     {
       name: 'Shri. Atul Kumar Verma',
       title: 'Administrator, BSRTC',
-      image: person2
+      image: person4
     }
   ];
 
