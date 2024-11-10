@@ -37,18 +37,32 @@ const LanguageSelector = ({ onSelectLanguage }) => {
           <div 
             className="language-option" 
             onClick={() => handleSelect('en')}
+            style={{ 
+              padding: '10px',
+              cursor: 'pointer',
+              textAlign: 'center',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+              margin: '5px'
+            }}
           >
-            <div className="language-icon">🇬🇧</div>
-            <h3>English</h3>
-            <p>Continue in English</p>
+            <h3 style={{ fontSize: '18px', margin: '0' }}>En</h3>
+            <p style={{ fontSize: '14px', margin: '5px 0 0 0' }}>Continue in English</p>
           </div>
           <div 
             className="language-option" 
             onClick={() => handleSelect('hi')}
+            style={{ 
+              padding: '10px',
+              cursor: 'pointer',
+              textAlign: 'center',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+              margin: '5px'
+            }}
           >
-            <div className="language-icon">🇮🇳</div>
-            <h3>हिंदी</h3>
-            <p>हिंदी में जारी रखें</p>
+            <h3 style={{ fontSize: '18px', margin: '0' }}>हि</h3>
+            <p style={{ fontSize: '14px', margin: '5px 0 0 0' }}>हिंदी में जारी रखें</p>
           </div>
         </div>
       </Modal.Body>

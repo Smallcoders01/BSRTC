@@ -47,8 +47,6 @@ function App() {
           <Route path="/all-routes" element={<AllRoutes />} />
           <Route path="/all-tourist" element={<AllTourist />} />
           <Route path="/tender" element={<Tender />} />
-          <Route path="/login" element={<LoginComponent />} />
-          <Route path="/signup" element={<SignUpComponent />} />
           <Route path="/admin/*" element={<ProtectedRoute element={<AdminPanel />} />} />
           <Route path="/profile" element={<ViewProfile />} />
           <Route path="/my-booking" element={<MyBooking />} />
