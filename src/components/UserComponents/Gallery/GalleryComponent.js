@@ -19,9 +19,9 @@ const GalleryComponent = ({ onDataLoaded }) => {
     return filter === 'all' ? true : image.type === filter;
   });
 
-  // Modify the getImagesPerView function to return 2 for desktop
+  // Modify the getImagesPerView function to return 3 for desktop
   const getImagesPerView = () => {
-    return window.innerWidth <= 768 ? 1 : 2;
+    return window.innerWidth <= 768 ? 1 : 3;
   };
 
   const [imagesPerView, setImagesPerView] = useState(getImagesPerView());
@@ -98,10 +98,13 @@ const GalleryComponent = ({ onDataLoaded }) => {
       {/* Filter Buttons */}
       <div style={{
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         marginBottom: '30px',
         gap: '10px',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        paddingRight: '20px',
+        maxWidth: window.innerWidth <= 768 ? '100%' : '1400px',
+        margin: '0 auto'
       }}>
         <Button 
           onClick={() => setFilter('all')}
@@ -149,139 +152,107 @@ const GalleryComponent = ({ onDataLoaded }) => {
         </Button>
       </div>
 
-      {/* Conditional rendering based on filter */}
-      {filter === 'all' ? (
-        // Slider view for 'all' filter
-        <div style={{ 
-          position: 'relative', 
-          margin: '20px auto',
-          maxWidth: window.innerWidth <= 768 ? '100%' : '1400px',
-          background: 'white'
-        }}>
-          {filteredImages.length > 0 ? (
-            <>
-              {/* Previous button */}
-              <button onClick={handlePrev} 
-                style={{
-                  position: 'absolute',
-                  left: window.innerWidth <= 768 ? '10px' : '-50px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'white',
-                  border: '2px solid #ddd',
-                  borderRadius: '50%',
-                  width: window.innerWidth <= 768 ? 40 : 60,
-                  height: window.innerWidth <= 768 ? 40 : 60,
-                  cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
-                  opacity: currentIndex === 0 ? 0.5 : 1,
-                  zIndex: 2,
-                  fontSize: window.innerWidth <= 768 ? '20px' : '30px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-                }}
-                disabled={currentIndex === 0}
-              >
-                ←
-              </button>
-              
-              {/* Slider container */}
-              <div style={{ 
-                display: 'flex', 
-                gap: '0',
+      {/* Remove conditional rendering and use slider for all cases */}
+      <div style={{ 
+        position: 'relative', 
+        margin: '20px auto',
+        maxWidth: window.innerWidth <= 768 ? '100%' : '1400px',
+        background: 'white'
+      }}>
+        {filteredImages.length > 0 ? (
+          <>
+            {/* Previous button */}
+            <button onClick={handlePrev} 
+              style={{
+                position: 'absolute',
+                left: window.innerWidth <= 768 ? '10px' : '20px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.8)',
+                border: 'none',
+                borderRadius: '50%',
+                width: window.innerWidth <= 768 ? 50 : 70,
+                height: window.innerWidth <= 768 ? 50 : 70,
+                cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
+                opacity: currentIndex === 0 ? 0.5 : 1,
+                zIndex: 2,
+                fontSize: window.innerWidth <= 768 ? '30px' : '40px',
+                display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'center',
-                padding: window.innerWidth <= 768 ? '0 20px' : '0 40px',
-                background: 'white',
-                height: window.innerWidth <= 768 ? '300px' : '500px'
-              }}>
-                {filteredImages.slice(currentIndex, currentIndex + imagesPerView).map((image, index) => (
-                  <div key={index} style={{
-                    flex: '1',
-                    width: window.innerWidth <= 768 ? '100%' : '50%',
-                    height: '100%',
-                    overflow: 'hidden',
-                    background: 'white',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <img
-                      src={`${config.baseUrl}${image.photo}`}
-                      alt=""
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'fill',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Next button */}
-              <button onClick={handleNext}
-                style={{
-                  position: 'absolute',
-                  right: window.innerWidth <= 768 ? '10px' : '-50px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+              }}
+              disabled={currentIndex === 0}
+            >
+              ‹
+            </button>
+            
+            {/* Slider container */}
+            <div style={{ 
+              display: 'flex', 
+              gap: '0px',
+              justifyContent: 'center',
+              padding: window.innerWidth <= 768 ? '0' : '0',
+              background: 'white',
+              height: window.innerWidth <= 768 ? '300px' : '500px'
+            }}>
+              {filteredImages.slice(currentIndex, currentIndex + imagesPerView).map((image, index) => (
+                <div key={index} style={{
+                  flex: '1',
+                  width: window.innerWidth <= 768 ? '100%' : '33.33%',
+                  height: '100%',
+                  overflow: 'hidden',
                   background: 'white',
-                  border: '2px solid #ddd',
-                  borderRadius: '50%',
-                  width: window.innerWidth <= 768 ? 40 : 60,
-                  height: window.innerWidth <= 768 ? 40 : 60,
-                  cursor: currentIndex + imagesPerView >= filteredImages.length ? 'not-allowed' : 'pointer',
-                  opacity: currentIndex + imagesPerView >= filteredImages.length ? 0.5 : 1,
-                  zIndex: 2,
-                  fontSize: window.innerWidth <= 768 ? '20px' : '30px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-                }}
-                disabled={currentIndex + imagesPerView >= filteredImages.length}
-              >
-                →
-              </button>
-            </>
-          ) : (
-            <div style={{ textAlign: 'center', color: 'black' }}>
-              <h3>No images found</h3>
+                  padding: '0'
+                }}>
+                  <img
+                    src={`${config.baseUrl}${image.photo}`}
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'fill',
+                    }}
+                  />
+                </div>
+              ))}
             </div>
-          )}
-        </div>
-      ) : (
-        // Grid view for specific filters
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : 'repeat(3, 1fr)',
-          gap: '40px',
-          padding: '20px',
-          maxWidth: '1400px',
-          margin: '0 auto'
-        }}>
-          {filteredImages.map((image, index) => (
-            <div key={index} style={{
-              width: '100%',
-              height: '400px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <img
-                src={`${config.baseUrl}${image.photo}`}
-                alt=""
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'fill',
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+
+            {/* Next button */}
+            <button onClick={handleNext}
+              style={{
+                position: 'absolute',
+                right: window.innerWidth <= 768 ? '10px' : '20px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.8)',
+                border: 'none',
+                borderRadius: '50%',
+                width: window.innerWidth <= 768 ? 50 : 70,
+                height: window.innerWidth <= 768 ? 50 : 70,
+                cursor: currentIndex + imagesPerView >= filteredImages.length ? 'not-allowed' : 'pointer',
+                opacity: currentIndex + imagesPerView >= filteredImages.length ? 0.5 : 1,
+                zIndex: 2,
+                fontSize: window.innerWidth <= 768 ? '30px' : '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+              }}
+              disabled={currentIndex + imagesPerView >= filteredImages.length}
+            >
+              ›
+            </button>
+          </>
+        ) : (
+          <div style={{ textAlign: 'center', color: 'black' }}>
+            <h3>No images found</h3>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

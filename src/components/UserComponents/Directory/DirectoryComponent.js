@@ -41,10 +41,13 @@ const DirectoryComponent = ({ onDataLoaded }) => {
             {divisions.map((division, index) => (
               <li
                 key={index}
-                className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''} ${division.name === 'BSRTC Head Office' ? 'head-office' : ''}`}
+                className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''}`}
                 onClick={() => setSelectedDivision(division)}
               >
                 {division.name}
+                {selectedDivision && selectedDivision.name === division.name && (
+                  <span className="selected-indicator">●</span>
+                )}
               </li>
             ))}
           </ul>
@@ -64,7 +67,7 @@ const DirectoryComponent = ({ onDataLoaded }) => {
               <tbody>
                 {selectedDivision.officers.map((officer, officerIndex) => (
                   <tr key={officerIndex}>
-                    <td data-label={language === 'en' ? 'OFFICER NAME' : 'अधिक��री का नाम'}>
+                    <td data-label={language === 'en' ? 'OFFICER NAME' : 'अधिकरी का नाम'}>
                       {officer.name || 'N/A'}
                     </td>
                     <td data-label={language === 'en' ? 'DESIGNATION' : 'पद'}>

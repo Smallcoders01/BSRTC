@@ -10,14 +10,27 @@ const HelplineNumbers = ({ onDataLoaded }) => {
   const [divisions, setDivisions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const language = localStorage.getItem('language') || 'en'; // Get the selected language
+  const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('language') || 'en');
+
+  useEffect(() => {
+    // Update current language when localStorage changes
+    const handleLanguageChange = () => {
+      const newLanguage = localStorage.getItem('language') || 'en';
+      setCurrentLanguage(newLanguage);
+    };
+
+    window.addEventListener('storage', handleLanguageChange);
+    return () => window.removeEventListener('storage', handleLanguageChange);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('HelplineNumbers: Checking cache');
-      const cachedData = checkCache();
+      const cacheKey = `helplineData_${currentLanguage}`;
+      console.log(`HelplineNumbers: Checking cache for ${currentLanguage}`);
+      
+      const cachedData = checkCache(cacheKey);
       if (cachedData) {
-        console.log('HelplineNumbers: Using cached data');
+        console.log(`HelplineNumbers: Using cached data for ${currentLanguage}`);
         setMainContact(cachedData.mainContact);
         setDivisions(cachedData.divisions);
         setLoading(false);
@@ -25,11 +38,11 @@ const HelplineNumbers = ({ onDataLoaded }) => {
         return;
       }
 
-      console.log('HelplineNumbers: Fetching fresh data');
+      console.log(`HelplineNumbers: Fetching fresh data for ${currentLanguage}`);
       try {
         const [contactResponse, divisionsResponse] = await Promise.all([
-          axios.get(`${config.apiBaseUrl}/contact-info`, { timeout: 10000 }),
-          axios.get(`${config.apiBaseUrl}/divisions/${language}`, { timeout: 10000 })
+          axios.get(`${config.apiBaseUrl}/contact-info`),
+          axios.get(`${config.apiBaseUrl}/divisions/${currentLanguage}`)
         ]);
 
         console.log('HelplineNumbers: Data fetched successfully');
@@ -42,7 +55,7 @@ const HelplineNumbers = ({ onDataLoaded }) => {
           };
           setMainContact(newMainContact);
           setDivisions(divisionsResponse.data || []);
-          cacheData(newMainContact, divisionsResponse.data || []);
+          cacheData(cacheKey, newMainContact, divisionsResponse.data || []);
         } else {
           setError('No contact information found');
         }
@@ -56,10 +69,10 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     };
 
     fetchData();
-  }, [onDataLoaded, language]);
+  }, [onDataLoaded, currentLanguage]); // Added currentLanguage as dependency
 
-  const checkCache = () => {
-    const cachedData = localStorage.getItem('helplineData');
+  const checkCache = (cacheKey) => {
+    const cachedData = localStorage.getItem(cacheKey);
     if (cachedData) {
       const { data, timestamp } = JSON.parse(cachedData);
       if (Date.now() - timestamp < CACHE_DURATION) {
@@ -69,15 +82,13 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     return null;
   };
 
-  const cacheData = (mainContact, divisions) => {
+  const cacheData = (cacheKey, mainContact, divisions) => {
     const dataToCache = {
       data: { mainContact, divisions },
       timestamp: Date.now()
     };
-    localStorage.setItem('helplineData', JSON.stringify(dataToCache));
+    localStorage.setItem(cacheKey, JSON.stringify(dataToCache));
   };
-
-  console.log('HelplineNumbers: Render cycle', { loading, error });
 
   if (loading || error) {
     return null;
@@ -96,11 +107,11 @@ const HelplineNumbers = ({ onDataLoaded }) => {
 
       <div className="container mt-5">
         <h2 className="text-center">
-          {language === 'en' ? 'BSRTC Helpline Number' : 'बीएसआरटीसी हेल्पलाइन नंबर'}
+          {currentLanguage === 'en' ? 'BSRTC Helpline Number' : 'बीएसआरटीसी हेल्पलाइन नंबर'}
         </h2>
         <div className="row mt-4">
           {divisions.map((division, index) => (
-            <div className="col-md-4" key={index}>
+            <div className="col-md-4" key={division._id || index}>
               <div className="division-card">
                 <h4>{division.name}</h4>
                 <p>{division.personInCharge}</p>

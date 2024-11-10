@@ -3,7 +3,9 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../../../config';
 import busImage from '../../../img/aboutBus.png';
-import modi from '../../../asserts/images/modi.png';
+import person1 from '../../../asserts/images/person1.jpg';
+import person2 from '../../../asserts/images/person2.jpg';
+
 
 const CACHE_KEY = 'aboutUsContent';
 const CACHE_EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -60,24 +62,24 @@ const AboutUs = ({ onDataLoaded }) => {
 
   const teamMembers = [
     {
-      name: 'Narendra Modi',
-      title: 'PM',
-      image: modi
+      name: 'Shri. Nitish Kumar',
+      title: 'Chief Minister of Bihar',
+      image: person1
     },
     {
-      name: 'Jane Smith',
-      title: 'Operations Director',
-      image: 'path/to/operations-image.jpg'
+      name: 'Smt. Sheela Kumari',
+      title: 'Transport Minister',
+      image: person2
     },
     {
-      name: 'Mike Johnson',
-      title: 'Technical Director',
-      image: 'path/to/technical-image.jpg'
+      name: 'Shri. Sanjay Kumar Agrawal',
+      title: 'Secretary Transport',
+      image: person1
     },
     {
-      name: 'Sarah Williams',
-      title: 'Finance Director',
-      image: 'path/to/finance-image.jpg'
+      name: 'Shri. Atul Kumar Verma',
+      title: 'Administrator, BSRTC',
+      image: person2
     }
   ];
 
@@ -119,15 +121,23 @@ const AboutUs = ({ onDataLoaded }) => {
         <Row className="mt-5">
           {teamMembers.map((member, index) => (
             <Col key={index} xs={12} sm={6} md={3}>
-              <Card className="border-0 text-center mb-4 team-card">
+              <Card className="border-0 text-center mb-4 team-card" style={{
+                borderRadius: '20px',
+                overflow: 'hidden',
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'translateY(-5px)'
+                }
+              }}>
                 <div style={{
                   width: '200px',
                   height: '200px',
                   margin: '0 auto',
                   overflow: 'hidden',
-                  borderRadius: '8px',
+                  borderRadius: '15px',
                   boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
                   transition: 'transform 0.3s ease',
+                  marginTop: '15px'
                 }}>
                   <Card.Img
                     variant="top"

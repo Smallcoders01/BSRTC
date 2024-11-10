@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../Footer/Footer.css'; // External CSS for custom styles
 import logo from '../../../img/logo.png';
+import { IoLanguage } from 'react-icons/io5'; // Add this import for language icon
 
 const Footer = () => {
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
@@ -69,16 +70,51 @@ const Footer = () => {
 
           <div className="col-lg-3 col-md-6 mb-4">
             <h5 className="footer-title">{language === 'en' ? 'Language' : 'भाषा'}</h5>
-            <div className="language-toggle">
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={language === 'hi'}
-                  onChange={() => handleLanguageChange(language === 'en' ? 'hi' : 'en')}
-                />
-                <span className="slider round"></span>
-              </label>
-              <span>{language === 'en' ? 'English' : 'हिन्दी'}</span>
+            <div className="language-selector" style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}>
+              <IoLanguage size={20} color="#666" />
+              <div style={{
+                display: 'flex',
+                background: '#f0f0f0',
+                borderRadius: '20px',
+                padding: '4px',
+                width: 'fit-content',
+                cursor: 'pointer'
+              }}>
+                <button
+                  onClick={() => handleLanguageChange('en')}
+                  style={{
+                    padding: '4px 12px',
+                    border: 'none',
+                    borderRadius: '16px',
+                    background: language === 'en' ? '#9c27b0' : 'transparent',
+                    color: language === 'en' ? 'white' : '#666',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  ENG
+                </button>
+                <button
+                  onClick={() => handleLanguageChange('hi')}
+                  style={{
+                    padding: '4px 12px',
+                    border: 'none',
+                    borderRadius: '16px',
+                    background: language === 'hi' ? '#9c27b0' : 'transparent',
+                    color: language === 'hi' ? 'white' : '#666',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  हिंदी
+                </button>
+              </div>
             </div>
           </div>
         </div>

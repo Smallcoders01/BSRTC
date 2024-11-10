@@ -12,37 +12,38 @@
 
 /* Active item styles */
 .office-nav ul li.active {
-  background-color: transparent !important;
-  color: #fff !important; /* White text for other active items */
+  background-color: #4B0082 !important; /* Dark purple for selected item */
+  color: white !important; /* White text for selected item */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* General hover state */
 .office-nav ul li:hover {
-  background-color: #3f2060 !important; /* Darker purple hover effect */
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 /* Base navigation styles */
 .office-nav ul {
-  list-style-type: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  display: flex !important;
-  background-color: #5a2d82 !important; /* Purple background for the nav */
-  border-radius: 8px !important;
-  align-items: center;
-  overflow-x: auto; /* Enable horizontal scrolling */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .office-nav ul li {
-  flex: 1 !important;
-  text-align: center !important;
-  padding: 10px 15px !important;
-  color: white !important;
-  font-weight: bold !important;
-  cursor: pointer !important;
+  flex: 1;
+  text-align: center;
+  padding: 10px 15px;
+  cursor: pointer;
   font-size: 13px;
-  background-color: #5a2d82; /* Purple background for inactive tabs */
-  color: white; /* White text for inactive tabs */
+  background-color: #86469C; /* Light purple for non-selected items */
+  color: white; /* White text for all items */
+  font-weight: bold;
+  border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 /* Ensure no border-radius for other items */
@@ -212,5 +213,93 @@
     width: 120px; /* Increase width for labels */
     margin-right: 10px; /* Add space between label and data */
     white-space: nowrap; /* Prevent label from wrapping */
+  }
+}
+
+.office-nav .division {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  position: relative;
+  background-color: #6f42c1; /* Default purple background */
+  color: #333;
+}
+
+/* Style for active/selected division */
+.office-nav .division.active {
+  background-color: #ffd700; /* Yellow background for selected */
+  color: #333;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Hover effect for divisions */
+.office-nav .division:hover {
+  transform: translateY(-2px);
+}
+
+/* Selected indicator dot */
+.selected-indicator {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 8px;
+  color: #2ecc71;
+}
+
+/* Make sure the text is visible when division is selected */
+.office-nav .division.active:hover {
+  background-color: #2c3e50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .office-nav .division {
+    width: calc(50% - 10px);
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .office-nav .division {
+    width: 100%;
+  }
+}
+
+/* Table responsive styles */
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.custom-table {
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .office-nav ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .office-nav ul li {
+    min-width: 150px;
+    white-space: nowrap;
+  }
+
+  .table-responsive {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .table-responsive {
+    font-size: 0.8rem;
   }
 }

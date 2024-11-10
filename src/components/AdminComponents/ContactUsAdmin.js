@@ -22,45 +22,126 @@ const ContactUsAdmin = () => {
     const [contactInfoId, setContactInfoId] = useState(null);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        // Fetch the current contact information
-        axios.get(`${config.apiBaseUrl}/contact-info`, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                console.log('Contact Info Response:', response.data); // Debugging log
-                if (response.data.length > 0) {
-                    const contactInfo = response.data[0];
+        const fetchData = async () => {
+            const token = localStorage.getItem('token');
+            setLoading(true);
+            try {
+                // Fetch contact info
+                const contactResponse = await axios.get(`${config.apiBaseUrl}/contact-info`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                
+                if (contactResponse.data.length > 0) {
+                    const contactInfo = contactResponse.data[0];
                     setContactInfoId(contactInfo._id);
                     setMainEmail(contactInfo.email || '');
                     setPhoneNumber1(contactInfo.phoneNumber1 || '');
                     setPhoneNumber2(contactInfo.phoneNumber2 || '');
-                } else {
-                    setError('No contact information found');
                 }
+
+                // Fetch both English and Hindi divisions
+                const [enResponse, hiResponse] = await Promise.all([
+                    axios.get(`${config.apiBaseUrl}/divisions/en`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    }),
+                    axios.get(`${config.apiBaseUrl}/divisions/hi`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    })
+                ]);
+
+                // Combine English and Hindi data
+                const combinedDivisions = enResponse.data.map((divEn, index) => {
+                    const divHi = hiResponse.data[index];
+                    return {
+                        _id: divEn.id,
+                        nameEn: divEn.name,
+                        nameHi: divHi.name,
+                        personInChargeEn: divEn.personInCharge,
+                        personInChargeHi: divHi.personInCharge,
+                        phoneNumber: divEn.phoneNumber,
+                        email: divEn.email
+                    };
+                });
+
+                setDivisions(combinedDivisions);
                 setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching contact information:', error); // Debugging log
-                setError('Error fetching contact information');
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setError('Error fetching data');
                 setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('token');
+        setLoading(true);
+
+        try {
+            // Update contact info
+            await axios.put(
+                `${config.apiBaseUrl}/contact-info/${contactInfoId}`,
+                { email: mainEmail, phoneNumber1, phoneNumber2 },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            // Update divisions
+            for (const division of divisions) {
+                const divisionData = {
+                    nameEn: division.nameEn,
+                    nameHi: division.nameHi,
+                    personInChargeEn: division.personInChargeEn,
+                    personInChargeHi: division.personInChargeHi,
+                    phoneNumber: division.phoneNumber,
+                    email: division.email
+                };
+
+                if (division._id) {
+                    await axios.put(
+                        `${config.apiBaseUrl}/divisions/${division._id}`,
+                        divisionData,
+                        { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                } else {
+                    await axios.post(
+                        `${config.apiBaseUrl}/divisions`,
+                        divisionData,
+                        { headers: { Authorization: `Bearer ${token}` } }
+                    );
+                }
+            }
+
+            alert('Contact information updated successfully');
+            // Refresh data after update
+            window.location.reload();
+        } catch (error) {
+            console.error('Error updating data:', error);
+            setError('Error updating data');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleRemoveDivision = async (index) => {
+        const token = localStorage.getItem('token');
+        const divisionId = divisions[index]._id;
+
+        try {
+            await axios.delete(`${config.apiBaseUrl}/divisions/${divisionId}`, {
+                headers: { Authorization: `Bearer ${token}` }
             });
 
-        // Fetch the current divisions
-        axios.get(`${config.apiBaseUrl}/divisions`, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                console.log('Divisions Response:', response.data); // Debugging log
-                setDivisions(response.data || []);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Error fetching divisions:', error); // Debugging log
-                setError('Error fetching divisions');
-                setLoading(false);
-            });
-    }, []);
+            const newDivisions = divisions.filter((_, i) => i !== index);
+            setDivisions(newDivisions);
+            alert('Division deleted successfully');
+        } catch (error) {
+            console.error('Error deleting division:', error);
+            setError('Error deleting division');
+        }
+    };
 
     const handleDivisionChange = (index, field, value) => {
         const newDivisions = [...divisions];
@@ -70,75 +151,6 @@ const ContactUsAdmin = () => {
 
     const handleAddDivision = () => {
         setDivisions([...divisions, initialDivisionState]);
-    };
-
-    const handleRemoveDivision = (index) => {
-        const token = localStorage.getItem('token');
-        const divisionId = divisions[index]._id;
-        axios.delete(`${config.apiBaseUrl}/divisions/${divisionId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                const newDivisions = divisions.filter((_, i) => i !== index);
-                setDivisions(newDivisions);
-                alert('Division deleted successfully');
-            })
-            .catch(error => {
-                console.error('Error deleting division:', error); // Debugging log
-                setError('Error deleting division');
-            });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-        // Update the contact information
-        axios.put(`${config.apiBaseUrl}/contact-info/${contactInfoId}`, { email: mainEmail, phoneNumber1, phoneNumber2 }, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                alert('Contact information updated successfully');
-            })
-            .catch(error => {
-                console.error('Error updating contact information:', error); // Debugging log
-                setError('Error updating contact information');
-            });
-
-        // Update the divisions
-        divisions.forEach(division => {
-            const divisionData = {
-                nameEn: division.nameEn,
-                nameHi: division.nameHi,
-                personInChargeEn: division.personInChargeEn,
-                personInChargeHi: division.personInChargeHi,
-                phoneNumber: division.phoneNumber,
-                email: division.email
-            };
-
-            if (division._id) {
-                axios.put(`${config.apiBaseUrl}/divisions/${division._id}`, divisionData, {
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-                    .then(response => {
-                        console.log('Division updated successfully');
-                    })
-                    .catch(error => {
-                        console.error('Error updating division:', error);
-                        setError('Error updating division');
-                    });
-            } else {
-                axios.post(`${config.apiBaseUrl}/divisions`, divisionData, {
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-                    .then(response => {
-                        console.log('Division added successfully');
-                    })
-                    .catch(error => {
-                        console.error('Error adding division:', error);
-                        setError('Error adding division');
-                    });
-            }
-        });
     };
 
     if (loading) return <CircularProgress />;

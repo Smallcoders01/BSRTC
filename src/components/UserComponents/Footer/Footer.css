@@ -103,3 +103,12 @@
     transform: translateX(26px);
   }
   
+  .language-selector button:hover {
+    background: #7b1fa2;
+    color: white;
+  }
+  
+  .language-selector button:focus {
+    outline: none;
+  }
+  
