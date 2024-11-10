@@ -41,15 +41,27 @@ const GalleryComponent = ({ onDataLoaded }) => {
     if (currentIndex + imagesPerView < filteredImages.length) {
       setCurrentIndex(currentIndex + imagesPerView);
     } else {
-      setCurrentIndex(0);
+      // When we reach the end, we need to handle the circular display
+      const remainingImages = filteredImages.length - currentIndex;
+      if (remainingImages < imagesPerView) {
+        // Show images from the beginning to complete the view
+        const imagesToShow = filteredImages.slice(currentIndex)
+          .concat(filteredImages.slice(0, imagesPerView - remainingImages));
+        setCurrentIndex(0);
+      } else {
+        setCurrentIndex(0);
+      }
     }
   }, [currentIndex, filteredImages.length, imagesPerView]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentIndex - imagesPerView >= 0) {
       setCurrentIndex(currentIndex - imagesPerView);
+    } else {
+      // When going backwards from the start, jump to the appropriate position at the end
+      setCurrentIndex(Math.floor((filteredImages.length - 1) / imagesPerView) * imagesPerView);
     }
-  };
+  }, [currentIndex, filteredImages.length, imagesPerView]);
 
   // Fetch images effect
   useEffect(() => {
@@ -74,7 +86,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       handleNext();
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(timer);
   }, [handleNext]);
@@ -196,29 +208,43 @@ const GalleryComponent = ({ onDataLoaded }) => {
               background: 'white',
               height: window.innerWidth <= 768 ? '300px' : '500px'
             }}>
-              {filteredImages.slice(currentIndex, currentIndex + imagesPerView).map((image, index) => (
-                <div key={index} style={{
-                  flex: '1',
-                  width: window.innerWidth <= 768 ? '100%' : '33.33%',
-                  height: '100%',
-                  overflow: 'hidden',
-                  background: 'white',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0'
-                }}>
-                  <img
-                    src={`${config.baseUrl}${image.photo}`}
-                    alt=""
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'fill',
-                    }}
-                  />
-                </div>
-              ))}
+              {(() => {
+                let imagesToShow = [];
+                if (filteredImages.length > 0) {
+                  const remainingImages = filteredImages.length - currentIndex;
+                  if (remainingImages >= imagesPerView) {
+                    imagesToShow = filteredImages.slice(currentIndex, currentIndex + imagesPerView);
+                  } else {
+                    imagesToShow = [
+                      ...filteredImages.slice(currentIndex),
+                      ...filteredImages.slice(0, imagesPerView - remainingImages)
+                    ];
+                  }
+                }
+                return imagesToShow.map((image, index) => (
+                  <div key={index} style={{
+                    flex: '1',
+                    width: window.innerWidth <= 768 ? '100%' : '33.33%',
+                    height: '100%',
+                    overflow: 'hidden',
+                    background: 'white',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0'
+                  }}>
+                    <img
+                      src={`${config.baseUrl}${image.photo}`}
+                      alt=""
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'fill',
+                      }}
+                    />
+                  </div>
+                ));
+              })()}
             </div>
 
             {/* Next button */}
