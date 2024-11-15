@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import busbImage from '../../img/EVBus5.jpeg';
+import busbImage from '../../img/evbus5.jpg';
 
 import NavbarComponent from './NavbarComponent'; // Import NavbarComponent
 
