@@ -201,7 +201,9 @@ const GalleryComponent = ({ onDataLoaded }) => {
             
             {/* Slider container */}
             <div style={{ 
-              display: 'flex', 
+              display: 'flex',
+              gap: '20px',  // Added gap between images
+ 
               gap: '0px',
               justifyContent: 'center',
               padding: window.innerWidth <= 768 ? '0' : '0',
@@ -231,7 +233,10 @@ const GalleryComponent = ({ onDataLoaded }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: '0'
+                    padding: '0',
+                    margin: '0 10px',  // Added horizontal margin
+                    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',  // Optional: added shadow for better separation
+                    borderRadius: '8px'  // Optional: added rounded corners
                   }}>
                     <img
                       src={`${config.baseUrl}${image.photo}`}

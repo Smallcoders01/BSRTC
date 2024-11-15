@@ -3,7 +3,6 @@ import BusBookingHeader from './BusBookingHeader'
 import PopularRoutes from './PopularRoutes';
 import TouristDestination from './TouristDestination';
 import SneakPeek from './SneakPeek';
-import FAQSection from './FAQSection';
 import Footer from '../Footer/footer';
 
 const HomeSection = ({ popularRoutes, touristDestinations, onBookNow, selectedDestination }) => {
@@ -16,7 +15,6 @@ const HomeSection = ({ popularRoutes, touristDestinations, onBookNow, selectedDe
     console.log('handleBookNow called with:', from, to);
     setBookingInfo({ from, to });
     
-    // Scroll to the BusBookingHeader
     if (busBookingHeaderRef.current) {
       busBookingHeaderRef.current.scrollIntoView({ 
         behavior: 'smooth', 
@@ -39,7 +37,6 @@ const HomeSection = ({ popularRoutes, touristDestinations, onBookNow, selectedDe
           onBookNow={(destination) => handleBookNow('', destination)} 
         />
         <SneakPeek />
-        <FAQSection />
       </div>
       <Footer />
     </>

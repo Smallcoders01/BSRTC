@@ -11,6 +11,12 @@ const HelplineNumbers = ({ onDataLoaded }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('language') || 'en');
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    message: ''
+  });
+  const [submitStatus, setSubmitStatus] = useState('');
 
   useEffect(() => {
     // Update current language when localStorage changes
@@ -90,6 +96,28 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     localStorage.setItem(cacheKey, JSON.stringify(dataToCache));
   };
 
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitStatus('sending');
+    
+    try {
+      await axios.post(`${config.apiBaseUrl}/contact-messages`, formData);
+      setSubmitStatus('success');
+      setFormData({ name: '', phone: '', message: '' });
+      setTimeout(() => setSubmitStatus(''), 3000);
+    } catch (error) {
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus(''), 3000);
+    }
+  };
+
   if (loading || error) {
     return null;
   }
@@ -121,6 +149,58 @@ const HelplineNumbers = ({ onDataLoaded }) => {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="contact-form-container">
+        <h2 className="text-center">
+          {currentLanguage === 'en' ? 'Send us a Message' : 'हमें संदेश भेजें'}
+        </h2>
+        <form onSubmit={handleSubmit} className="contact-form">
+          <div className="form-group">
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder={currentLanguage === 'en' ? 'Your Name' : 'आपका नाम'}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              placeholder={currentLanguage === 'en' ? 'Phone Number' : 'फ़ोन नंबर'}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleInputChange}
+              placeholder={currentLanguage === 'en' ? 'Your Message' : 'आपका संदेश'}
+              required
+            ></textarea>
+          </div>
+          <button type="submit" className="submit-btn" disabled={submitStatus === 'sending'}>
+            {submitStatus === 'sending' 
+              ? (currentLanguage === 'en' ? 'Sending...' : 'भेज रहा है...')
+              : (currentLanguage === 'en' ? 'Send Message' : 'संदेश भेजें')}
+          </button>
+          {submitStatus === 'success' && (
+            <div className="status-message success">
+              {currentLanguage === 'en' ? 'Message sent successfully!' : 'संदेश सफलतापूर्वक भेजा गया!'}
+            </div>
+          )}
+          {submitStatus === 'error' && (
+            <div className="status-message error">
+              {currentLanguage === 'en' ? 'Failed to send message. Please try again.' : 'संदेश भेजने में विफल। कृपया पुनः प्रयास करें।'}
+            </div>
+          )}
+        </form>
       </div>
     </div>
   );

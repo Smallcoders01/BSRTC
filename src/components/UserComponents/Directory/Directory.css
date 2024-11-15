@@ -303,3 +303,20 @@
     font-size: 0.8rem;
   }
 }
+
+.custom-table thead {
+  background-color: #6B4190;
+  color: white;
+}
+
+.custom-table th {
+  background-color: #6B4190;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.office-details-container {
+  margin-top: 1rem !important; /* Overrides Bootstrap's mt-4 */
+}
