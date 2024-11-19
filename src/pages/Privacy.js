@@ -1,94 +1,150 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import config from '../config';
 import Banner from '../components/UserComponents/Banner';
 import Footer from '../components/UserComponents/Footer/footer';
+import { CircularProgress } from '@mui/material';
 import './Privacy.css';
+
+const CACHE_KEY = 'privacyContent';
+const CACHE_EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours
+
 const Privacy = () => {
+  const [privacyData, setPrivacyData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const language = localStorage.getItem('language') || 'en';
+
+  // Static introduction content
+  const introContent = {
+    en: {
+      title: "Privacy Policy",
+      intro: `This Privacy Policy governs the manner in which Bihar State Road Transport Corporation (BSRTC) 
+      collects, uses, maintains and discloses information collected from users (each, a "User") of the BSRTC 
+      website. This privacy policy applies to the site and all products and services offered by BSRTC.`
+    },
+    hi: {
+      title: "गोपनीयता नीति",
+      intro: `यह गोपनीयता नीति बिहार राज्य सड़क परिवहन निगम (BSRTC) द्वारा BSRTC वेबसाइट के 
+      उपयोगकर्ताओं (प्रत्येक, एक "उपयोगकर्ता") से एकत्र की गई जानकारी को एकत्र करने, उपयोग करने, 
+      बनाए रखने और प्रकट करने के तरीके को नियंत्रित करती है। यह गोपनीयता नीति साइट और BSRTC 
+      द्वारा प्रदान की जाने वाली सभी उत्पादों और सेवाओं पर लागू होती है।`
+    }
+  };
+
+  useEffect(() => {
+    const fetchPrivacyContent = async () => {
+      // Check cache first
+      const cachedData = localStorage.getItem(`${CACHE_KEY}_${language}`);
+      const cachedTimestamp = localStorage.getItem(`${CACHE_KEY}_${language}_timestamp`);
+
+      if (cachedData && cachedTimestamp) {
+        const now = new Date().getTime();
+        if (now - parseInt(cachedTimestamp) < CACHE_EXPIRATION) {
+          console.log('Privacy: Using cached data');
+          setPrivacyData(JSON.parse(cachedData));
+          setLoading(false);
+          return;
+        }
+      }
+
+      try {
+        const response = await axios.get(`${config.apiBaseUrl}/privacy`);
+        const data = response.data;
+        
+        // Format data based on language
+        const formattedData = data.map(item => ({
+          title: language === 'en' ? item.titleEn : item.titleHi,
+          content: language === 'en' ? item.contentEn : item.contentHi
+        }));
+
+        setPrivacyData(formattedData);
+        localStorage.setItem(`${CACHE_KEY}_${language}`, JSON.stringify(formattedData));
+        localStorage.setItem(`${CACHE_KEY}_${language}_timestamp`, new Date().getTime().toString());
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching privacy policy:', err);
+        setError('Error loading privacy policy');
+        setLoading(false);
+      }
+    };
+
+    fetchPrivacyContent();
+  }, [language]);
+
+  if (loading) return <CircularProgress />;
+  if (error) return <div>Error: {error}</div>;
+
+  const contentStyle = {
+    paddingLeft: '75px',  // Consistent left padding for all content
+    paddingRight: '75px',
+    textAlign: 'left'     // Ensure left alignment
+  };
+
+  const headingStyle = {
+    fontSize: '48px',
+    fontWeight: 'bold',
+    marginBottom: '30px',
+    paddingLeft: '75px',  // Match the content padding
+    textAlign: 'left'     // Ensure left alignment
+  };
+
+  const sectionStyle = {
+    fontSize: '24px',
+    fontWeight: '600',
+    marginTop: '30px',
+    marginBottom: '15px',
+    color: '#333'
+  };
+
+  const paragraphStyle = {
+    fontSize: '16px',
+    lineHeight: '1.8',
+    color: '#444',
+    marginBottom: '20px'
+  };
+
   return (
     <>
-    <div>
-      <Banner />
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-12">
-            <h1 className="mb-4" style={{
-              fontSize: '48px',
-              fontWeight: 'bold',
-              marginBottom: '30px'
-            }}>Privacy Policy</h1>
+      <div>
+        <Banner />
+        <div className="container-fluid my-5">
+          <div className="row">
+            <div className="col-12">
+              <h1 className="mb-4" style={headingStyle}>
+                {introContent[language].title}
+              </h1>
 
-            <div className="privacy-content" style={{
-              fontSize: '16px',
-              lineHeight: '1.8',
-              color: '#333'
-            }}>
-              <p>
-                This Privacy Policy governs the manner in which HRTC collects, uses, maintains and discloses
-                information collected from users (each, a "User") of the website. This privacy policy
-                applies to the site and all products and services offered by HRTC.
-              </p>
+              <div style={contentStyle}>
+                {/* Static Introduction */}
+                <div className="mb-5">
+                  <p style={paragraphStyle}>
+                    {introContent[language].intro}
+                  </p>
+                </div>
 
-              <h2 className="mt-4 mb-3" style={{
-                fontSize: '24px',
-                fontWeight: '600',
-                marginTop: '30px'
-              }}>Personal identification information</h2>
-              
-              <p>
-                We may collect personal identification information from Users in a variety of ways in connection with activities,
-                services, features or resources we make available on our Site. Users may visit our Site anonymously. We will collect
-                personal identification information from Users only if they voluntarily submit such information to us. Users can always
-                refuse to supply personally identification information, except that it may prevent them from engaging in certain Site
-                related activities.
-              </p>
-
-              <h2 className="mt-4 mb-3">Non-personal identification information</h2>
-              <p>
-                We may collect non-personal identification information about Users whenever they interact with our Site.
-                Non-personal identification information may include the browser name, the type of computer and technical
-                information about Users means of connection to our Site, such as the operating system and the Internet
-                service providers utilized and other similar information.
-              </p>
-
-              <h2 className="mt-4 mb-3">How we use collected information</h2>
-              <p>
-                HRTC may collect and use Users personal information for the following purposes:
-              </p>
-              <ul className="list-unstyled" style={{ marginLeft: '20px' }}>
-                <li className="mb-2">• To improve customer service</li>
-                <li className="mb-2">• To personalize user experience</li>
-                <li className="mb-2">• To improve our Site</li>
-                <li className="mb-2">• To process payments</li>
-                <li className="mb-2">• To send periodic emails</li>
-              </ul>
-
-              <h2 className="mt-4 mb-3">How we protect your information</h2>
-              <p>
-                We adopt appropriate data collection, storage and processing practices and security measures to protect
-                against unauthorized access, alteration, disclosure or destruction of your personal information,
-                username, password, transaction information and data stored on our Site.
-              </p>
-
-              <h2 className="mt-4 mb-3">Sharing your personal information</h2>
-              <p>
-                We do not sell, trade, or rent Users personal identification information to others. We may share generic
-                aggregated demographic information not linked to any personal identification information regarding
-                visitors and users with our business partners, trusted affiliates and advertisers for the purposes
-                outlined above.
-              </p>
-
-              <h2 className="mt-4 mb-3">Changes to this privacy policy</h2>
-              <p>
-                HRTC has the discretion to update this privacy policy at any time. When we do, we will revise
-                the updated date at the bottom of this page. We encourage Users to frequently check this page
-                for any changes to stay informed about how we are helping to protect the personal information
-                we collect.
-              </p>
+                {/* Dynamic Content */}
+                <div className="privacy-content">
+                  {privacyData.map((section, index) => (
+                    <div key={index} style={{ marginBottom: '30px' }}>
+                      {section.title && (
+                        <h2 style={sectionStyle}>
+                          {section.title}
+                        </h2>
+                      )}
+                      <div 
+                        dangerouslySetInnerHTML={{ __html: section.content }} 
+                        style={paragraphStyle}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <Footer/>
+      <Footer/>
     </>
   );
 };

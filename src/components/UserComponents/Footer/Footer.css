@@ -15,23 +15,27 @@
     margin-bottom: 15px;
     font-weight: bold;
     color: #ffffff;
-    text-align: center;
+    text-align: left;
     margin-bottom: 20px;
+    padding-left: 0;
   }
   
   .footer-list {
     padding: 0;
     list-style: none;
+    text-align: left;
   }
   
   .footer-list li {
     margin-bottom: 10px;
+    text-align: left;
   }
   
   .footer-list li a {
     text-decoration: none;
     color: #ffffff;
     font-size: 1rem;
+    text-align: left;
   }
   
   .footer-list li a:hover {
@@ -171,5 +175,15 @@
       width: 40px;
       height: 40px;
     }
+  }
+  
+  /* Social Media section specific alignment */
+  .col-lg-3 .footer-title {
+    text-align: center;
+  }
+  
+  /* Language section specific alignment */
+  .col-lg-3:last-child .footer-title {
+    text-align: left;
   }
   
