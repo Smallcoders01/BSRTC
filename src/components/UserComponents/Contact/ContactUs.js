@@ -8,6 +8,7 @@ const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 const HelplineNumbers = ({ onDataLoaded }) => {
   const [mainContact, setMainContact] = useState({ email: '', phoneNumber1: '', phoneNumber2: '' });
   const [divisions, setDivisions] = useState([]);
+  const [depots, setDepots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem('language') || 'en');
@@ -39,6 +40,7 @@ const HelplineNumbers = ({ onDataLoaded }) => {
         console.log(`HelplineNumbers: Using cached data for ${currentLanguage}`);
         setMainContact(cachedData.mainContact);
         setDivisions(cachedData.divisions);
+        setDepots(cachedData.depots);
         setLoading(false);
         onDataLoaded();
         return;
@@ -46,12 +48,14 @@ const HelplineNumbers = ({ onDataLoaded }) => {
 
       console.log(`HelplineNumbers: Fetching fresh data for ${currentLanguage}`);
       try {
-        const [contactResponse, divisionsResponse] = await Promise.all([
+        const [contactResponse, divisionsResponse, depotsResponse] = await Promise.all([
           axios.get(`${config.apiBaseUrl}/contact-info`),
-          axios.get(`${config.apiBaseUrl}/divisions/${currentLanguage}`)
+          axios.get(`${config.apiBaseUrl}/divisions/${currentLanguage}`),
+          axios.get(`${config.apiBaseUrl}/depots/${currentLanguage}`)
         ]);
 
-        console.log('HelplineNumbers: Data fetched successfully');
+        console.log('Depots Response:', depotsResponse.data);
+
         if (contactResponse.data.length > 0) {
           const contactInfo = contactResponse.data[0];
           const newMainContact = {
@@ -61,7 +65,8 @@ const HelplineNumbers = ({ onDataLoaded }) => {
           };
           setMainContact(newMainContact);
           setDivisions(divisionsResponse.data || []);
-          cacheData(cacheKey, newMainContact, divisionsResponse.data || []);
+          setDepots(depotsResponse.data || []);
+          cacheData(cacheKey, newMainContact, divisionsResponse.data || [], depotsResponse.data || []);
         } else {
           setError('No contact information found');
         }
@@ -88,9 +93,9 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     return null;
   };
 
-  const cacheData = (cacheKey, mainContact, divisions) => {
+  const cacheData = (cacheKey, mainContact, divisions, depots) => {
     const dataToCache = {
-      data: { mainContact, divisions },
+      data: { mainContact, divisions, depots },
       timestamp: Date.now()
     };
     localStorage.setItem(cacheKey, JSON.stringify(dataToCache));
@@ -136,17 +141,41 @@ const HelplineNumbers = ({ onDataLoaded }) => {
       <div className="container mt-5">
         <div className="helpline-card">
           <h2 className="text-center">
-            {currentLanguage === 'en' ? 'BSRTC Helpline Number' : 'बीएसआरटीसी हेल्पलाइन नंबर'}
+            {currentLanguage === 'en' ? 'BSRTC Division Helpline Numbers' : 'बीएसआरटीसी डिवीजन हेल्पलाइन नंबर'}
           </h2>
           <div className="divisions-grid">
-            {divisions.map((division, index) => (
-              <div className="division-item" key={division._id || index}>
-                <h4>{division.name}</h4>
-                <p>{division.personInCharge}</p>
-                <p>{division.phoneNumber}</p>
-                <p>{division.email}</p>
-              </div>
-            ))}
+            {divisions && divisions.length > 0 ? (
+              divisions.map((division, index) => (
+                <div className="division-item" key={division._id || index}>
+                  <h4>{division.name}</h4>
+                  <p>{division.personInCharge}</p>
+                  <p>{division.phoneNumber}</p>
+                  <p>{division.email}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center">No divisions found</p>
+            )}
+          </div>
+        </div>
+
+        <div className="helpline-card mt-5">
+          <h2 className="text-center">
+            {currentLanguage === 'en' ? 'BSRTC Depot Helpline Numbers' : 'बीएसआरटीसी डिपो हेल्पलाइन नंबर'}
+          </h2>
+          <div className="divisions-grid">
+            {depots && depots.length > 0 ? (
+              depots.map((depot, index) => (
+                <div className="division-item" key={depot._id || index}>
+                  <h4>{currentLanguage === 'hi' ? depot.nameHi : depot.nameEn}</h4>
+                  <p>{currentLanguage === 'hi' ? depot.personInChargeHi : depot.personInChargeEn}</p>
+                  <p>{depot.phoneNumber}</p>
+                  <p>{depot.email}</p>
+                </div>
+              ))
+            ) : (
+              <p className="text-center">No depots found</p>
+            )}
           </div>
         </div>
       </div>

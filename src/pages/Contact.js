@@ -8,6 +8,7 @@ import Loading from '../components/UserComponents/Loading';
 const Contact = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [contactReady, setContactReady] = useState(false);
+  const language = localStorage.getItem('language') || 'en';
 
   useEffect(() => {
     console.log('Contact: Initial loading started');
@@ -32,7 +33,7 @@ const Contact = () => {
 
   return (
     <div>
-      <Banner />
+      <Banner title={language === 'en' ? 'Contact Us' : 'संपर्क करें'} />
       <HelplineNumbers onDataLoaded={handleContactLoaded} />
       {!contactReady && <Loading />}
       <Booking />

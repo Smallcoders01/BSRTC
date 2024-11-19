@@ -7,13 +7,14 @@ import Loading from '../components/UserComponents/Loading';
 const Gallery = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [galleryReady, setGalleryReady] = useState(false);
+  const language = localStorage.getItem('language') || 'en';
 
   useEffect(() => {
     console.log('Gallery: Initial loading started');
     const timer = setTimeout(() => {
       setInitialLoading(false);
       console.log('Gallery: Initial loading finished');
-    }, 1); // Reduced to 1 second
+    }, 1);
 
     return () => clearTimeout(timer);
   }, []);
@@ -31,7 +32,7 @@ const Gallery = () => {
 
   return (
     <div>
-      <Banner />
+      <Banner title={language === 'en' ? 'Gallery' : 'गैलरी'} />
       <GalleryComponent onDataLoaded={handleGalleryLoaded} />
       {!galleryReady && <Loading />}
       <Footer />

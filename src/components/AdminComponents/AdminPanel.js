@@ -14,6 +14,7 @@ import LocationCityIcon from '@mui/icons-material/LocationCity';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import DescriptionIcon from '@mui/icons-material/Description';
 import GavelIcon from '@mui/icons-material/Gavel';
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 
 import { AuthContext } from '../../context/AuthContext'; // Import AuthContext
 import AboutUsAdmin from './AboutUsAdmin';
@@ -27,6 +28,8 @@ import TouristDestinationAdmin from './TouristDestinationAdmin';
 import FAQAdmin from './FAQAdmin';
 import TenderAdmin from './TenderAdmin';
 import TermsPrivacyAdmin from './TermsPrivacyAdmin';
+import DepotAdmin from './DepotAdmin';
+
 
 const drawerWidth = 240;
 
@@ -59,6 +62,7 @@ const AdminPanel = () => {
         { text: 'FAQs', icon: <QuestionAnswerIcon />, path: '/admin/faq' },
         { text: 'Tenders', icon: <DescriptionIcon />, path: '/admin/tenders' },
         { text: 'Terms & Privacy', icon: <GavelIcon />, path: '/admin/terms-privacy' },
+        { text: 'Depots', icon: <DirectionsBusIcon />, path: '/admin/depots' },
     ];
 
     const drawer = (
@@ -139,6 +143,7 @@ const AdminPanel = () => {
                     <Route path="faq" element={<FAQAdmin />} />
                     <Route path="tenders" element={<TenderAdmin />} />
                     <Route path="terms-privacy" element={<TermsPrivacyAdmin />} />
+                    <Route path="depots" element={<DepotAdmin />} />
                 </Routes>
             </Box>
         </Box>

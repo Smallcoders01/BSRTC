@@ -90,7 +90,12 @@ const AboutUs = ({ onDataLoaded }) => {
   }
 
   return (
-    <div style={{ marginTop: '-15vh', position: 'relative', zIndex: 5, marginBottom: '15vh' }}>
+    <div style={{ 
+      marginTop: '-15vh', 
+      position: 'relative', 
+      zIndex: 1,
+      marginBottom: '15vh' 
+    }}>
       <Container
         style={{
           backgroundColor: 'white',
