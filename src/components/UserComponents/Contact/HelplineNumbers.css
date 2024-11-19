@@ -221,3 +221,89 @@ h2.text-center {
     padding: 20px;
   }
 }
+
+/* Update the container and helpline card styles */
+.helpline-card {
+  background-color: #f8f8f2;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.divisions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.division-item {
+  text-align: left;
+  padding: 20px 30px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.division-item:last-child {
+  border-bottom: none;
+}
+
+.division-item h4 {
+  color: #6b3eab;
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+  width: 100%;
+  text-align: left;
+}
+
+.division-item p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #333;
+  width: 100%;
+  text-align: left;
+}
+
+/* Update responsive styles */
+@media (max-width: 992px) {
+  .divisions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .helpline-card {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .divisions-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .division-item {
+    padding: 15px 20px;
+  }
+}
+
+.helpline-card h2 {
+  text-align: left;
+  color: #444;
+  font-size: 1.75rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  padding-left: 30px;
+}
+
+@media (max-width: 768px) {
+  .helpline-card h2 {
+    font-size: 1.5rem;
+    padding-left: 20px;
+  }
+}

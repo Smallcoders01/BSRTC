@@ -5,8 +5,9 @@
   }
   
   .footer-logo-img {
-    max-width: 100px;
-    margin-bottom: 20px;
+    width: 180px;
+    height: auto;
+    max-width: 100%;
   }
   
   .footer-title {
@@ -14,6 +15,8 @@
     margin-bottom: 15px;
     font-weight: bold;
     color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
   }
   
   .footer-list {
@@ -39,8 +42,7 @@
   /* Adjust for mobile */
   @media (max-width: 768px) {
     .footer-logo-img {
-      margin-bottom: 30px;
-      max-width: 80px;
+      width: 150px;
     }
   
     .footer-title {
@@ -110,5 +112,64 @@
   
   .language-selector button:focus {
     outline: none;
+  }
+  
+  .social-icons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .social-icons a {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .social-icons a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  /* Social Media Icon Colors */
+  .social-icons .facebook {
+    background-color: #1877F2;
+  }
+  
+  .social-icons .instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  }
+  
+  .social-icons .linkedin {
+    background-color: #0A66C2;
+  }
+  
+  .social-icons .youtube {
+    background-color: #FF0000;
+  }
+  
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .social-icons {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .social-icons a {
+      width: 40px;
+      height: 40px;
+    }
   }
   

@@ -134,20 +134,20 @@ const HelplineNumbers = ({ onDataLoaded }) => {
       </div>
 
       <div className="container mt-5">
-        <h2 className="text-center">
-          {currentLanguage === 'en' ? 'BSRTC Helpline Number' : 'बीएसआरटीसी हेल्पलाइन नंबर'}
-        </h2>
-        <div className="row mt-4">
-          {divisions.map((division, index) => (
-            <div className="col-md-4" key={division._id || index}>
-              <div className="division-card">
+        <div className="helpline-card">
+          <h2 className="text-center">
+            {currentLanguage === 'en' ? 'BSRTC Helpline Number' : 'बीएसआरटीसी हेल्पलाइन नंबर'}
+          </h2>
+          <div className="divisions-grid">
+            {divisions.map((division, index) => (
+              <div className="division-item" key={division._id || index}>
                 <h4>{division.name}</h4>
                 <p>{division.personInCharge}</p>
                 <p>{division.phoneNumber}</p>
                 <p>{division.email}</p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

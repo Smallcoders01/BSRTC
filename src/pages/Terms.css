@@ -1,0 +1,39 @@
+.terms-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .terms-content h2 {
+    color: #333;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .terms-content p {
+    margin-bottom: 20px;
+  }
+  
+  .terms-content ul li {
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .terms-content ul li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .terms-content {
+      padding: 0 15px;
+    }
+    
+    h1 {
+      font-size: 36px !important;
+    }
+    
+    h2 {
+      font-size: 24px !important;
+    }
+  }
