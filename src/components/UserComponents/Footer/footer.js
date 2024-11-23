@@ -1,16 +1,55 @@
-import React, { useState } from 'react';
-import '../Footer/Footer.css'; // External CSS for custom styles
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
+import { IoLanguage } from 'react-icons/io5';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import logo from '../../../img/logo.png';
-import { IoLanguage } from 'react-icons/io5'; // Add this import for language icon
-import { Link } from 'react-router-dom'; // Add this import
+import './Footer.css';
 
 const Footer = () => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [language, setLanguage] = useState(localStorage.getItem('language') || 'en');
 
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
     localStorage.setItem('language', lang);
-    window.location.reload(); // Reload to apply language changes
+    window.location.reload();
+  };
+
+  const handleMyAccountClick = (e) => {
+    e.preventDefault();
+    if (user) {
+      navigate('/profile');
+      window.scrollTo(0, 0);
+    } else {
+      toast.info(language === 'en' ? 'Please login to access your account' : 'अपने खाते तक पहुंचने के लिए लॉगिन करें', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
+
+  const handleMyBookingClick = (e) => {
+    e.preventDefault();
+    if (user) {
+      navigate('/my-booking');
+      window.scrollTo(0, 0);
+    } else {
+      toast.info(language === 'en' ? 'Please login to view your bookings' : 'अपनी बुकिंग देखने के लिए लॉगिन करें', {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   };
 
   return (
@@ -23,29 +62,46 @@ const Footer = () => {
               alt="Government Logo"
               className="footer-logo-img"
               style={{
-                width: '180px',  // Increased from default
-                height: 'auto',  // Maintain aspect ratio
-                maxWidth: '100%' // Ensure responsiveness
+                width: '180px',
+                height: 'auto',
+                maxWidth: '100%'
               }}
             />
           </div>
 
           <div className="col-lg-2 col-md-6 mb-4">
-            <h5 className="footer-title">{language === 'en' ? 'Home' : 'होम'}</h5>
             <ul className="list-unstyled footer-list">
+              <li>
+                <Link to="/" className="footer-title-link">
+                  {language === 'en' ? 'Home' : 'होम'}
+                </Link>
+              </li>
               <li><Link to="/about">{language === 'en' ? 'About Us' : 'हमारे बारे में'}</Link></li>
               <li><Link to="/gallery">{language === 'en' ? 'Gallery' : 'गैलरी'}</Link></li>
               <li><Link to="/tender">{language === 'en' ? 'Tender' : 'टेंडर'}</Link></li>
               <li><Link to="/all-routes">{language === 'en' ? 'Popular Routes' : 'लोकप्रिय मार्ग'}</Link></li>
               <li><Link to="/all-tourist">{language === 'en' ? 'Tourist Destinations' : 'पर्यटन स्थल'}</Link></li>
-              <li><Link to="/gallery">{language === 'en' ? 'Sneak Peak' : 'झलक'}</Link></li>
             </ul>
           </div>
 
           <div className="col-lg-2 col-md-6 mb-4">
-            <h5 className="footer-title">{language === 'en' ? 'My Account' : 'मेरा खाता'}</h5>
             <ul className="list-unstyled footer-list">
-              <li><Link to="/my-booking">{language === 'en' ? 'My Booking' : 'मेरी बुकिंग'}</Link></li>
+              <li>
+                <button 
+                  onClick={handleMyAccountClick} 
+                  className="footer-button"
+                >
+                  {language === 'en' ? 'My Account' : 'मेरा खाता'}
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={handleMyBookingClick}
+                  className="footer-button"
+                >
+                  {language === 'en' ? 'My Booking' : 'मेरी बुकिंग'}
+                </button>
+              </li>
               <li><Link to="/pnr-status">{language === 'en' ? 'PNR Status' : 'पीएनआर स्थिति'}</Link></li>
               <li><Link to="/grievance">{language === 'en' ? 'Raise Grievance' : 'शिकायत दर्ज करें'}</Link></li>
               <li><Link to="/incidence">{language === 'en' ? 'Raise Incidence' : 'घटना दर्ज करें'}</Link></li>
@@ -54,8 +110,12 @@ const Footer = () => {
           </div>
 
           <div className="col-lg-2 col-md-6 mb-4">
-            <h5 className="footer-title">{language === 'en' ? 'FAQ' : 'सामान्य प्रश्न'}</h5>
             <ul className="list-unstyled footer-list">
+              <li>
+                <Link to="/faq" className="footer-title-link">
+                  {language === 'en' ? 'FAQ' : 'सामान्य प्रश्न'}
+                </Link>
+              </li>
               <li><Link to="/privacy">{language === 'en' ? 'Privacy Policy' : 'गोपनीयता नीति'}</Link></li>
               <li><Link to="/terms">{language === 'en' ? 'Terms & Condition' : 'नियम और शर्तें'}</Link></li>
               <li><Link to="/directory">{language === 'en' ? 'Directory' : 'निर्देशिका'}</Link></li>
@@ -162,6 +222,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

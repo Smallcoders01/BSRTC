@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import config from '../../../config';
 import './HelplineNumbers.css';
+import { FaPhone, FaEnvelope } from 'react-icons/fa';
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
@@ -149,8 +150,14 @@ const HelplineNumbers = ({ onDataLoaded }) => {
                 <div className="division-item" key={division._id || index}>
                   <h4>{division.name}</h4>
                   <p>{division.personInCharge}</p>
-                  <p>{division.phoneNumber}</p>
-                  <p>{division.email}</p>
+                  <p className="contact-info">
+                    <FaPhone className="contact-icon" />
+                    {division.phoneNumber}
+                  </p>
+                  <p className="contact-info">
+                    <FaEnvelope className="contact-icon" />
+                    {division.email}
+                  </p>
                 </div>
               ))
             ) : (
@@ -169,8 +176,14 @@ const HelplineNumbers = ({ onDataLoaded }) => {
                 <div className="division-item" key={depot._id || index}>
                   <h4>{currentLanguage === 'hi' ? depot.nameHi : depot.nameEn}</h4>
                   <p>{currentLanguage === 'hi' ? depot.personInChargeHi : depot.personInChargeEn}</p>
-                  <p>{depot.phoneNumber}</p>
-                  <p>{depot.email}</p>
+                  <p className="contact-info">
+                    <FaPhone className="contact-icon" />
+                    {depot.phoneNumber}
+                  </p>
+                  <p className="contact-info">
+                    <FaEnvelope className="contact-icon" />
+                    {depot.email}
+                  </p>
                 </div>
               ))
             ) : (

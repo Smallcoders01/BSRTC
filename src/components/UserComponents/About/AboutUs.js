@@ -178,9 +178,9 @@ const AboutUs = ({ onDataLoaded }) => {
           ))}
         </Row>
 
-        <Row className="mt-5">
+        <Row className="vision-section">
           <Col md={12}>
-            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '20px' }}>
+            <h3 style={{ color: '#5c3b92', fontSize: '30px' }}>
               {language === 'en' ? 'Vision' : 'दृष्टि'}
             </h3>
             <div dangerouslySetInnerHTML={{ __html: content.vision }} />

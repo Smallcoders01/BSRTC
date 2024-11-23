@@ -7,18 +7,18 @@ import "./Directory.css";
 import Footer from '../Footer/footer';
 
 const DirectoryComponent = ({ onDataLoaded }) => {
-  const [officers, setOfficers] = useState([]);
+  const [divisions, setDivisions] = useState([]);
+  const [selectedDivision, setSelectedDivision] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const language = localStorage.getItem('language') || 'en';
+  const language = localStorage.getItem('language') || 'en'; // Get the selected language
 
   useEffect(() => {
     axios.get(`${config.apiBaseUrl}/phone-directory/${language}`, { timeout: 10000 })
       .then(response => {
-        const allOfficers = response.data.reduce((acc, division) => {
-          return [...acc, ...division.officers];
-        }, []);
-        setOfficers(allOfficers);
+        console.log('Fetched Data:', response.data); // Log the fetched data
+        setDivisions(response.data);
+        setSelectedDivision(response.data[0]);
         setLoading(false);
         onDataLoaded();
       })
@@ -35,9 +35,28 @@ const DirectoryComponent = ({ onDataLoaded }) => {
 
   return (
     <>
-      <Container className="mt-2 office-details-container">
+      <Container className="mt-4 office-details-container">
+        <nav className="office-nav">
+          <ul>
+            {divisions.map((division, index) => (
+              <li
+                key={index}
+                className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''}`}
+                onClick={() => setSelectedDivision(division)}
+              >
+                {division.name === 'BSRTC Head Office' ? (
+                  <span className="head-office">{division.name}</span>
+                ) : (
+                  <span className={selectedDivision && selectedDivision.name === division.name ? 'yellow-division' : ''}>
+                    {division.name}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
         <div className="table-responsive">
-          {officers.length > 0 ? (
+          {selectedDivision && selectedDivision.officers.length > 0 ? (
             <Table bordered hover className="custom-table text-center">
               <thead>
                 <tr>
@@ -49,8 +68,8 @@ const DirectoryComponent = ({ onDataLoaded }) => {
                 </tr>
               </thead>
               <tbody>
-                {officers.map((officer, index) => (
-                  <tr key={index}>
+                {selectedDivision.officers.map((officer, officerIndex) => (
+                  <tr key={officerIndex}>
                     <td data-label={language === 'en' ? 'OFFICER NAME' : 'अधिकरी का नाम'}>
                       {officer.name || 'N/A'}
                     </td>
@@ -71,7 +90,7 @@ const DirectoryComponent = ({ onDataLoaded }) => {
               </tbody>
             </Table>
           ) : (
-            <div>{language === 'en' ? 'No officers found' : 'कोई अधिकारी नहीं मिला'}</div>
+            <div>{language === 'en' ? 'No officers found for the selected division' : 'चयनित विभाग के लिए कोई अधिकारी नहीं मिला'}</div>
           )}
         </div>
       </Container>

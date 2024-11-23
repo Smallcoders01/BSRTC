@@ -1,5 +1,6 @@
 .team-card {
   transition: transform 0.3s ease;
+  margin-bottom: 20px;
 }
 
 .team-card:hover {
@@ -8,6 +9,10 @@
 
 .team-card:hover img {
   transform: scale(1.05);
+}
+
+.vision-section {
+  margin-top: 20px;
 }
 
 @media (max-width: 768px) {
@@ -23,11 +28,19 @@
   .team-card .card-text {
     font-size: 14px !important;
   }
+  
+  .vision-section {
+    margin-top: 10px;
+  }
 }
 
 @media (max-width: 576px) {
   .team-card div {
     width: 180px;
     height: 180px;
+  }
+  
+  .team-card {
+    margin-bottom: 15px;
   }
 } 

@@ -28,7 +28,7 @@ const LoginModal = () => {
     }
   };
 
-  const handleLogout = () => {
+    const handleLogout = () => {
     logout();
     toast.info('Logged out successfully!');
   };
