@@ -10,7 +10,7 @@ const GalleryAdmin = () => {
   const [error, setError] = useState('');
   const [newPhoto, setNewPhoto] = useState(null);
   const [newPhotoName, setNewPhotoName] = useState('');
-  const [newPhotoType, setNewPhotoType] = useState('AC');
+  const [newPhotoType, setNewPhotoType] = useState('CNG');
   const [editingPhoto, setEditingPhoto] = useState(null);
   const [editName, setEditName] = useState('');
   const [editType, setEditType] = useState('');
@@ -72,7 +72,7 @@ const GalleryAdmin = () => {
       // Reset form
       setNewPhoto(null);
       setNewPhotoName('');
-      setNewPhotoType('AC');
+      setNewPhotoType('CNG');
       
       // Reset file input
       const fileInput = document.querySelector('input[type="file"]');
@@ -186,7 +186,7 @@ const GalleryAdmin = () => {
             width: '150px'
           }}
         >
-          <option value="AC">AC BUS</option>
+          <option value="CNG  ">CNG</option>
           <option value="Volvo">VOLVO</option>
           <option value="EV">EV</option>
         </select>
@@ -256,7 +256,7 @@ const GalleryAdmin = () => {
                       border: '1px solid #ccc'
                     }}
                   >
-                    <option value="AC">AC BUS</option>
+                    <option value="CNG">CNG BUS</option>
                     <option value="Volvo">VOLVO</option>
                     <option value="EV">EV</option>
                   </select>

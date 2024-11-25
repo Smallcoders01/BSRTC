@@ -19,6 +19,14 @@ const GalleryComponent = ({ onDataLoaded }) => {
     return filter === 'all' ? true : image.type === filter;
   });
 
+  // Function to shuffle an array
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  // Use shuffled images for rendering
+  const shuffledImages = shuffleArray(filteredImages);
+
   // Modify the getImagesPerView function to return 3 for desktop
   const getImagesPerView = () => {
     return window.innerWidth <= 768 ? 1 : 3;
@@ -38,30 +46,30 @@ const GalleryComponent = ({ onDataLoaded }) => {
 
   // Modify handleNext and handlePrev for responsive behavior
   const handleNext = useCallback(() => {
-    if (currentIndex + imagesPerView < filteredImages.length) {
+    if (currentIndex + imagesPerView < shuffledImages.length) {
       setCurrentIndex(currentIndex + imagesPerView);
     } else {
       // When we reach the end, we need to handle the circular display
-      const remainingImages = filteredImages.length - currentIndex;
+      const remainingImages = shuffledImages.length - currentIndex;
       if (remainingImages < imagesPerView) {
         // Show images from the beginning to complete the view
-        const imagesToShow = filteredImages.slice(currentIndex)
-          .concat(filteredImages.slice(0, imagesPerView - remainingImages));
+        const imagesToShow = shuffledImages.slice(currentIndex)
+          .concat(shuffledImages.slice(0, imagesPerView - remainingImages));
         setCurrentIndex(0);
       } else {
         setCurrentIndex(0);
       }
     }
-  }, [currentIndex, filteredImages.length, imagesPerView]);
+  }, [currentIndex, shuffledImages.length, imagesPerView]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex - imagesPerView >= 0) {
       setCurrentIndex(currentIndex - imagesPerView);
     } else {
       // When going backwards from the start, jump to the appropriate position at the end
-      setCurrentIndex(Math.floor((filteredImages.length - 1) / imagesPerView) * imagesPerView);
+      setCurrentIndex(Math.floor((shuffledImages.length - 1) / imagesPerView) * imagesPerView);
     }
-  }, [currentIndex, filteredImages.length, imagesPerView]);
+  }, [currentIndex, shuffledImages.length, imagesPerView]);
 
   // Fetch images effect
   useEffect(() => {
@@ -130,15 +138,15 @@ const GalleryComponent = ({ onDataLoaded }) => {
           ALL
         </Button>
         <Button 
-          onClick={() => setFilter('AC')}
-          variant={filter === 'AC' ? 'contained' : 'outlined'}
+          onClick={() => setFilter('CNG')}
+          variant={filter === 'CNG' ? 'contained' : 'outlined'}
           style={{
-            backgroundColor: filter === 'AC' ? '#9c27b0' : 'transparent',
-            color: filter === 'AC' ? 'white' : 'black',
+            backgroundColor: filter === 'CNG' ? '#9c27b0' : 'transparent',
+            color: filter === 'CNG' ? 'white' : 'black',
             borderColor: '#9c27b0'
           }}
         >
-          AC BUS
+          CNG
         </Button>
         <Button 
           onClick={() => setFilter('Volvo')}
@@ -171,7 +179,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
         maxWidth: window.innerWidth <= 768 ? '100%' : '1400px',
         background: 'white'
       }}>
-        {filteredImages.length > 0 ? (
+        {shuffledImages.length > 0 ? (
           <>
             {/* Previous button */}
             <button onClick={handlePrev} 
@@ -203,8 +211,6 @@ const GalleryComponent = ({ onDataLoaded }) => {
             <div style={{ 
               display: 'flex',
               gap: '20px',  // Added gap between images
- 
-              gap: '0px',
               justifyContent: 'center',
               padding: window.innerWidth <= 768 ? '0' : '0',
               background: 'white',
@@ -212,14 +218,14 @@ const GalleryComponent = ({ onDataLoaded }) => {
             }}>
               {(() => {
                 let imagesToShow = [];
-                if (filteredImages.length > 0) {
-                  const remainingImages = filteredImages.length - currentIndex;
+                if (shuffledImages.length > 0) {
+                  const remainingImages = shuffledImages.length - currentIndex;
                   if (remainingImages >= imagesPerView) {
-                    imagesToShow = filteredImages.slice(currentIndex, currentIndex + imagesPerView);
+                    imagesToShow = shuffledImages.slice(currentIndex, currentIndex + imagesPerView);
                   } else {
                     imagesToShow = [
-                      ...filteredImages.slice(currentIndex),
-                      ...filteredImages.slice(0, imagesPerView - remainingImages)
+                      ...shuffledImages.slice(currentIndex),
+                      ...shuffledImages.slice(0, imagesPerView - remainingImages)
                     ];
                   }
                 }
@@ -264,8 +270,8 @@ const GalleryComponent = ({ onDataLoaded }) => {
                 borderRadius: '50%',
                 width: window.innerWidth <= 768 ? 50 : 70,
                 height: window.innerWidth <= 768 ? 50 : 70,
-                cursor: currentIndex + imagesPerView >= filteredImages.length ? 'not-allowed' : 'pointer',
-                opacity: currentIndex + imagesPerView >= filteredImages.length ? 0.5 : 1,
+                cursor: currentIndex + imagesPerView >= shuffledImages.length ? 'not-allowed' : 'pointer',
+                opacity: currentIndex + imagesPerView >= shuffledImages.length ? 0.5 : 1,
                 zIndex: 2,
                 fontSize: window.innerWidth <= 768 ? '30px' : '40px',
                 display: 'flex',
@@ -273,7 +279,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
                 justifyContent: 'center',
                 boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
               }}
-              disabled={currentIndex + imagesPerView >= filteredImages.length}
+              disabled={currentIndex + imagesPerView >= shuffledImages.length}
             >
               ›
             </button>
