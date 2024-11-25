@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -29,6 +29,16 @@ import LanguageSelector from './components/LanguageSelector';
 
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('language') || null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLanguageSelect = (selectedLanguage) => {
     setLanguage(selectedLanguage);
@@ -40,7 +50,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className={isMobile ? 'mobile-view' : 'desktop-view'}>
       <AuthProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -65,7 +75,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
-    </>
+    </div>
   );
 }
 
