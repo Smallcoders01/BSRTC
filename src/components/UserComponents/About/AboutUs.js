@@ -6,7 +6,7 @@ import busImage from '../../../img/aboutBus.png';
 import person1 from '../../../asserts/images/person1.jpg';
 import person2 from '../../../asserts/images/image2.jpg';
 import person3 from '../../../asserts/images/person3.jpg';
-import person4 from '../../../asserts/images/person4.jpeg';
+import person4 from '../../../asserts/images/person5.jpg';
 
 
 const CACHE_KEY = 'aboutUsContent';
