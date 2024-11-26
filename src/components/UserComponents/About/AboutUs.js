@@ -3,11 +3,6 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../../../config';
 import busImage from '../../../img/aboutBus.png';
-import person1 from '../../../asserts/images/person1.jpg';
-import person2 from '../../../asserts/images/image2.jpg';
-import person3 from '../../../asserts/images/person3.jpg';
-import person4 from '../../../asserts/images/person5.jpg';
-
 
 const CACHE_KEY = 'aboutUsContent';
 const CACHE_EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
@@ -18,6 +13,7 @@ const AboutUs = ({ onDataLoaded }) => {
     vision: '',
     mission: ''
   });
+  const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const language = localStorage.getItem('language') || 'en';
@@ -59,35 +55,31 @@ const AboutUs = ({ onDataLoaded }) => {
       }
     };
 
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await axios.get(`${config.apiBaseUrl}/about-profile/${language}`);
+        console.log('API Response:', response.data); // Debugging: Log API response
+        const members = response.data.map(profile => ({
+          name: profile.name,
+          title: profile.title,
+          image: profile.photos.length > 0 ? `${config.baseUrl}${profile.photos[0]}` : null
+        }));
+        console.log('Mapped Members:', members); // Debugging: Log mapped members
+        setTeamMembers(members);
+      } catch (error) {
+        console.error('Error fetching team members', error);
+        setError('Error fetching team members');
+      }
+    };
+  
     fetchContent();
+    fetchTeamMembers();
   }, [onDataLoaded, language]);
 
-  const teamMembers = [
-    {
-      name: 'Shri. Nitish Kumar',
-      title: 'Chief Minister of Bihar',
-      image: person1
-    },
-    {
-      name: 'Smt. Sheela Kumari',
-      title: 'Transport Minister',
-      image: person2
-    },
-    {
-      name: 'Shri. Sanjay Kumar Agrawal',
-      title: 'Secretary Transport',
-      image: person3
-    },
-    {
-      name: 'Shri. Atul Kumar Verma',
-      title: 'Administrator, BSRTC',
-      image: person4
-    }
-  ];
 
-  if (loading || error) {
-    return null;
-  }
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div style={{ 
@@ -148,7 +140,8 @@ const AboutUs = ({ onDataLoaded }) => {
                 }}>
                   <Card.Img
                     variant="top"
-                    src={member.image}
+                    src={member.image || '/path/to/default-image.jpg'}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/path/to/default-image.jpg'; }}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -160,14 +153,14 @@ const AboutUs = ({ onDataLoaded }) => {
                 <Card.Body>
                   <Card.Title style={{ 
                     color: '#5c3b92', 
-                    fontSize: '22px',
+                    fontSize: '24px',
                     marginTop: '15px',
                     fontWeight: '800'
                   }}>
                     {member.name}
                   </Card.Title>
                   <Card.Text style={{ 
-                    color: '#666',
+                    color: '#000',
                     fontSize: '16px'
                   }}>
                     {member.title}
