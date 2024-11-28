@@ -7,7 +7,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PeopleIcon from '@mui/icons-material/People';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import PhoneIcon from '@mui/icons-material/Phone';
-import PolicyIcon from '@mui/icons-material/Policy';
 import MapIcon from '@mui/icons-material/Map';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
@@ -54,7 +53,6 @@ const AdminPanel = () => {
         { text: 'Users', icon: <PeopleIcon />, path: '/admin/users' },
         { text: 'Contact Us', icon: <ContactMailIcon />, path: '/admin/contact-us' },
         { text: 'Phone Directory', icon: <PhoneIcon />, path: '/admin/phone-directory' },
-        { text: 'Policy', icon: <PolicyIcon />, path: '/admin/policy' },
         { text: 'Popular Routes', icon: <MapIcon />, path: '/admin/popular-routes' },
         { text: 'Gallery', icon: <PhotoLibraryIcon />, path: '/admin/gallery' },
         { text: 'Tourist Destinations', icon: <LocationCityIcon />, path: '/admin/tourist-destinations' },
