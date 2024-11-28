@@ -1,150 +1,203 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  Container, 
+  Typography, 
+  Box, 
+  CircularProgress, 
+  Alert, 
+  Button,
+  List,
+  ListItem,
+  IconButton,
+  TextField
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
-import config from '../../config'; // Adjust the path to the correct location of your config file
-import { Container, Typography, TextField, Button, CircularProgress, Alert, Box, IconButton, Paper } from '@mui/material';
-import { Add, Delete } from '@mui/icons-material';
+import config from '../../config';
 
 const FAQAdmin = () => {
-    const [faqs, setFaqs] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [faqs, setFaqs] = useState([]);
+  const [currentFAQ, setCurrentFAQ] = useState({
+    questionEn: '',
+    answerEn: '',
+    questionHi: '',
+    answerHi: ''
+  });
+  const [editMode, setEditMode] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        // Fetch the current FAQs
-        axios.get(`${config.apiBaseUrl}/faq`, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                setFaqs(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                setError('Error fetching FAQs');
-                setLoading(false);
-            });
-    }, []);
+  useEffect(() => {
+    fetchFAQs();
+  }, []);
 
-    const handleFAQChange = (index, field, value) => {
-        const newFaqs = [...faqs];
-        newFaqs[index][field] = value;
-        setFaqs(newFaqs);
-    };
+  const fetchFAQs = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.get(`${config.apiBaseUrl}/faq`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setFaqs(response.data);
+      setLoading(false);
+    } catch (err) {
+      setError('Error fetching FAQs: ' + err.message);
+      setLoading(false);
+    }
+  };
 
-    const handleAddFAQ = () => {
-        setFaqs([...faqs, { questionEn: '', answerEn: '', questionHi: '', answerHi: '' }]);
-    };
-
-    const handleRemoveFAQ = (index) => {
-        const token = localStorage.getItem('token');
-        const faqId = faqs[index]._id;
-        axios.delete(`${config.apiBaseUrl}/faq/${faqId}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-            .then(response => {
-                const newFaqs = faqs.filter((_, i) => i !== index);
-                setFaqs(newFaqs);
-                alert('FAQ deleted successfully');
-            })
-            .catch(error => {
-                setError('Error deleting FAQ');
-            });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-        faqs.forEach(faq => {
-            const url = faq._id ? `${config.apiBaseUrl}/faq/${faq._id}` : `${config.apiBaseUrl}/faq`;
-            const method = faq._id ? 'put' : 'post';
-            axios[method](url, faq, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-                .then(response => {
-                    alert('FAQs updated successfully');
-                    // Update the faqs state with the new data
-                    setFaqs(prevFaqs => {
-                        const updatedFaqs = [...prevFaqs];
-                        const index = updatedFaqs.findIndex(f => f._id === faq._id);
-                        if (index !== -1) {
-                            updatedFaqs[index] = response.data;
-                        } else {
-                            updatedFaqs.push(response.data);
-                        }
-                        return updatedFaqs;
-                    });
-                })
-                .catch(error => {
-                    setError('Error updating FAQs');
-                });
+  const handleAddOrUpdate = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      if (editMode) {
+        const response = await axios.put(`${config.apiBaseUrl}/faq/${currentFAQ._id}`, currentFAQ, {
+          headers: { Authorization: `Bearer ${token}` }
         });
-    };
+        setFaqs(faqs.map(faq => (faq._id === currentFAQ._id ? response.data : faq)));
+      } else {
+        const response = await axios.post(`${config.apiBaseUrl}/faq`, currentFAQ, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setFaqs([...faqs, response.data]);
+      }
+      resetForm();
+      alert(`${editMode ? 'FAQ updated' : 'FAQ added'} successfully`);
+    } catch (err) {
+      setError('Error saving FAQ: ' + err.message);
+    }
+  };
 
-    if (loading) return <CircularProgress />;
-    if (error) return <Alert severity="error">{error}</Alert>;
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`${config.apiBaseUrl}/faq/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setFaqs(faqs.filter(faq => faq._id !== id));
+      alert('FAQ deleted successfully');
+    } catch (err) {
+      setError('Error deleting FAQ: ' + err.message);
+    }
+  };
 
-    return (
-        <Container maxWidth="md">
-            <Typography variant="h4" component="h1" gutterBottom>
-                Admin Panel - FAQs
-            </Typography>
-            <form onSubmit={handleSubmit}>
-                {faqs.map((faq, faqIndex) => (
-                    <Paper key={faq._id || faqIndex} sx={{ p: 2, mb: 2 }}>
-                        <Box mb={2}>
-                            <TextField
-                                label="Question (English)"
-                                variant="outlined"
-                                fullWidth
-                                value={faq.questionEn}
-                                onChange={(e) => handleFAQChange(faqIndex, 'questionEn', e.target.value)}
-                            />
-                        </Box>
-                        <Box mb={2}>
-                            <TextField
-                                label="Answer (English)"
-                                variant="outlined"
-                                fullWidth
-                                value={faq.answerEn}
-                                onChange={(e) => handleFAQChange(faqIndex, 'answerEn', e.target.value)}
-                            />
-                        </Box>
-                        <Box mb={2}>
-                            <TextField
-                                label="Question (Hindi)"
-                                variant="outlined"
-                                fullWidth
-                                value={faq.questionHi}
-                                onChange={(e) => handleFAQChange(faqIndex, 'questionHi', e.target.value)}
-                            />
-                        </Box>
-                        <Box mb={2}>
-                            <TextField
-                                label="Answer (Hindi)"
-                                variant="outlined"
-                                fullWidth
-                                value={faq.answerHi}
-                                onChange={(e) => handleFAQChange(faqIndex, 'answerHi', e.target.value)}
-                            />
-                        </Box>
-                        <Box mt={2}>
-                            <IconButton onClick={() => handleRemoveFAQ(faqIndex)} color="secondary">
-                                <Delete />
-                            </IconButton>
-                        </Box>
-                    </Paper>
-                ))}
-                <Button variant="contained" color="primary" onClick={handleAddFAQ} startIcon={<Add />}>
-                    Add FAQ
-                </Button>
-                <Box mt={3}>
-                    <Button variant="contained" color="primary" type="submit">
-                        Update FAQs
-                    </Button>
-                </Box>
-            </form>
-        </Container>
-    );
+  const handleEdit = (faq) => {
+    setCurrentFAQ(faq);
+    setEditMode(true);
+    setShowForm(true);
+  };
+
+  const resetForm = () => {
+    setCurrentFAQ({
+      questionEn: '',
+      answerEn: '',
+      questionHi: '',
+      answerHi: ''
+    });
+    setEditMode(false);
+    setShowForm(false);
+  };
+
+  if (loading) return <CircularProgress />;
+  if (error) return <Alert severity="error">{error}</Alert>;
+
+  return (
+    <Container maxWidth="lg">
+      <Typography variant="h4" sx={{ mb: 4 }}>FAQ Management</Typography>
+
+      <Button
+        variant="contained"
+        startIcon={<AddIcon />}
+        onClick={() => setShowForm(true)}
+        sx={{ mb: 3 }}
+      >
+        ADD NEW FAQ
+      </Button>
+
+      {showForm && (
+        <Box sx={{ mb: 4, p: 3, border: '1px solid #e0e0e0', borderRadius: '8px', backgroundColor: '#fff' }}>
+          <Typography variant="h6" sx={{ mb: 3 }}>{editMode ? 'Edit FAQ' : 'Add New FAQ'}</Typography>
+          
+          <TextField
+            label="Question (English)"
+            variant="outlined"
+            fullWidth
+            value={currentFAQ.questionEn}
+            onChange={(e) => setCurrentFAQ({ ...currentFAQ, questionEn: e.target.value })}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Answer (English)"
+            variant="outlined"
+            fullWidth
+            value={currentFAQ.answerEn}
+            onChange={(e) => setCurrentFAQ({ ...currentFAQ, answerEn: e.target.value })}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Question (Hindi)"
+            variant="outlined"
+            fullWidth
+            value={currentFAQ.questionHi}
+            onChange={(e) => setCurrentFAQ({ ...currentFAQ, questionHi: e.target.value })}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Answer (Hindi)"
+            variant="outlined"
+            fullWidth
+            value={currentFAQ.answerHi}
+            onChange={(e) => setCurrentFAQ({ ...currentFAQ, answerHi: e.target.value })}
+            sx={{ mb: 2 }}
+          />
+
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button variant="contained" onClick={handleAddOrUpdate}>
+              {editMode ? 'Update FAQ' : 'Save FAQ'}
+            </Button>
+            <Button variant="outlined" onClick={resetForm}>
+              Cancel
+            </Button>
+          </Box>
+        </Box>
+      )}
+
+      <List sx={{ bgcolor: 'background.paper' }}>
+        {faqs.map((faq) => (
+          <ListItem
+            key={faq._id}
+            sx={{ mb: 2, border: '1px solid #e0e0e0', borderRadius: '4px' }}
+            secondaryAction={
+              <Box>
+                <IconButton onClick={() => handleEdit(faq)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDelete(faq._id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            }
+          >
+            <Box>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                {faq.questionEn} (English)
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {faq.answerEn}
+              </Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
+                {faq.questionHi} (Hindi)
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {faq.answerHi}
+              </Typography>
+            </Box>
+          </ListItem>
+        ))}
+      </List>
+    </Container>
+  );
 };
 
 export default FAQAdmin;
