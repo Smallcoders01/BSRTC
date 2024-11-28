@@ -19,6 +19,8 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import FAQ from './pages/FAQ';
 import NotFound from './pages/NotFound';
+import CancellationPolicy from './pages/CancellationPolicy';
+import BookingPolicy from './pages/BookingPolicy';
 
 import AdminPanel from './components/AdminComponents/AdminPanel';
 import { AuthProvider } from './context/AuthContext';
@@ -65,6 +67,8 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/cancellation-policy" element={<CancellationPolicy />} />
+          <Route path="/booking-policy" element={<BookingPolicy />} />
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/signup" element={<SignUpComponent />} />
           

@@ -119,7 +119,8 @@ const Footer = () => {
               <li><Link to="/privacy">{language === 'en' ? 'Privacy Policy' : 'गोपनीयता नीति'}</Link></li>
               <li><Link to="/terms">{language === 'en' ? 'Terms & Condition' : 'नियम और शर्तें'}</Link></li>
               <li><Link to="/directory">{language === 'en' ? 'Directory' : 'निर्देशिका'}</Link></li>
-              <li><Link to="/cancellation">{language === 'en' ? 'Cancellation' : 'रद्दीकरण'}</Link></li>
+              <li><Link to="/cancellation-policy">{language === 'en' ? 'Cancellation Policy' : 'रद्दीकरण नीति'}</Link></li>
+              <li><Link to="/booking-policy">{language === 'en' ? 'Booking Policy' : 'बुकिंग नीति'}</Link></li>
               <li><Link to="/refund">{language === 'en' ? 'Refund Rules and Claims' : 'धनवापसी नियम और दावे'}</Link></li>
             </ul>
           </div>
