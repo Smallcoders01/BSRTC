@@ -139,9 +139,11 @@ const BusBookingHeader = ({ bookingInfo }) => {
               </Col>
             </Row>
             <div className="text-center mt-4">
-              <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }}>
-                <i className="fas fa-bus"></i> {language === 'en' ? 'Show Buses' : 'बसें दिखाएं'}
-              </Button>
+              <a href="https://bsrtc.co.in" target="_blank" rel="noopener noreferrer">
+                <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }}>
+                  <i className="fas fa-bus"></i> {language === 'en' ? 'Show Buses' : 'बसें दिखाएं'}
+                </Button>
+              </a>
             </div>
           </Form>
         </Card.Body>

@@ -103,8 +103,16 @@ const Footer = () => {
                 </button>
               </li>
               <li><Link to="/pnr-status">{language === 'en' ? 'PNR Status' : 'पीएनआर स्थिति'}</Link></li>
-              <li><Link to="/grievance">{language === 'en' ? 'Raise Grievance' : 'शिकायत दर्ज करें'}</Link></li>
-              <li><Link to="/incidence">{language === 'en' ? 'Raise Incidence' : 'घटना दर्ज करें'}</Link></li>
+              <li>
+                <a href="https://bsrtc.apto.ai/open/raise_grievance" target="_blank" rel="noopener noreferrer">
+                  {language === 'en' ? 'Raise Grievance' : 'शिकायत दर्ज करें'}
+                </a>
+              </li>
+              <li>
+                <a href="https://bsrtc.apto.ai/open/report_incidence" target="_blank" rel="noopener noreferrer">
+                  {language === 'en' ? 'Raise Incidence' : 'घटना दर्ज करें'}
+                </a>
+              </li>
               <li><Link to="/contact">{language === 'en' ? 'Contact Us' : 'संपर्क करें'}</Link></li>
             </ul>
           </div>
