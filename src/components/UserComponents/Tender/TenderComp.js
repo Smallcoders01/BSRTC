@@ -12,7 +12,10 @@ const TenderComp = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${config.apiBaseUrl}/tenders`)
+    const token = localStorage.getItem('token');
+    axios.get(`${config.apiBaseUrl}/tenders`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(response => {
         setTenders(response.data);
         setLoading(false);
@@ -61,7 +64,7 @@ const TenderComp = () => {
                     <Button
                       variant="primary"
                       size="sm"
-                      href={`${config.baseUrl}/${tender.pdf}`}
+                      href={`${config.baseUrl}${tender.pdf}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="download-button"

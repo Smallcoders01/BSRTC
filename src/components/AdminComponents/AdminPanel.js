@@ -28,7 +28,7 @@ import TenderAdmin from './TenderAdmin';
 import TermsPrivacyAdmin from './TermsPrivacyAdmin';
 import DepotAdmin from './DepotAdmin';
 import AboutProfileAdmin from './AboutProfileAdmin'; // Import the new component
-
+import NewsAdmin from './NewsAdmin'; // Import the new NewsAdmin component
 const drawerWidth = 240;
 
 const AdminPanel = () => {
@@ -61,6 +61,7 @@ const AdminPanel = () => {
         { text: 'Terms & Privacy', icon: <GavelIcon />, path: '/admin/terms-privacy' },
         { text: 'Depots', icon: <DirectionsBusIcon />, path: '/admin/depots' },
         { text: 'About Profile', icon: <PhotoLibraryIcon />, path: '/admin/about-profile' }, // New menu item
+        { text: 'News Articles', icon: <DescriptionIcon />, path: '/admin/news' }, // New menu item for News Articles
     ];
 
     const drawer = (
@@ -143,6 +144,7 @@ const AdminPanel = () => {
                     <Route path="terms-privacy" element={<TermsPrivacyAdmin />} />
                     <Route path="depots" element={<DepotAdmin />} />
                     <Route path="about-profile" element={<AboutProfileAdmin />} /> {/* New route */}
+                    <Route path="news" element={<NewsAdmin />} /> {/* New route for NewsAdmin */}
                 </Routes>
             </Box>
         </Box>
