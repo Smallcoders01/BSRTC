@@ -44,13 +44,9 @@ const DirectoryComponent = ({ onDataLoaded }) => {
                 className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''}`}
                 onClick={() => setSelectedDivision(division)}
               >
-                {division.name === 'BSRTC Head Office' ? (
-                  <span className="head-office">{division.name}</span>
-                ) : (
-                  <span className={selectedDivision && selectedDivision.name === division.name ? 'yellow-division' : ''}>
-                    {division.name}
-                  </span>
-                )}
+                <span className={selectedDivision && selectedDivision.name === division.name ? 'yellow-division' : ''}>
+                  {division.name}
+                </span>
               </li>
             ))}
           </ul>
@@ -70,7 +66,7 @@ const DirectoryComponent = ({ onDataLoaded }) => {
               <tbody>
                 {selectedDivision.officers.map((officer, officerIndex) => (
                   <tr key={officerIndex}>
-                    <td data-label={language === 'en' ? 'OFFICER NAME' : 'अधिकरी का नाम'}>
+                    <td data-label={language === 'en' ? 'OFFICER NAME' : 'अधिकारी का नाम'}>
                       {officer.name || 'N/A'}
                     </td>
                     <td data-label={language === 'en' ? 'DESIGNATION' : 'पद'}>
