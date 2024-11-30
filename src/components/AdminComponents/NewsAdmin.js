@@ -6,17 +6,21 @@ import config from '../../config';
 const NewsAdmin = () => {
     const [news, setNews] = useState([]);
     const [formData, setFormData] = useState({
-        title: { en: '', hi: '' },
+        title: '',
         publish: '',
-        authorName: { en: '', hi: '' },
-        thumbnailPhoto: null,
-        headline: { en: '', hi: '' },
-        subline: { en: '', hi: '' },
+        thumbnail: null,
+        headline: '',
+        subline: '',
         photo: null,
+        content: '',
+        title_hindi: '',
+        publish_hindi: '',
+        content_hindi: '',
+        headline_hindi: ''
     });
 
     // Retrieve the token from local storage or context
-    const token = localStorage.getItem('token'); // Adjust this line based on where you store your token
+    const token = localStorage.getItem('token');
 
     useEffect(() => {
         fetchNews();
@@ -25,7 +29,7 @@ const NewsAdmin = () => {
     const fetchNews = async () => {
         try {
             const response = await axios.get(`${config.apiBaseUrl}/news`, {
-                headers: { Authorization: `Bearer ${token}` } // Include the token in the headers
+                headers: { Authorization: `Bearer ${token}` }
             });
             setNews(response.data);
         } catch (error) {
@@ -35,23 +39,10 @@ const NewsAdmin = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        // Split the name to handle nested state
-        const keys = name.split('.');
-        if (keys.length === 2) {
-            setFormData((prev) => ({
-                ...prev,
-                [keys[0]]: {
-                    ...prev[keys[0]],
-                    [keys[1]]: value,
-                },
-            }));
-        } else {
-            setFormData((prev) => ({
-                ...prev,
-                [name]: value,
-            }));
-        }
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     const handleFileChange = (e) => {
@@ -65,14 +56,14 @@ const NewsAdmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = new FormData();
+        
+        // Append all fields to FormData
         for (const key in formData) {
             form.append(key, formData[key]);
         }
 
-        // Log the form data
-        for (let [key, value] of form.entries()) {
-            console.log(key, value);
-        }
+        // Log the form data before sending
+        console.log('Form Data being sent:', Object.fromEntries(form.entries()));
 
         try {
             await axios.post(`${config.apiBaseUrl}/news`, form, {
@@ -83,16 +74,33 @@ const NewsAdmin = () => {
             });
             fetchNews(); // Refresh the news list
             setFormData({
-                title: { en: '', hi: '' },
+                title: '',
                 publish: '',
-                authorName: { en: '', hi: '' },
-                thumbnailPhoto: null,
-                headline: { en: '', hi: '' },
-                subline: { en: '', hi: '' },
+                thumbnail: null,
+                headline: '',
+                subline: '',
                 photo: null,
+                content: '',
+                title_hindi: '',
+                publish_hindi: '',
+                content_hindi: '',
+                headline_hindi: ''
             });
         } catch (error) {
             console.error('Error creating news:', error);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this article?')) {
+            try {
+                await axios.delete(`${config.apiBaseUrl}/news/${id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                fetchNews(); // Refresh the news list after deletion
+            } catch (error) {
+                console.error('Error deleting article:', error);
+            }
         }
     };
 
@@ -105,19 +113,9 @@ const NewsAdmin = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
-                            label="Title (English)"
-                            name="title.en"
-                            value={formData.title.en}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Title (Hindi)"
-                            name="title.hi"
-                            value={formData.title.hi}
+                            label="Title"
+                            name="title"
+                            value={formData.title}
                             onChange={handleChange}
                             fullWidth
                             required
@@ -136,9 +134,9 @@ const NewsAdmin = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Author Name (English)"
-                            name="authorName.en"
-                            value={formData.authorName.en}
+                            label="Headline"
+                            name="headline"
+                            value={formData.headline}
                             onChange={handleChange}
                             fullWidth
                             required
@@ -146,62 +144,18 @@ const NewsAdmin = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            label="Author Name (Hindi)"
-                            name="authorName.hi"
-                            value={formData.authorName.hi}
+                            label="Subline"
+                            name="subline"
+                            value={formData.subline}
                             onChange={handleChange}
                             fullWidth
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Headline (English)"
-                            name="headline.en"
-                            value={formData.headline.en}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Headline (Hindi)"
-                            name="headline.hi"
-                            value={formData.headline.hi}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Subline (English)"
-                            name="subline.en"
-                            value={formData.subline.en}
-                            onChange={handleChange}
-                            fullWidth
-                            multiline
-                            rows={4} // Adjust the number of rows as needed
-                            required
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Subline (Hindi)"
-                            name="subline.hi"
-                            value={formData.subline.hi}
-                            onChange={handleChange}
-                            fullWidth
-                            multiline
-                            rows={4} // Adjust the number of rows as needed
                             required
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <input
                             type="file"
-                            name="thumbnailPhoto"
+                            name="thumbnail"
                             onChange={handleFileChange}
                             required
                         />
@@ -211,6 +165,61 @@ const NewsAdmin = () => {
                             type="file"
                             name="photo"
                             onChange={handleFileChange}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Content"
+                            name="content"
+                            value={formData.content}
+                            onChange={handleChange}
+                            fullWidth
+                            multiline
+                            rows={4}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Title (Hindi)"
+                            name="title_hindi"
+                            value={formData.title_hindi}
+                            onChange={handleChange}
+                            fullWidth
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Publish Date (Hindi)"
+                            type="date"
+                            name="publish_hindi"
+                            value={formData.publish_hindi}
+                            onChange={handleChange}
+                            fullWidth
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Content (Hindi)"
+                            name="content_hindi"
+                            value={formData.content_hindi}
+                            onChange={handleChange}
+                            fullWidth
+                            multiline
+                            rows={4}
+                            required
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Headline (Hindi)"
+                            name="headline_hindi"
+                            value={formData.headline_hindi}
+                            onChange={handleChange}
+                            fullWidth
                             required
                         />
                     </Grid>
@@ -228,9 +237,16 @@ const NewsAdmin = () => {
             {news.map((article) => (
                 <Card key={article._id} style={{ marginBottom: '10px' }}>
                     <CardContent>
-                        <Typography variant="h6">{article.title.en}</Typography>
-                        <Typography variant="body2">{article.headline.en}</Typography>
+                        <Typography variant="h6">{article.title}</Typography>
+                        <Typography variant="body2">{article.headline}</Typography>
                         <Typography variant="body2">Published on: {new Date(article.publish).toLocaleDateString()}</Typography>
+                        <Button 
+                            variant="contained" 
+                            color="secondary" 
+                            onClick={() => handleDelete(article._id)} // Delete button
+                        >
+                            Delete
+                        </Button>
                     </CardContent>
                 </Card>
             ))}

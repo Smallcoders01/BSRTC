@@ -29,6 +29,7 @@ import TermsPrivacyAdmin from './TermsPrivacyAdmin';
 import DepotAdmin from './DepotAdmin';
 import AboutProfileAdmin from './AboutProfileAdmin'; // Import the new component
 import NewsAdmin from './NewsAdmin'; // Import the new NewsAdmin component
+import FlashNewsAdmin from './FlashNewsAdmin'; // Import the new FlashNewsAdmin component
 const drawerWidth = 240;
 
 const AdminPanel = () => {
@@ -62,6 +63,7 @@ const AdminPanel = () => {
         { text: 'Depots', icon: <DirectionsBusIcon />, path: '/admin/depots' },
         { text: 'About Profile', icon: <PhotoLibraryIcon />, path: '/admin/about-profile' }, // New menu item
         { text: 'News Articles', icon: <DescriptionIcon />, path: '/admin/news' }, // New menu item for News Articles
+        { text: 'Flash News', icon: <DescriptionIcon />, path: '/admin/flash-news' }, // New menu item for Flash News
     ];
 
     const drawer = (
@@ -145,6 +147,7 @@ const AdminPanel = () => {
                     <Route path="depots" element={<DepotAdmin />} />
                     <Route path="about-profile" element={<AboutProfileAdmin />} /> {/* New route */}
                     <Route path="news" element={<NewsAdmin />} /> {/* New route for NewsAdmin */}
+                    <Route path="flash-news" element={<FlashNewsAdmin />} /> {/* New route for FlashNewsAdmin */}
                 </Routes>
             </Box>
         </Box>

@@ -21,13 +21,15 @@ import FAQ from './pages/FAQ';
 import NotFound from './pages/NotFound';
 import CancellationPolicy from './pages/CancellationPolicy';
 import BookingPolicy from './pages/BookingPolicy';
-
+import NewsPage from './pages/newspage';
 import AdminPanel from './components/AdminComponents/AdminPanel';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import ViewProfile from './components/UserComponents/Profile/ViewProfile';
 import MyBooking from './components/UserComponents/Mybooking/MyBooking';
 import LanguageSelector from './components/LanguageSelector';
+import NewsDetail from './pages/NewsDetail';
+
 
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('language') || null);
@@ -71,7 +73,8 @@ function App() {
           <Route path="/booking-policy" element={<BookingPolicy />} />
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/signup" element={<SignUpComponent />} />
-          
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/news-detail/:id" element={<NewsDetail />} />
           <Route path="/admin/*" element={<ProtectedRoute element={<AdminPanel />} />} />
           <Route path="/profile" element={<ViewProfile />} />
           <Route path="/my-booking" element={<MyBooking />} />
