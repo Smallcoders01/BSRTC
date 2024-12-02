@@ -1,0 +1,62 @@
+.terms-content {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .terms-content h2 {
+    text-align: left;
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .terms-content p {
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 20px;
+  }
+  
+  .terms-content > div {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .terms-content ul, 
+  .terms-content ol {
+    text-align: left;
+    padding-left: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .col-12 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .terms-content {
+      padding: 0 15px;
+    }
+    
+    h1 {
+      font-size: 36px !important;
+    }
+    
+    h2 {
+      font-size: 24px !important;
+    }
+  }

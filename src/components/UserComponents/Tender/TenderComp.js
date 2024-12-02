@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Table, Button } from 'react-bootstrap';
 import axios from 'axios';
-import config from '../../../config'; // Ensure this path is correct
+import config from '../../../config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from '../Footer/footer';
-import './tender.css'; // Import custom CSS for additional styles
+import './tender.css';
 
 const TenderComp = () => {
   const [tenders, setTenders] = useState([]);
@@ -12,7 +12,10 @@ const TenderComp = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${config.apiBaseUrl}/tenders`)
+    const token = localStorage.getItem('token');
+    axios.get(`${config.apiBaseUrl}/tenders`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
       .then(response => {
         setTenders(response.data);
         setLoading(false);
@@ -28,10 +31,19 @@ const TenderComp = () => {
 
   return (
     <>
-      <Container className="mt-4 office-details-container">
-        <h2 className="text-center mb-4">Tenders</h2>
-        <div className="table-responsive">
-          <Table bordered hover className="custom-table text-center">
+      <Container className="office-details-container" style={{ 
+        marginTop: '-15vh',
+        position: 'relative',
+        zIndex: 1,
+        marginBottom: '15vh'
+      }}>
+        <div className="table-responsive" style={{
+          backgroundColor: 'white',
+          borderRadius: '20px',
+          padding: '30px',
+          boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)'
+        }}>
+          <Table hover className="custom-table text-center">
             <thead>
               <tr>
                 <th>Name</th>
@@ -44,18 +56,18 @@ const TenderComp = () => {
             <tbody>
               {tenders.map((tender, index) => (
                 <tr key={index}>
-                  <td>{tender.name}</td>
-                  <td>{tender.referenceNo}</td>
-                  <td>{new Date(tender.closingDate).toLocaleDateString()}</td>
-                  <td>{new Date(tender.bidOpeningDate).toLocaleDateString()}</td>
-                  <td>
+                  <td data-label="Name">{tender.name}</td>
+                  <td data-label="Reference No">{tender.referenceNo}</td>
+                  <td data-label="Closing Date">{new Date(tender.closingDate).toLocaleDateString()}</td>
+                  <td data-label="Bid Opening Date">{new Date(tender.bidOpeningDate).toLocaleDateString()}</td>
+                  <td data-label="PDF">
                     <Button
                       variant="primary"
-                      size="sm" // Keep the button small
-                      href={`${config.baseUrl}/${tender.pdf}`}
+                      size="sm"
+                      href={`${config.baseUrl}${tender.pdf}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="download-button" // Add a class for custom styling
+                      className="download-button"
                     >
                       Download PDF
                     </Button>

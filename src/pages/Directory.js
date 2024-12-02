@@ -6,6 +6,7 @@ import Loading from '../components/UserComponents/Loading';
 const Directory = () => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [directoryReady, setDirectoryReady] = useState(false);
+  const language = localStorage.getItem('language') || 'en';
 
   useEffect(() => {
     console.log('Directory: Initial loading started');
@@ -30,7 +31,7 @@ const Directory = () => {
 
   return (
     <div>
-      <Banner />
+      <Banner title={language === 'en' ? 'Directory' : 'निर्देशिका'} />
       <DirectoryComponent onDataLoaded={handleDirectoryLoaded} />
       {!directoryReady && <Loading />}
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import HomeSection from '../components/UserComponents/Home/HomeSection';
 import Loading from '../components/UserComponents/Loading';
 import axios from 'axios';
@@ -55,12 +55,14 @@ const HomePage = () => {
 
   return (
     <div>
-      <HomeSection 
-        popularRoutes={data.popularRoutes}
-        touristDestinations={data.touristDestinations}
-        onBookNow={handleBookNow}
-        selectedDestination={selectedDestination}
-      />
+      <Suspense fallback={<Loading />}>
+        <HomeSection 
+          popularRoutes={data.popularRoutes}
+          touristDestinations={data.touristDestinations}
+          onBookNow={handleBookNow}
+          selectedDestination={selectedDestination}
+        />
+      </Suspense>
     </div>
   );
 };

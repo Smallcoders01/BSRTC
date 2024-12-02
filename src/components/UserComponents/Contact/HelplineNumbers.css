@@ -89,42 +89,299 @@ h2.text-center {
   font-weight: bold;
   color: #444;
   margin-bottom: 30px;
+  text-align: left;
+  padding-left: 25px;
 }
 
 /* Media Queries for responsive layout */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .contact-bar {
-    width: 100%; /* Full width on smaller screens */
+    width: 70%;
+    padding: 20px;
+    margin-top: -8vh;
   }
 
-  .contact-item {
-    flex-basis: 100%; /* Stack items vertically */
-    justify-content: center;
+  .divisions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 15px;
+    gap: 15px;
   }
 
-  .division-card {
-    padding: 15px; /* Adjust padding for smaller screens */
+  .helpline-card {
+    padding: 30px 20px;
   }
 
-  h2.text-center {
-    font-size: 1.5rem; /* Slightly smaller for mobile */
+  .helpline-card h2 {
+    font-size: 1.75rem;
+    margin-bottom: 30px;
+    padding-left: 15px;
   }
 }
 
-@media (max-width: 576px) {
-  .division-card {
-    padding: 10px; /* Further reduce padding on smaller screens */
+@media (max-width: 768px) {
+  .contact-bar {
+    width: 90%;
+    padding: 15px;
+    margin-top: -6vh;
+    flex-direction: column;
   }
 
-  .division-card h4 {
-    font-size: 1.1rem; /* Adjust heading size */
+  .contact-item {
+    font-size: 1rem;
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%;
+    justify-content: center;
   }
 
-  .division-card p {
-    font-size: 0.9rem; /* Adjust text size */
+  .divisions-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
   }
 
-  h2.text-center {
-    font-size: 1.25rem; /* Smaller heading for mobile devices */
+  .division-item {
+    padding: 15px;
   }
+
+  .division-item h4 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .contact-info {
+    font-size: 0.9rem;
+  }
+
+  .helpline-card {
+    padding: 20px 15px;
+    margin: 15px auto;
+  }
+
+  .helpline-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-bar {
+    width: 95%;
+    margin-top: -4vh;
+    padding: 12px;
+  }
+
+  .contact-item {
+    font-size: 0.9rem;
+  }
+
+  .contact-item i {
+    font-size: 1.2rem;
+  }
+
+  .division-item {
+    padding: 12px;
+  }
+
+  .division-item h4 {
+    font-size: 1.1rem;
+  }
+
+  .contact-info {
+    font-size: 0.85rem;
+  }
+
+  .helpline-card h2 {
+    font-size: 1.25rem;
+    padding-left: 10px;
+  }
+
+  .divisions-grid {
+    gap: 12px;
+    padding: 0 8px;
+  }
+}
+
+
+/* ... existing styles ... */
+
+.contact-form-container {
+  width: 80%;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  border: 1px solid #6b3eab;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px 15px;
+  border: 1px solid #6b3eab;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: rgb(245, 205, 45);
+  box-shadow: 0 0 0 2px rgba(107, 62, 171, 0.1);
+}
+
+.submit-btn {
+  background-color: #6b3eab;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #5a2e9a;
+}
+
+.submit-btn:disabled {
+  background-color: #9d7bc0;
+  cursor: not-allowed;
+}
+
+.status-message {
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.status-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+  .contact-form-container {
+    width: 95%;
+    padding: 20px;
+  }
+}
+
+/* Update the container and helpline card styles */
+.helpline-card {
+  background-color: #f8f8f2;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 20px auto;
+  width: 100%; /* Full width */
+  max-width: 1200px;
+}
+
+.helpline-card h2 {
+  color: #333;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.divisions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  width: 100%;
+  padding: 0 25px;
+}
+
+.division-item {
+  background-color: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.division-item h4 {
+  color: #6b3eab;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.division-item p {
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.division-item p:nth-child(2) {
+  color: #8B4513;
+}
+
+.division-item p:nth-child(3) {
+  color: #333;
+}
+
+.division-item p:last-child {
+  color: #666;
+}
+
+@media (max-width: 992px) {
+  .divisions-grid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .helpline-card {
+    padding: 20px;
+  }
+  
+  .divisions-grid {
+    grid-template-columns: 1fr;
+    padding: 0 15px;
+  }
+}
+
+.contact-info {
+  color: black;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 5px 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.contact-icon {
+  color: black;
+  margin-top: 4px;
+  flex-shrink: 0;
 }

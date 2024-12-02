@@ -1,6 +1,12 @@
+/* Add at the top of the file */
+* {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
 .App {
   text-align: center;
 }
+
 .routes{
   margin-top: 150px;
 }

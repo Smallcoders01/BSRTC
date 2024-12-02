@@ -1,0 +1,65 @@
+.privacy-content {
+  margin: 0;
+  padding: 0;
+}
+
+.privacy-content h2 {
+  text-align: left;
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.privacy-content p {
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+/* Reset any default margins/padding that might affect alignment */
+.privacy-content > div {
+  margin: 0;
+  padding: 0;
+}
+
+/* Ensure lists are aligned properly */
+.privacy-content ul, 
+.privacy-content ol {
+  text-align: left;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+/* Override any default styles that might affect alignment */
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.col-12 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 768px) {
+  .privacy-content {
+    padding: 0 15px;
+  }
+  
+  h1 {
+    font-size: 36px !important;
+  }
+  
+  h2 {
+    font-size: 24px !important;
+  }
+}

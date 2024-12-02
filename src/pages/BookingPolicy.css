@@ -1,0 +1,35 @@
+.booking-content {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .booking-content ol {
+    text-align: left;
+    padding-left: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .col-12 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .booking-content {
+      padding: 0 15px;
+    }
+  
+    h1 {
+      font-size: 36px !important;
+    }
+  }

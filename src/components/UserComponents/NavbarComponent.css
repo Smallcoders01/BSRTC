@@ -1,0 +1,41 @@
+@media (max-width: 991px) {
+  .navbar {
+    position: relative !important;
+  }
+
+  .navbar-collapse {
+    position: absolute !important;
+    width: 100% !important;
+    top: 100% !important;
+    left: 0 !important;
+    z-index: 1051 !important;
+    background-color: #F5EFFF !important;
+    padding: 10px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+    margin-top: 5px !important;
+  }
+
+  .navbar-nav {
+    background-color: #F5EFFF !important;
+    padding: 10px !important;
+    border-radius: 8px !important;
+  }
+
+  .banner {
+    overflow: visible !important;
+  }
+
+  .navbar-nav > :last-child,
+  .navbar-nav > :nth-last-child(2) {
+    display: inline-block !important;
+  }
+}
+
+.navbar > .container {
+  position: static !important;
+}
+
+.dropdown-menu.show {
+  z-index: 1052 !important;
+}

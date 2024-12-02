@@ -10,33 +10,29 @@ const DirectoryComponent = ({ onDataLoaded }) => {
   const [divisions, setDivisions] = useState([]);
   const [selectedDivision, setSelectedDivision] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+  const language = localStorage.getItem('language') || 'en'; // Get the selected language
 
   useEffect(() => {
-    console.log('DirectoryComponent: Fetching data');
-    axios.get(`${config.apiBaseUrl}/phone-directory`, { timeout: 10000 })
+    axios.get(`${config.apiBaseUrl}/phone-directory/${language}`, { timeout: 10000 })
       .then(response => {
-        console.log('DirectoryComponent: Data fetched successfully');
+        console.log('Fetched Data:', response.data); // Log the fetched data
         setDivisions(response.data);
         setSelectedDivision(response.data[0]);
         setLoading(false);
         onDataLoaded();
       })
       .catch(error => {
-        console.error('DirectoryComponent: Error fetching data', error);
+        console.error('Error fetching data', error);
         setError('Error fetching officer data');
         setLoading(false);
         onDataLoaded();
       });
-  }, [onDataLoaded]);
+  }, [onDataLoaded, language]);
 
-  console.log('DirectoryComponent: Render cycle', { loading, error });
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
-  if (loading || error) {
-    return null;
-  }
-
-  console.log('DirectoryComponent: Rendering content');
   return (
     <>
       <Container className="mt-4 office-details-container">
@@ -45,16 +41,12 @@ const DirectoryComponent = ({ onDataLoaded }) => {
             {divisions.map((division, index) => (
               <li
                 key={index}
-                className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''} ${division.name === 'BSRTC Head Office' ? 'head-office' : ''}`}
+                className={`division ${selectedDivision && selectedDivision.name === division.name ? 'active' : ''}`}
                 onClick={() => setSelectedDivision(division)}
               >
-                {division.name === 'BSRTC Head Office' ? (
-                  division.name
-                ) : (
-                  <div className={selectedDivision && selectedDivision.name === division.name ? 'yellow' : ''}>
-                    {division.name}
-                  </div>
-                )}
+                <span className={selectedDivision && selectedDivision.name === division.name ? 'yellow-division' : ''}>
+                  {division.name}
+                </span>
               </li>
             ))}
           </ul>
@@ -64,27 +56,37 @@ const DirectoryComponent = ({ onDataLoaded }) => {
             <Table bordered hover className="custom-table text-center">
               <thead>
                 <tr>
-                  <th>OFFICER NAME</th>
-                  <th>DESIGNATION</th>
-                  <th>OFFICE</th>
-                  <th>MOBILE NUMBER</th>
-                  <th>EMAIL ID</th>
+                  <th>{language === 'en' ? 'OFFICER NAME' : 'अधिकारी का नाम'}</th>
+                  <th>{language === 'en' ? 'DESIGNATION' : 'पद'}</th>
+                  <th>{language === 'en' ? 'OFFICE' : 'कार्यालय'}</th>
+                  <th>{language === 'en' ? 'MOBILE NUMBER' : 'मोबाइल नंबर'}</th>
+                  <th>{language === 'en' ? 'EMAIL ID' : 'ईमेल आईडी'}</th>
                 </tr>
               </thead>
               <tbody>
                 {selectedDivision.officers.map((officer, officerIndex) => (
                   <tr key={officerIndex}>
-                    <td>{officer.name}</td>
-                    <td>{officer.designation}</td>
-                    <td>{officer.office}</td>
-                    <td>{officer.phoneNumber}</td>
-                    <td>{officer.email}</td>
+                    <td data-label={language === 'en' ? 'OFFICER NAME' : 'अधिकारी का नाम'}>
+                      {officer.name || 'N/A'}
+                    </td>
+                    <td data-label={language === 'en' ? 'DESIGNATION' : 'पद'}>
+                      {officer.designation || 'N/A'}
+                    </td>
+                    <td data-label={language === 'en' ? 'OFFICE' : 'कार्यालय'}>
+                      {officer.office || 'N/A'}
+                    </td>
+                    <td data-label={language === 'en' ? 'MOBILE NUMBER' : 'मोबाइल नंबर'}>
+                      {officer.phoneNumber || 'N/A'}
+                    </td>
+                    <td data-label={language === 'en' ? 'EMAIL ID' : 'ईमेल आईडी'}>
+                      {officer.email || 'N/A'}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </Table>
           ) : (
-            <div>No officers found for the selected division</div>
+            <div>{language === 'en' ? 'No officers found for the selected division' : 'चयनित विभाग के लिए कोई अधिकारी नहीं मिला'}</div>
           )}
         </div>
       </Container>

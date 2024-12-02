@@ -11,3 +11,140 @@
       padding: 2px 4px; /* Adjust padding for mobile */
     }
   }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  @media (max-width: 768px) {
+    .custom-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .custom-table thead {
+      display: none; /* Hide table headers */
+    }
+
+    .custom-table tr {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #fff;
+    }
+
+    .custom-table td {
+      flex: 1 1 50%;
+      text-align: left;
+      padding: 10px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .custom-table td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      display: inline-block;
+      width: 120px;
+      margin-right: 10px;
+      white-space: nowrap;
+    }
+  }
+
+  /* Table Styles */
+  .custom-table {
+    margin-bottom: 0;
+  }
+
+  .custom-table thead tr {
+    background-color: #86469c;
+    color: white;
+  }
+
+  .custom-table th {
+    padding: 15px !important;
+    font-weight: 500;
+    font-size: 16px;
+    border: none !important;
+  }
+
+  .custom-table td {
+    padding: 15px !important;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .custom-table tbody tr:hover {
+    background-color: #f8f4ff;
+  }
+
+  /* Download Button Styles */
+  .download-button {
+    background-color: #86469c !important;
+    border: none !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .download-button:hover {
+    background-color: #6d3980 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .custom-table {
+      border: none;
+    }
+
+    .custom-table tr {
+      display: block;
+      margin-bottom: 20px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid #eee;
+    }
+
+    .custom-table td {
+      display: flex;
+      padding: 12px 15px !important;
+      border: none !important;
+      align-items: center;
+    }
+
+    .custom-table td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      color: #86469c;
+      min-width: 140px;
+      margin-right: 15px;
+    }
+
+    .download-button {
+      width: 100%;
+      margin-top: 5px;
+      padding: 10px !important;
+    }
+  }
+
+  /* Table Container */
+  .table-responsive {
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  /* Add subtle zebra striping for better readability */
+  .custom-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }

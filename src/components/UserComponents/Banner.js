@@ -1,18 +1,16 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import busbImage from '../../img/busb.jpg';
+import busbImage from '../../img/evbus5.jpg';
+import NavbarComponent from './NavbarComponent';
+import './Banner.css';
 
-import NavbarComponent from './NavbarComponent'; // Import NavbarComponent
-
-const Banner = () => {
-  // Define the handleNavbarToggle function
+const Banner = ({ title }) => {
   const handleNavbarToggle = (expanded) => {
     console.log("Navbar toggled:", expanded);
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      {/* Banner Section */}
+    <div style={{ padding: '20px', position: 'relative' }}>
       <div className="banner" style={{
         position: 'relative',
         backgroundImage: `url(${busbImage})`,
@@ -22,7 +20,7 @@ const Banner = () => {
         color: 'white',
         textAlign: 'left',
         borderRadius: '20px',
-        overflow: 'hidden'
+        overflow: 'visible'
       }}>
         {/* Overlay */}
         <div style={{
@@ -31,24 +29,28 @@ const Banner = () => {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'rgba(50, 0, 50, 0.6)', // Darker purple with higher opacity
-          zIndex: 1
+          background: 'rgba(50, 0, 50, 0.6)',
+          zIndex: 1,
+          borderRadius: '20px'
         }}></div>
 
-        {/* Use NavbarComponent with onToggle */}
-        <div style={{ position: 'relative', zIndex: 3 }}>
-          <NavbarComponent onToggle={handleNavbarToggle} /> {/* Pass onToggle */}
+        {/* Navbar Container */}
+        <div style={{ 
+          position: 'relative', 
+          zIndex: 1050 
+        }}>
+          <NavbarComponent onToggle={handleNavbarToggle} />
         </div>
 
-        {/* Main Banner Text */}
-        <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
-          position: 'relative',
-          marginTop: '-180px'
-        }}>
-        </Container>
+        {/* Fixed Title Container */}
+        <div className="banner-title-wrapper">
+          {title && (
+            <h1 className="banner-title">
+              {title}
+            </h1>
+          )}
+        </div>
       </div>
-
-      {/* Booking Form Section */}
     </div>
   );
 };

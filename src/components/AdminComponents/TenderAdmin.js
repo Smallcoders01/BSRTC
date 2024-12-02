@@ -16,6 +16,7 @@ const TenderAdmin = () => {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(response => {
+                console.log(response.data); // Log the response data
                 setTenders(response.data);
                 setLoading(false);
             })
@@ -134,7 +135,7 @@ const TenderAdmin = () => {
                                 fullWidth
                                 type="date"
                                 InputLabelProps={{ shrink: true }}
-                                value={tender.closingDate}
+                                value={tender.closingDate ? tender.closingDate.split('T')[0] : ''} // Format to YYYY-MM-DD
                                 onChange={(e) => handleTenderChange(tenderIndex, 'closingDate', e.target.value)}
                             />
                         </Box>
@@ -145,7 +146,7 @@ const TenderAdmin = () => {
                                 fullWidth
                                 type="date"
                                 InputLabelProps={{ shrink: true }}
-                                value={tender.bidOpeningDate}
+                                value={tender.bidOpeningDate ? tender.bidOpeningDate.split('T')[0] : ''} // Format to YYYY-MM-DD
                                 onChange={(e) => handleTenderChange(tenderIndex, 'bidOpeningDate', e.target.value)}
                             />
                         </Box>
@@ -154,8 +155,8 @@ const TenderAdmin = () => {
                                 type="file"
                                 onChange={(e) => handleFileChange(tenderIndex, e.target.files[0])}
                             />
-                            {tender.pdf && (
-                                <a href={`${config.baseUrl}/${tender.pdf}`} target="_blank" rel="noopener noreferrer">
+                            {tender.file && (
+                                <a href={`${config.baseUrl}/${tender.file}`} target="_blank" rel="noopener noreferrer">
                                     View PDF
                                 </a>
                             )}
