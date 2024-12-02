@@ -59,7 +59,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
             position: 'relative',
             marginTop: '-180px'
           }}>
-            <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
+            <h1 className="fw-bold display-4 text-white" style={{ zIndex: '10', fontSize: '3rem' }}>
               {/* Removed the specified text */}
             </h1>
           </Container>
@@ -78,7 +78,9 @@ const BusBookingHeader = ({ bookingInfo }) => {
         zIndex: 2
       }}>
         <Card.Body style={{ position: 'relative' }} className='sect'>
-          <h3 className="text-center mb-4">{language === 'en' ? 'Book Your Journey' : 'अपनी यात्रा बुक करें'}</h3>
+          <h3 className="text-center mb-4" style={{ fontSize: '36px', fontWeight: 'bold' }}>
+            {language === 'en' ? 'Book Your Journey' : 'अपनी यात्रा बुक करें'}
+          </h3>
           <Form>
             <Row className="mb-3">
               <Col xs={6} md={3}>
@@ -91,12 +93,13 @@ const BusBookingHeader = ({ bookingInfo }) => {
             <Row className="mb-3">
               <Col md={3}>
                 <Form.Group controlId="fromLocation">
-                  <Form.Label>{language === 'en' ? 'From' : 'से'}</Form.Label>
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'From' : 'से'}</Form.Label>
                   <Form.Control 
                     type="text" 
                     placeholder={language === 'en' ? 'Patna' : 'पटना'} 
                     value={fromLocation}
                     onChange={(e) => setFromLocation(e.target.value)}
+                    style={{ fontSize: '16px' }}
                   />
                 </Form.Group>
               </Col>
@@ -105,25 +108,26 @@ const BusBookingHeader = ({ bookingInfo }) => {
               </Col>
               <Col md={3}>
                 <Form.Group controlId="toLocation">
-                  <Form.Label>{language === 'en' ? 'To' : 'तक'}</Form.Label>
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'To' : 'तक'}</Form.Label>
                   <Form.Control 
                     type="text" 
                     placeholder={language === 'en' ? 'Delhi' : 'दिल्ली'} 
                     value={toLocation}
                     onChange={(e) => setToLocation(e.target.value)}
+                    style={{ fontSize: '16px' }}
                   />
                 </Form.Group>
               </Col>
               <Col md={2}>
                 <Form.Group controlId="departureDate">
-                  <Form.Label>{language === 'en' ? 'Departure' : 'प्रस्थान'}</Form.Label>
-                  <Form.Control type="date" />
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'Departure' : 'प्रस्थान'}</Form.Label>
+                  <Form.Control type="date" style={{ fontSize: '16px' }} />
                 </Form.Group>
               </Col>
               <Col md={2}>
                 <Form.Group controlId="returnDate">
-                  <Form.Label>{language === 'en' ? 'Return' : 'वापसी'}</Form.Label>
-                  <Form.Control type="date" />
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'Return' : 'वापसी'}</Form.Label>
+                  <Form.Control type="date" style={{ fontSize: '16px' }} />
                 </Form.Group>
               </Col>
             </Row>
@@ -137,7 +141,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
             </Row>
             <div className="text-center mt-4">
               <a href="https://bsrtc.co.in" target="_blank" rel="noopener noreferrer">
-                <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }}>
+                <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none', fontSize: '18px' }}>
                   <i className="fas fa-bus"></i> {language === 'en' ? 'Show Buses' : 'बसें दिखाएं'}
                 </Button>
               </a>
@@ -149,23 +153,23 @@ const BusBookingHeader = ({ bookingInfo }) => {
       {/* Logo Centered */}
       <div className="logo" style={{
         position: 'absolute',
-        top: '38%', // Adjusted position to move the logo further up
-        left: '50%', // Center horizontally
-        transform: 'translate(-50%, -50%)', // Adjust for centering
+        top: '30%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
         zIndex: 4
       }}>
-        <img src={logo} alt='logo' style={{ width: '200px', height: 'auto' }} /> {/* Adjust size as needed */}
+        <img src={logo} alt='logo' style={{ width: '250px', height: 'auto' }} />
       </div>
 
       {/* Text Below Logo */}
       <div className="text-center" style={{
         position: 'absolute',
-        top: '60%', // Position below the logo
+        top: '60%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         zIndex: 4,
-        color: 'white', // Text color
-        fontSize: '18px', // Text size
+        color: 'white',
+        fontSize: '22px',
         fontWeight: 'bold'
       }}>
         <div>बिहार राज्य पथ परिवहन निगम</div>
@@ -181,23 +185,17 @@ const BusBookingHeader = ({ bookingInfo }) => {
         zIndex: 3,
         display: 'flex',
         justifyContent: 'space-between',
-        width: '80%' // Adjust width to fit the layout
+        width: '80%'
       }}>
-        <img src={busImage1} alt='busImg1' style={{ width: '100%', maxWidth: '400px' }} />
-        <img src={busImage2} alt='busImg2' style={{ width: '100%', maxWidth: '400px' }} />
+        <img src={busImage1} alt='busImg1' style={{ width: '100%', maxWidth: '350px' }} />
+        <img src={busImage2} alt='busImg2' style={{ width: '100%', maxWidth: '350px' }} />
       </div>
 
       {/* CSS for Responsive Design */}
       <style jsx>{`
         @media (max-width: 768px) {
           .busImages {
-            display: none !important; // Force hide bus images on mobile
-          }
-          .logo {
-            top: 10%; // Adjust logo position for mobile
-          }
-          .text-center {
-            top: 45%; // Adjust text position for mobile
+            display: none;
           }
         }
       `}</style>
@@ -205,4 +203,4 @@ const BusBookingHeader = ({ bookingInfo }) => {
   );
 };
 
-export default BusBookingHeader; 
+export default BusBookingHeader;

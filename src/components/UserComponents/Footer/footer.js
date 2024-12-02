@@ -102,7 +102,7 @@ const Footer = () => {
                   {language === 'en' ? 'My Booking' : 'मेरी बुकिंग'}
                 </button>
               </li>
-              <li><Link to="/pnr-status">{language === 'en' ? 'PNR Status' : 'पीएनआर स्थिति'}</Link></li>
+              <li><Link to="/news">{language === 'en' ? 'News' : 'समाचार'}</Link></li>
               <li>
                 <a href="https://bsrtc.apto.ai/open/raise_grievance" target="_blank" rel="noopener noreferrer">
                   {language === 'en' ? 'Raise Grievance' : 'शिकायत दर्ज करें'}
@@ -125,7 +125,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li><Link to="/privacy">{language === 'en' ? 'Privacy Policy' : 'गोपनीयता नीति'}</Link></li>
-              <li><Link to="/terms">{language === 'en' ? 'Terms & Condition' : 'नियम और शर्तें'}</Link></li>
+              <li><Link to="/terms">{language === 'en' ? 'Terms & Condition' : 'नि��म और शर्तें'}</Link></li>
               <li><Link to="/directory">{language === 'en' ? 'Directory' : 'निर्देशिका'}</Link></li>
               <li><Link to="/cancellation-policy">{language === 'en' ? 'Cancellation Policy' : 'रद्दीकरण नीति'}</Link></li>
               <li><Link to="/booking-policy">{language === 'en' ? 'Booking Policy' : 'बुकिंग नीति'}</Link></li>
