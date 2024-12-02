@@ -153,12 +153,12 @@ const BusBookingHeader = ({ bookingInfo }) => {
       {/* Logo Centered */}
       <div className="logo" style={{
         position: 'absolute',
-        top: '30%',
+        top: '40%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
         zIndex: 4
       }}>
-        <img src={logo} alt='logo' style={{ width: '250px', height: 'auto' }} />
+       <img src={logo} alt='logo' style={{ width: '150px', height: 'auto' }} />
       </div>
 
       {/* Text Below Logo */}
