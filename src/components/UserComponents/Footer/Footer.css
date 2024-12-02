@@ -45,16 +45,70 @@
   
   /* Adjust for mobile */
   @media (max-width: 768px) {
+    .footer-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+  
     .footer-logo-img {
       width: 150px;
+      margin: 0 auto; /* Center the logo */
     }
   
     .footer-title {
       font-size: 1.1rem;
+      text-align: center; /* Center titles on mobile */
+    }
+  
+    .footer-list {
+      text-align: center; /* Center list items on mobile */
+    }
+  
+    .footer-list li {
+      text-align: center;
     }
   
     .footer-list li a {
       font-size: 0.9rem;
+      display: inline-block; /* Helps with centering */
+    }
+  
+    /* Center language selector on mobile */
+    .col-lg-3:last-child .footer-title {
+      text-align: center;
+    }
+  
+    .language-selector {
+      justify-content: center;
+    }
+  
+    /* Adjust container padding for mobile */
+    .footer-container {
+      padding: 30px 15px;
+    }
+  
+    /* Center all column content on mobile */
+    .col-md-6 {
+      text-align: center;
+    }
+  
+    /* Center language selector container */
+    .language-selector {
+      justify-content: center !important;
+    }
+  }
+  
+  /* Additional mobile optimization */
+  @media (max-width: 576px) {
+    .footer-logo-img {
+      width: 120px; /* Slightly smaller on very small screens */
+    }
+  
+    .footer-container {
+      padding: 20px 10px;
     }
   }
   

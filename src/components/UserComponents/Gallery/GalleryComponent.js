@@ -29,7 +29,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
   // Use shuffled images for rendering
   const shuffledImages = shuffleArray(filteredImages);
 
-  // Modify the getImagesPerView function to return 3 for desktop
+  // Modify the getImagesPerView function to return 1 for mobile
   const getImagesPerView = () => {
     return window.innerWidth <= 768 ? 1 : 3;
   };
@@ -153,21 +153,21 @@ const GalleryComponent = ({ onDataLoaded }) => {
 
   return (
     <>
-      <div style={{ 
-        padding: '20px 10px',
+      <div className="gallery-section" style={{ 
+        padding: window.innerWidth <= 768 ? '10px 0' : '20px 10px',
         position: 'relative',
         background: 'white',
-        minHeight: '100vh'
+        minHeight: window.innerWidth <= 768 ? 'auto' : '100vh'
       }}>
-        {/* Filter Buttons */}
+        {/* Filter Buttons - Make them stack on mobile */}
         <div style={{
           display: 'flex',
-          justifyContent: 'flex-end',
+          justifyContent: 'center', // Changed to center for mobile
           marginBottom: '30px',
           gap: '10px',
           flexWrap: 'wrap',
-          paddingRight: '20px',
-          maxWidth: window.innerWidth <= 768 ? '100%' : '1400px',
+          padding: '0 20px',
+          maxWidth: '1400px',
           margin: '0 auto'
         }}>
           <Button 
@@ -216,52 +216,53 @@ const GalleryComponent = ({ onDataLoaded }) => {
           </Button>
         </div>
 
-        {/* Remove conditional rendering and use slider for all cases */}
+        {/* Image Slider Section */}
         <div style={{ 
           position: 'relative', 
           margin: '20px auto',
-          maxWidth: window.innerWidth <= 768 ? '100%' : '1400px',
+          maxWidth: '1400px',
           background: 'white'
         }}>
           {shuffledImages.length > 0 ? (
             <>
-              {/* Previous button */}
+              {/* Navigation Buttons */}
               <button onClick={handlePrev} 
                 style={{
                   position: 'absolute',
-                  left: window.innerWidth <= 768 ? '10px' : '20px',
+                  left: '10px',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   background: 'rgba(255, 255, 255, 0.8)',
                   border: 'none',
                   borderRadius: '50%',
-                  width: window.innerWidth <= 768 ? 50 : 70,
-                  height: window.innerWidth <= 768 ? 50 : 70,
-                  cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
-                  opacity: currentIndex === 0 ? 0.5 : 1,
+                  width: window.innerWidth <= 768 ? 40 : 70, // Smaller on mobile
+                  height: window.innerWidth <= 768 ? 40 : 70,
+                  cursor: 'pointer',
                   zIndex: 2,
-                  fontSize: window.innerWidth <= 768 ? '30px' : '40px',
+                  fontSize: window.innerWidth <= 768 ? '24px' : '40px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
                 }}
-                disabled={currentIndex === 0}
               >
                 ‹
               </button>
-              
-              {/* Slider container */}
+
+              {/* Images Container */}
               <div style={{ 
                 display: 'flex',
-                gap: '20px',  // Added gap between images
+                gap: window.innerWidth <= 768 ? '0' : '20px',
                 justifyContent: 'center',
-                padding: window.innerWidth <= 768 ? '0' : '0',
+                padding: '0',
                 background: 'white',
-                height: window.innerWidth <= 768 ? '300px' : '500px'
+                height: window.innerWidth <= 768 ? '250px' : '500px', // Smaller height on mobile
+                overflow: 'hidden'
               }}>
                 {(() => {
                   let imagesToShow = [];
+                  const imagesPerView = getImagesPerView();
+                  
                   if (shuffledImages.length > 0) {
                     const remainingImages = shuffledImages.length - currentIndex;
                     if (remainingImages >= imagesPerView) {
@@ -273,6 +274,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
                       ];
                     }
                   }
+                  
                   return imagesToShow.map((image, index) => (
                     <div key={index} style={{
                       flex: '1',
@@ -284,9 +286,9 @@ const GalleryComponent = ({ onDataLoaded }) => {
                       alignItems: 'center',
                       justifyContent: 'center',
                       padding: '0',
-                      margin: '0 10px',  // Added horizontal margin
-                      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',  // Optional: added shadow for better separation
-                      borderRadius: '8px'  // Optional: added rounded corners
+                      margin: window.innerWidth <= 768 ? '0' : '0 10px',
+                      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+                      borderRadius: '8px'
                     }}>
                       <img
                         src={`${config.baseUrl}${image.photo}`}
@@ -294,7 +296,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
                         style={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'fill',
+                          objectFit: window.innerWidth <= 768 ? 'contain' : 'fill',
                         }}
                       />
                     </div>
@@ -302,28 +304,26 @@ const GalleryComponent = ({ onDataLoaded }) => {
                 })()}
               </div>
 
-              {/* Next button */}
+              {/* Next Button */}
               <button onClick={handleNext}
                 style={{
                   position: 'absolute',
-                  right: window.innerWidth <= 768 ? '10px' : '20px',
+                  right: '10px',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   background: 'rgba(255, 255, 255, 0.8)',
                   border: 'none',
                   borderRadius: '50%',
-                  width: window.innerWidth <= 768 ? 50 : 70,
-                  height: window.innerWidth <= 768 ? 50 : 70,
-                  cursor: currentIndex + imagesPerView >= shuffledImages.length ? 'not-allowed' : 'pointer',
-                  opacity: currentIndex + imagesPerView >= shuffledImages.length ? 0.5 : 1,
+                  width: window.innerWidth <= 768 ? 40 : 70, // Smaller on mobile
+                  height: window.innerWidth <= 768 ? 40 : 70,
+                  cursor: 'pointer',
                   zIndex: 2,
-                  fontSize: window.innerWidth <= 768 ? '30px' : '40px',
+                  fontSize: window.innerWidth <= 768 ? '24px' : '40px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
                 }}
-                disabled={currentIndex + imagesPerView >= shuffledImages.length}
               >
                 ›
               </button>
@@ -337,94 +337,84 @@ const GalleryComponent = ({ onDataLoaded }) => {
       </div>
 
       {/* Gallery Events Section */}
-      <Box sx={{ 
-        padding: '20px 10px',
-        position: 'relative',
-        background: 'white'
-      }}>
+      <Box 
+        className="gallery-events-section"
+        sx={{ 
+          padding: window.innerWidth <= 768 ? '0' : '20px 10px',
+          background: 'white',
+          mt: window.innerWidth <= 768 ? 0 : 2
+        }}
+      >
         {galleryEvents.map((event) => (
           <Box 
             key={event._id} 
+            className="event-card"
             sx={{ 
-              position: 'relative', 
-              margin: '20px auto',
-              maxWidth: window.innerWidth <= 768 ? '100%' : '1400px',
+              margin: window.innerWidth <= 768 ? '10px 0' : '20px auto',
+              maxWidth: '1400px',
               background: 'white'
             }}
           >
-            {/* Category title */}
+            {/* Event Category Title */}
             <div style={{
               display: 'flex',
-              justifyContent: 'flex-end',
-              marginBottom: '30px',
-              gap: '10px',
-              flexWrap: 'wrap',
-              paddingRight: '20px',
+              justifyContent: 'center', // Centered on mobile
+              marginBottom: '20px',
+              padding: '0 20px',
             }}>
               <Button 
                 variant="contained"
                 style={{
                   backgroundColor: '#9c27b0',
                   color: 'white',
-                  borderColor: '#9c27b0'
                 }}
               >
                 {event.category}
               </Button>
             </div>
 
-            {/* Images container with navigation arrows */}
+            {/* Event Images Container */}
             <div style={{ position: 'relative' }}>
-              {/* Previous button */}
-              {event.photos.length > 3 && (
-                <button 
-                  onClick={() => handleEventPrev(event._id, event.photos.length)}
-                  style={{
-                    position: 'absolute',
-                    left: window.innerWidth <= 768 ? '10px' : '20px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: window.innerWidth <= 768 ? 50 : 70,
-                    height: window.innerWidth <= 768 ? 50 : 70,
-                    cursor: 'pointer',
-                    zIndex: 2,
-                    fontSize: window.innerWidth <= 768 ? '30px' : '40px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
-                  }}
-                >
-                  ‹
-                </button>
-              )}
+              {/* Previous Button */}
+              <button 
+                onClick={() => handleEventPrev(event._id, event.photos.length)}
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'rgba(255, 255, 255, 0.8)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: window.innerWidth <= 768 ? 40 : 70,
+                  height: window.innerWidth <= 768 ? 40 : 70,
+                  cursor: 'pointer',
+                  zIndex: 2,
+                  fontSize: window.innerWidth <= 768 ? '24px' : '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+                }}
+              >
+                ‹
+              </button>
 
-              {/* Images */}
+              {/* Event Images */}
               <div style={{ 
                 display: 'flex',
-                gap: '20px',
+                gap: window.innerWidth <= 768 ? '0' : '20px',
                 justifyContent: 'center',
-                padding: window.innerWidth <= 768 ? '0' : '0',
+                padding: '0',
                 background: 'white',
-                height: window.innerWidth <= 768 ? '300px' : '500px'
+                height: window.innerWidth <= 768 ? '250px' : '500px',
+                overflow: 'hidden'
               }}>
                 {(() => {
                   const startIndex = eventIndices[event._id] || 0;
-                  let photosToShow = [];
-                  
-                  // If we have less than 3 photos, repeat them to fill the space
-                  if (event.photos.length < 3) {
-                    const repeats = Math.ceil(3 / event.photos.length);
-                    photosToShow = Array(repeats).fill(event.photos).flat().slice(0, 3);
-                  } else {
-                    // Normal case with 3 or more photos
-                    photosToShow = event.photos
-                      .slice(startIndex, startIndex + 3)
-                      .concat(event.photos.slice(0, Math.max(0, 3 - (event.photos.length - startIndex))));
-                  }
+                  const photosToShow = window.innerWidth <= 768 
+                    ? [event.photos[startIndex]] // Show only one photo on mobile
+                    : event.photos.slice(startIndex, startIndex + 3);
 
                   return photosToShow.map((photo, index) => (
                     <div key={index} style={{
@@ -437,7 +427,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
                       alignItems: 'center',
                       justifyContent: 'center',
                       padding: '0',
-                      margin: '0 10px',
+                      margin: window.innerWidth <= 768 ? '0' : '0 10px',
                       boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
                       borderRadius: '8px'
                     }}>
@@ -447,7 +437,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
                         style={{
                           width: '100%',
                           height: '100%',
-                          objectFit: 'fill',
+                          objectFit: window.innerWidth <= 768 ? 'contain' : 'fill',
                         }}
                       />
                     </div>
@@ -455,38 +445,34 @@ const GalleryComponent = ({ onDataLoaded }) => {
                 })()}
               </div>
 
-              {/* Next button */}
-              {event.photos.length > 3 && (
-                <button 
-                  onClick={() => handleEventNext(event._id, event.photos.length)}
-                  style={{
-                    position: 'absolute',
-                    right: window.innerWidth <= 768 ? '10px' : '20px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'rgba(255, 255, 255, 0.8)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: window.innerWidth <= 768 ? 50 : 70,
-                    height: window.innerWidth <= 768 ? 50 : 70,
-                    cursor: 'pointer',
-                    zIndex: 2,
-                    fontSize: window.innerWidth <= 768 ? '30px' : '40px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
-                  }}
-                >
-                  ›
-                </button>
-              )}
+              {/* Next Button */}
+              <button 
+                onClick={() => handleEventNext(event._id, event.photos.length)}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'rgba(255, 255, 255, 0.8)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  width: window.innerWidth <= 768 ? 40 : 70,
+                  height: window.innerWidth <= 768 ? 40 : 70,
+                  cursor: 'pointer',
+                  zIndex: 2,
+                  fontSize: window.innerWidth <= 768 ? '24px' : '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+                }}
+              >
+                ›
+              </button>
             </div>
           </Box>
         ))}
       </Box>
-
-      <Footer />
     </>
   );
 };
