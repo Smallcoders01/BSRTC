@@ -28,7 +28,7 @@ const CustomNextArrow = (props) => {
 const features = [
   {
     titleEn: "Comfortable Seating",
-    titleHi: "आरामदायक बैठने की व्यवस्था",
+    titleHi: "आरामदायक सीटें",
     image: process.env.PUBLIC_URL + "/Routes/cs.jpg",
     alt: "Comfortable Seating",
   },
@@ -40,19 +40,19 @@ const features = [
   },
   {
     titleEn: "Luggage Storage",
-    titleHi: "सामान भंडारण",
+    titleHi: "सामान रखने की जगह",
     image: process.env.PUBLIC_URL + "/Routes/lb.jpg",
     alt: "Luggage Storage",
   },
   {
     titleEn: "Eco-Friendly Buses",
-    titleHi: "पर्यावरण के अनुकूल बसें",
+    titleHi: "पर्यावरण-अनुकूल बसें",
     image: process.env.PUBLIC_URL + "/Routes/eb.jpg",
     alt: "Eco-Friendly Buses",
   },
   {
     titleEn: "Onboard Entertainment",
-    titleHi: "ऑनबोर्ड मनोरंजन",
+    titleHi: "बस में मनोरंजन",
     image: process.env.PUBLIC_URL + "/Routes/tv.jpg",
     alt: "Onboard Entertainment",
   }
@@ -91,7 +91,7 @@ const SneakPeek = () => {
   return (
     <div className="text-center mt-5" style={{ width: '100%', padding: '20px', backgroundColor: '#fff' }}>
       <h2 className="mb-3" style={{ color: '#552e9a', fontWeight: 'bold' }}>
-        {language === 'en' ? 'A Sneak Peek Into Our World' : 'हमारी दुनिया में एक झलक'}
+        {language === 'en' ? 'A Sneak Peek Into Our World' : 'हमारी दुनिया की एक झलक'}
       </h2>
       <p>
         {language === 'en' ? 'Experience the lavish amenities of BSRTC!' : 'बीएसआरटीसी की शानदार सुविधाओं का अनुभव करें!'}

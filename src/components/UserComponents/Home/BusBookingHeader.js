@@ -34,11 +34,8 @@ const BusBookingHeader = ({ bookingInfo }) => {
         borderRadius: '20px',
         overflow: 'hidden',
         zIndex: 1,
-        background: 'rgb(61,207,245)',
-        background: '-moz-radial-gradient(circle, rgba(61,207,245,1) 34%, rgba(20,168,252,1) 54%)',
-        background: '-webkit-radial-gradient(circle, rgba(61,207,245,1) 34%, rgba(20,168,252,1) 54%)',
-        background: 'radial-gradient(circle, rgba(61,207,245,1) 34%, rgba(20,168,252,1) 54%)',
-        filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#3dcff5",endColorstr="#14a8fc",GradientType=1)' // For older IE versions
+        background: 'rgb(45,131,180)',
+        background: 'radial-gradient(circle, rgba(101,196,221,1) 34%, rgba(31,155,225,1) 54%)'
       }}>
         {/* Overlay */}
         <div style={{
@@ -189,6 +186,21 @@ const BusBookingHeader = ({ bookingInfo }) => {
         <img src={busImage1} alt='busImg1' style={{ width: '100%', maxWidth: '400px' }} />
         <img src={busImage2} alt='busImg2' style={{ width: '100%', maxWidth: '400px' }} />
       </div>
+
+      {/* CSS for Responsive Design */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .busImages {
+            display: none !important; // Force hide bus images on mobile
+          }
+          .logo {
+            top: 10%; // Adjust logo position for mobile
+          }
+          .text-center {
+            top: 45%; // Adjust text position for mobile
+          }
+        }
+      `}</style>
     </div>
   );
 };
