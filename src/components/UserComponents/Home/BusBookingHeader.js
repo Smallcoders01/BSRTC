@@ -34,11 +34,8 @@ const BusBookingHeader = ({ bookingInfo }) => {
         borderRadius: '20px',
         overflow: 'hidden',
         zIndex: 1,
-        background: 'rgb(61,207,245)',
-        background: '-moz-radial-gradient(circle, rgba(61,207,245,1) 34%, rgba(20,168,252,1) 54%)',
-        background: '-webkit-radial-gradient(circle, rgba(61,207,245,1) 34%, rgba(20,168,252,1) 54%)',
-        background: 'radial-gradient(circle, rgba(61,207,245,1) 34%, rgba(20,168,252,1) 54%)',
-        filter: 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#3dcff5",endColorstr="#14a8fc",GradientType=1)' // For older IE versions
+        background: 'rgb(45,131,180)',
+        background: 'radial-gradient(circle, rgba(101,196,221,1) 34%, rgba(31,155,225,1) 54%)'
       }}>
         {/* Overlay */}
         <div style={{
@@ -62,11 +59,35 @@ const BusBookingHeader = ({ bookingInfo }) => {
             position: 'relative',
             marginTop: '-180px'
           }}>
-            <h1 className="fw-bold display-7 text-white" style={{ zIndex: '10' }}>
+            <h1 className="fw-bold display-4 text-white" style={{ zIndex: '10', fontSize: '3rem' }}>
               {/* Removed the specified text */}
             </h1>
           </Container>
         )}
+
+        {/* Logo and Text Container */}
+        <div className="logo-text-container">
+          {/* Logo */}
+          <div className="logo">
+            <img 
+              src={logo} 
+              alt='logo' 
+              className="logo-image"
+            />
+          </div>
+
+          {/* Text */}
+          <div className="corporation-text">
+            <div>बिहार राज्य पथ परिवहन निगम</div>
+            <div>Bihar State Road Transport Corporation</div>
+          </div>
+        </div>
+
+        {/* Bus Images - Only for Desktop */}
+        <div className="bus-images-desktop">
+          <img src={busImage1} alt='busImg1' className="bus-image" />
+          <img src={busImage2} alt='busImg2' className="bus-image" />
+        </div>
       </div>
 
       {/* Booking Form Section */}
@@ -81,7 +102,9 @@ const BusBookingHeader = ({ bookingInfo }) => {
         zIndex: 2
       }}>
         <Card.Body style={{ position: 'relative' }} className='sect'>
-          <h3 className="text-center mb-4">{language === 'en' ? 'Book Your Journey' : 'अपनी यात्रा बुक करें'}</h3>
+          <h3 className="text-center mb-4" style={{ fontSize: '36px', fontWeight: 'bold' }}>
+            {language === 'en' ? 'Book Your Journey' : 'अपनी यात्रा बुक करें'}
+          </h3>
           <Form>
             <Row className="mb-3">
               <Col xs={6} md={3}>
@@ -94,12 +117,13 @@ const BusBookingHeader = ({ bookingInfo }) => {
             <Row className="mb-3">
               <Col md={3}>
                 <Form.Group controlId="fromLocation">
-                  <Form.Label>{language === 'en' ? 'From' : 'से'}</Form.Label>
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'From' : 'से'}</Form.Label>
                   <Form.Control 
                     type="text" 
                     placeholder={language === 'en' ? 'Patna' : 'पटना'} 
                     value={fromLocation}
                     onChange={(e) => setFromLocation(e.target.value)}
+                    style={{ fontSize: '16px' }}
                   />
                 </Form.Group>
               </Col>
@@ -108,25 +132,26 @@ const BusBookingHeader = ({ bookingInfo }) => {
               </Col>
               <Col md={3}>
                 <Form.Group controlId="toLocation">
-                  <Form.Label>{language === 'en' ? 'To' : 'तक'}</Form.Label>
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'To' : 'तक'}</Form.Label>
                   <Form.Control 
                     type="text" 
                     placeholder={language === 'en' ? 'Delhi' : 'दिल्ली'} 
                     value={toLocation}
                     onChange={(e) => setToLocation(e.target.value)}
+                    style={{ fontSize: '16px' }}
                   />
                 </Form.Group>
               </Col>
               <Col md={2}>
                 <Form.Group controlId="departureDate">
-                  <Form.Label>{language === 'en' ? 'Departure' : 'प्रस्थान'}</Form.Label>
-                  <Form.Control type="date" />
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'Departure' : 'प्रस्थान'}</Form.Label>
+                  <Form.Control type="date" style={{ fontSize: '16px' }} />
                 </Form.Group>
               </Col>
               <Col md={2}>
                 <Form.Group controlId="returnDate">
-                  <Form.Label>{language === 'en' ? 'Return' : 'वापसी'}</Form.Label>
-                  <Form.Control type="date" />
+                  <Form.Label style={{ fontSize: '18px' }}>{language === 'en' ? 'Return' : 'वापसी'}</Form.Label>
+                  <Form.Control type="date" style={{ fontSize: '16px' }} />
                 </Form.Group>
               </Col>
             </Row>
@@ -140,7 +165,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
             </Row>
             <div className="text-center mt-4">
               <a href="https://bsrtc.co.in" target="_blank" rel="noopener noreferrer">
-                <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none' }}>
+                <Button variant="primary" size="lg" style={{ backgroundColor: '#86469C', border: 'none', fontSize: '18px' }}>
                   <i className="fas fa-bus"></i> {language === 'en' ? 'Show Buses' : 'बसें दिखाएं'}
                 </Button>
               </a>
@@ -149,48 +174,88 @@ const BusBookingHeader = ({ bookingInfo }) => {
         </Card.Body>
       </Card>
 
-      {/* Logo Centered */}
-      <div className="logo" style={{
-        position: 'absolute',
-        top: '38%', // Adjusted position to move the logo further up
-        left: '50%', // Center horizontally
-        transform: 'translate(-50%, -50%)', // Adjust for centering
-        zIndex: 4
-      }}>
-        <img src={logo} alt='logo' style={{ width: '200px', height: 'auto' }} /> {/* Adjust size as needed */}
-      </div>
+      {/* CSS for Responsive Design */}
+      <style jsx>{`
+        .logo-text-container {
+          position: absolute;
+          top: 35%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 4;
+          text-align: center;
+          width: 100%;
+        }
 
-      {/* Text Below Logo */}
-      <div className="text-center" style={{
-        position: 'absolute',
-        top: '60%', // Position below the logo
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 4,
-        color: 'white', // Text color
-        fontSize: '18px', // Text size
-        fontWeight: 'bold'
-      }}>
-        <div>बिहार राज्य पथ परिवहन निगम</div>
-        <div>Bihar State Road Transport Corporation</div>
-      </div>
+        .logo-image {
+          width: 150px;
+          height: auto;
+          margin-bottom: 20px;
+        }
 
-      {/* Bus Images */}
-      <div className="busImages" style={{
-        position: 'absolute',
-        top: '67%',
-        left: '50%',
-        transform: 'translate(-50%, -100%)',
-        zIndex: 3,
-        display: 'flex',
-        justifyContent: 'space-between',
-        width: '80%' // Adjust width to fit the layout
-      }}>
-        <img src={busImage1} alt='busImg1' style={{ width: '100%', maxWidth: '400px' }} />
-        <img src={busImage2} alt='busImg2' style={{ width: '100%', maxWidth: '400px' }} />
-      </div>
+        .corporation-text {
+          color: white;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        .bus-images-desktop {
+          position: absolute;
+          top: 70%;
+          left: 50%;
+          transform: translate(-50%, -100%);
+          z-index: 3;
+          display: flex;
+          justify-content: space-between;
+          width: 80%;
+        }
+
+        .bus-image {
+          width: 100%;
+          max-width: 350px;
+        }
+
+        @media (max-width: 768px) {
+          .bus-images-desktop {
+            display: none;
+          }
+
+          .logo-text-container {
+            top: 40%;
+          }
+
+          .logo-image {
+            width: 200px;
+            margin-bottom: 30px;
+          }
+
+          .corporation-text {
+            font-size: 20px;
+          }
+
+          #booking-form {
+            top: 70% !important;
+            width: 90% !important;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .logo-image {
+            width: 180px;
+            margin-bottom: 25px;
+          }
+
+          .corporation-text {
+            font-size: 18px;
+          }
+
+          #booking-form {
+            top: 75% !important;
+            width: 95% !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
 
-export default BusBookingHeader; 
+export default BusBookingHeader;

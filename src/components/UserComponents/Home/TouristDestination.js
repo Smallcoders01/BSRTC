@@ -12,11 +12,12 @@ const TouristDestination = ({ onBookNow }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const navigate = useNavigate();
   const language = localStorage.getItem('language') || 'en';
+  const [selectedDestination, setSelectedDestination] = useState(null);
 
   useEffect(() => {
     axios.get(`${config.apiBaseUrl}/tourist-destinations`)
       .then(response => {
-        setDestinations(response.data.slice(0, 4));
+        setDestinations(response.data.slice(0, 8));
         setLoading(false);
       })
       .catch(error => {
@@ -33,6 +34,14 @@ const TouristDestination = ({ onBookNow }) => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const handleViewDetails = (destinationId) => {
+    if (selectedDestination === destinationId) {
+      setSelectedDestination(null); // Close if already open
+    } else {
+      setSelectedDestination(destinationId); // Open the clicked destination
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -67,16 +76,39 @@ const TouristDestination = ({ onBookNow }) => {
                       style={{ height: '200px', objectFit: 'cover' }}
                     />
                     <div className="card-overlay d-flex flex-column justify-content-end p-3 rounded-3">
-                      <h5 className="card-title text-white" style={{ fontFamily: 'Montserrat, sans-serif', textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8)' }}>{destination.name}</h5>
+                      <h5 className="card-title text-white mb-1" 
+                        style={{ 
+                          textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8)',
+                          fontSize: '0.95rem',
+                          fontWeight: '600'
+                        }}>
+                        {destination.name}
+                      </h5>
+                      {selectedDestination === destination._id && destination.description && (
+                        <p className="card-text text-white mb-2" style={{ 
+                          fontSize: '0.7rem',
+                          textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
+                          lineHeight: '1.1',
+                          margin: '4px 0',
+                          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                          padding: '4px 6px',
+                          borderRadius: '4px'
+                        }}>
+                          {destination.description}
+                        </p>
+                      )}
                       <button 
-                        onClick={() => {
-                          console.log('Book Now clicked for:', destination.name);
-                          onBookNow(destination.name);
+                        onClick={() => handleViewDetails(destination._id)}
+                        className="btn text-white btn-sm shadow-sm align-self-end" 
+                        style={{ 
+                          backgroundColor: '#7A1CAC',
+                          fontSize: '0.75rem',
+                          padding: '0.25rem 0.5rem'
                         }}
-                        className="btn text-white btn-sm shadow-sm" 
-                        style={{ backgroundColor: '#7A1CAC', fontFamily: 'Montserrat, sans-serif' }}
                       >
-                        {language === 'en' ? 'Book Now' : 'अभी बुक करें'}
+                        {selectedDestination === destination._id ? 
+                          (language === 'en' ? 'Close' : 'बंद करें') :
+                          (language === 'en' ? 'View Details' : 'विवरण देखें')}
                       </button>
                     </div>
                   </div>
@@ -84,35 +116,11 @@ const TouristDestination = ({ onBookNow }) => {
               ))}
             </Carousel>
           ) : (
-            <div className="row grids">
-              <div className="col-md-6 mb-4 grid-child">
-                <div
-                  className="card text-white p-4 h-100 border border-secondary rounded-3 shadow-sm"
-                  style={{
-                    backgroundColor: '#6B4190',
-                    padding: '20px',
-                    fontSize: '14px',
-                    letterSpacing: '1px',
-                    lineHeight: '30px',
-                    color: 'white',
-                    fontFamily: 'Montserrat, sans-serif'
-                  }}
-                >
-                  <h3 className="fw-bold biharpara" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    {language === 'en' ? 'Discover Bihar: A Treasure Trove of History and Culture' : 'बिहार की खोज करें: इतिहास और संस्कृति का खजाना'}
-                  </h3>
-                  <p style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                    {language === 'en'
-                      ? 'Bihar is home to numerous architectural wonders, from the ancient stupas and monasteries to the grand forts and palaces. The ruins of Nalanda University, the Ashokan Pillar in Vaishali, and the Rajgir hills\' ancient caves offer glimpses into the state\'s glorious past. The Golghar in Patna and the Barabar Caves near Gaya are also significant attractions.'
-                      : 'बिहार कई वास्तुशिल्प चमत्कारों का घर है, प्राचीन स्तूपों और मठों से लेकर भव्य किलों और महलों तक। नालंदा विश्वविद्यालय के खंडहर, वैशाली में अशोक स्तंभ, और राजगीर की पहाड़ियों की प्राचीन गुफाएं राज्य के गौरवशाली अतीत की झलक पेश करती हैं। पटना में गोलघर और गया के पास बाराबर गुफाएं भी महत्वपूर्ण आकर्षण हैं।'}
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-md-6 grid-child">
+            <div className="row">
+              <div className="col-md-6">
                 <div className="row">
-                  {destinations.map((destination, index) => (
-                    <div className="col-sm-6 mb-4" key={index}>
+                  {destinations.slice(0, 4).map((destination, index) => (
+                    <div className="col-md-6 mb-4" key={index}>
                       <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden rounded-3" 
                         style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6)', transform: 'translateY(-5px)' }}>
                         <img
@@ -121,17 +129,93 @@ const TouristDestination = ({ onBookNow }) => {
                           alt={destination.name}
                           style={{ height: '200px', objectFit: 'cover' }}
                         />
-                        <div className="card-overlay d-flex justify-content-between align-items-end p-3 rounded-3">
-                          <h5 className="card-title text-white" style={{ textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8)' }}>{destination.name}</h5>
+                        <div className="card-overlay d-flex flex-column justify-content-end p-3 rounded-3">
+                          <h5 className="card-title text-white mb-1" 
+                            style={{ 
+                              textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8)',
+                              fontSize: '0.95rem',
+                              fontWeight: '600'
+                            }}>
+                            {destination.name}
+                          </h5>
+                          {selectedDestination === destination._id && destination.description && (
+                            <p className="card-text text-white mb-2" style={{ 
+                              fontSize: '0.7rem',
+                              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
+                              lineHeight: '1.1',
+                              margin: '4px 0',
+                              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                              padding: '4px 6px',
+                              borderRadius: '4px'
+                            }}>
+                              {destination.description}
+                            </p>
+                          )}
                           <button 
-                            onClick={() => {
-                              console.log('Book Now clicked for:', destination.name);
-                              onBookNow(destination.name);
+                            onClick={() => handleViewDetails(destination._id)}
+                            className="btn text-white btn-sm shadow-sm align-self-end" 
+                            style={{ 
+                              backgroundColor: '#7A1CAC',
+                              fontSize: '0.75rem',
+                              padding: '0.25rem 0.5rem'
                             }}
-                            className="btn text-white btn-sm shadow-sm" 
-                            style={{ backgroundColor: '#7A1CAC' }}
                           >
-                            {language === 'en' ? 'Book Now' : 'अभी बुक करें'}
+                            {selectedDestination === destination._id ? 
+                              (language === 'en' ? 'Close' : 'बंद करें') :
+                              (language === 'en' ? 'View Details' : 'विवरण देखें')}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="row">
+                  {destinations.slice(4, 8).map((destination, index) => (
+                    <div className="col-md-6 mb-4" key={index + 4}>
+                      <div className="card h-100 border-0 shadow-lg position-relative overflow-hidden rounded-3" 
+                        style={{ boxShadow: '0 20px 60px rgba(0, 0, 0, 0.6)', transform: 'translateY(-5px)' }}>
+                        <img
+                          src={`${config.baseUrl}${destination.image}`}
+                          className="card-img-top img-fluid rounded-3"
+                          alt={destination.name}
+                          style={{ height: '200px', objectFit: 'cover' }}
+                        />
+                        <div className="card-overlay d-flex flex-column justify-content-end p-3 rounded-3">
+                          <h5 className="card-title text-white mb-1" 
+                            style={{ 
+                              textShadow: '3px 3px 6px rgba(0, 0, 0, 0.8)',
+                              fontSize: '0.95rem',
+                              fontWeight: '600'
+                            }}>
+                            {destination.name}
+                          </h5>
+                          {selectedDestination === destination._id && destination.description && (
+                            <p className="card-text text-white mb-2" style={{ 
+                              fontSize: '0.7rem',
+                              textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
+                              lineHeight: '1.1',
+                              margin: '4px 0',
+                              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                              padding: '4px 6px',
+                              borderRadius: '4px'
+                            }}>
+                              {destination.description}
+                            </p>
+                          )}
+                          <button 
+                            onClick={() => handleViewDetails(destination._id)}
+                            className="btn text-white btn-sm shadow-sm align-self-end" 
+                            style={{ 
+                              backgroundColor: '#7A1CAC',
+                              fontSize: '0.75rem',
+                              padding: '0.25rem 0.5rem'
+                            }}
+                          >
+                            {selectedDestination === destination._id ? 
+                              (language === 'en' ? 'Close' : 'बंद करें') :
+                              (language === 'en' ? 'View Details' : 'विवरण देखें')}
                           </button>
                         </div>
                       </div>

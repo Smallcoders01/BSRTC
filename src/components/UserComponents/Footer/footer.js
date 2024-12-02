@@ -87,22 +87,10 @@ const Footer = () => {
           <div className="col-lg-2 col-md-6 mb-4">
             <ul className="list-unstyled footer-list">
               <li>
-                <button 
-                  onClick={handleMyAccountClick} 
-                  className="footer-button"
-                >
-                  {language === 'en' ? 'My Account' : 'मेरा खाता'}
-                </button>
+                <Link to="/news">
+                  {language === 'en' ? 'News and Announcements' : 'समाचार और घोषणाएं'}
+                </Link>
               </li>
-              <li>
-                <button 
-                  onClick={handleMyBookingClick}
-                  className="footer-button"
-                >
-                  {language === 'en' ? 'My Booking' : 'मेरी बुकिंग'}
-                </button>
-              </li>
-              <li><Link to="/pnr-status">{language === 'en' ? 'PNR Status' : 'पीएनआर स्थिति'}</Link></li>
               <li>
                 <a href="https://bsrtc.apto.ai/open/raise_grievance" target="_blank" rel="noopener noreferrer">
                   {language === 'en' ? 'Raise Grievance' : 'शिकायत दर्ज करें'}
@@ -129,7 +117,6 @@ const Footer = () => {
               <li><Link to="/directory">{language === 'en' ? 'Directory' : 'निर्देशिका'}</Link></li>
               <li><Link to="/cancellation-policy">{language === 'en' ? 'Cancellation Policy' : 'रद्दीकरण नीति'}</Link></li>
               <li><Link to="/booking-policy">{language === 'en' ? 'Booking Policy' : 'बुकिंग नीति'}</Link></li>
-              <li><Link to="/refund">{language === 'en' ? 'Refund Rules and Claims' : 'धनवापसी नियम और दावे'}</Link></li>
             </ul>
           </div>
 

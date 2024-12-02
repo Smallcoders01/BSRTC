@@ -27,8 +27,20 @@ const CustomNextArrow = (props) => {
 
 const features = [
   {
+    titleEn: "Luggage Storage",
+    titleHi: "सामान रखने की जगह",
+    image: process.env.PUBLIC_URL + "/Routes/luggage_storage.jpg",
+    alt: "Luggage Storage",
+  },
+  {
+    titleEn: "Eco-Friendly Buses",
+    titleHi: "पर्यावरण-अनुकूल बसें",
+    image: process.env.PUBLIC_URL + "/Routes/eco_friendly_buses.jpg",
+    alt: "Eco-Friendly Buses",
+  },
+  {
     titleEn: "Comfortable Seating",
-    titleHi: "आरामदायक बैठने की व्यवस्था",
+    titleHi: "आरामदायक सीटें",
     image: process.env.PUBLIC_URL + "/Routes/cs.jpg",
     alt: "Comfortable Seating",
   },
@@ -39,24 +51,31 @@ const features = [
     alt: "Air Conditioning",
   },
   {
-    titleEn: "Luggage Storage",
-    titleHi: "सामान भंडारण",
-    image: process.env.PUBLIC_URL + "/Routes/lb.jpg",
-    alt: "Luggage Storage",
+    titleEn: "Online Ticketing",
+    titleHi: "ऑनलाइन टिकटिंग",
+    image: process.env.PUBLIC_URL + "/Routes/Online_Ticketing.png",
+    alt: "Online Ticketing",
   },
   {
-    titleEn: "Eco-Friendly Buses",
-    titleHi: "पर्यावरण के अनुकूल बसें",
-    image: process.env.PUBLIC_URL + "/Routes/eb.jpg",
-    alt: "Eco-Friendly Buses",
+    titleEn: "Mobile Application",
+    titleHi: "मोबाइल एप्लिकेशन",
+    image: process.env.PUBLIC_URL + "/Routes/Mobile App.png",
+    alt: "Mobile Application",
   },
   {
-    titleEn: "Onboard Entertainment",
-    titleHi: "ऑनबोर्ड मनोरंजन",
-    image: process.env.PUBLIC_URL + "/Routes/tv.jpg",
-    alt: "Onboard Entertainment",
-  }
+    titleEn: "Bus Tracking System",
+    titleHi: "बस ट्रैकिंग सिस्टम",
+    image: process.env.PUBLIC_URL + "/Routes/Bus Tracking.png",
+    alt: "Bus Tracking System",
+  },
+  {
+    titleEn: "Cashless Transactions",
+    titleHi: "कैशलेस लेन-देन",
+    image: process.env.PUBLIC_URL + "/Routes/Cashless Transaction.png",
+    alt: "Cashless Transactions",
+  },
 ];
+
 
 const SneakPeek = () => {
   const language = localStorage.getItem('language') || 'en'; // Get the selected language
@@ -91,7 +110,7 @@ const SneakPeek = () => {
   return (
     <div className="text-center mt-5" style={{ width: '100%', padding: '20px', backgroundColor: '#fff' }}>
       <h2 className="mb-3" style={{ color: '#552e9a', fontWeight: 'bold' }}>
-        {language === 'en' ? 'A Sneak Peek Into Our World' : 'हमारी दुनिया में एक झलक'}
+        {language === 'en' ? 'A Sneak Peek Into Our World' : 'हमारी दुनिया की एक झलक'}
       </h2>
       <p>
         {language === 'en' ? 'Experience the lavish amenities of BSRTC!' : 'बीएसआरटीसी की शानदार सुविधाओं का अनुभव करें!'}

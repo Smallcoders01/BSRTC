@@ -82,9 +82,6 @@ const NavbarComponent = ({ onToggle }) => {
             <Nav.Link as={Link} to="/contact" style={navStyle(expanded, isActive('/contact'))}>
               {language === 'en' ? 'Contact Us' : 'संपर्क करें'}
             </Nav.Link>
-            <Nav.Link as={Link} to="/ticket" style={navStyle(expanded, isActive('/ticket'))}>
-              {language === 'en' ? 'Tickets' : 'टिकट'}
-            </Nav.Link>
             {user ? (
               <>
                 <div ref={toggleRef} onClick={handleToggleClick} style={settingsButtonStyle}>

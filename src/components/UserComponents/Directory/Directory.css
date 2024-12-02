@@ -288,6 +288,10 @@
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-top: 20px;
+  width: 100%;
+  max-width: 1400px; /* Increased max-width for desktop */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Table styles */
@@ -299,21 +303,30 @@
 
 /* Header styles */
 .custom-table th {
-  color: #666666; /* Gray text color */
-  font-weight: 500;
-  font-size: 15px;
-  padding: 15px 20px;
-  background-color: #F8F9FA; /* Light gray background */
+  color: #666666;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 20px 25px;
+  background-color: #F8F9FA;
   border-bottom: 1px solid #eee;
   text-transform: uppercase;
+  text-align: left;
 }
 
 /* Body styles */
 .custom-table td {
-  padding: 15px 20px;
+  padding: 20px 25px;
   border-bottom: 1px solid #eee;
   color: #333;
-  background-color: white; /* White background for table body */
+  background-color: white;
+  font-size: 15px;
+  text-align: left;
+}
+
+/* Override any center alignment from other rules */
+.custom-table th, .custom-table td {
+  text-align: left !important;
+  white-space: nowrap;
 }
 
 /* Remove border from last row */
@@ -328,7 +341,9 @@
 
 /* Container padding */
 .office-details-container {
-  padding: 20px;
+  padding: 30px; /* Increased padding */
+  max-width: 1400px; /* Match table max-width */
+  margin: 0 auto;
 }
 
 /* Responsive adjustments */

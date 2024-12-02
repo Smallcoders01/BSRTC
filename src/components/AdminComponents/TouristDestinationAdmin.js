@@ -42,7 +42,7 @@ const TouristDestinationAdmin = () => {
     };
 
     const handleAddDestination = () => {
-        setDestinations([...destinations, { name: '', image: '', file: null }]);
+        setDestinations([...destinations, { name: '', description: '', image: '', file: null }]);
     };
 
     const handleRemoveDestination = (index) => {
@@ -67,12 +67,16 @@ const TouristDestinationAdmin = () => {
         destinations.forEach(destination => {
             const formData = new FormData();
             formData.append('name', destination.name);
+            formData.append('description', destination.description || '');
             if (destination.file) {
-                formData.append('image', destination.file); // Ensure the field name is 'image'
+                formData.append('image', destination.file);
             }
 
-            const url = destination._id ? `${config.apiBaseUrl}/tourist-destinations/${destination._id}` : `${config.apiBaseUrl}/tourist-destinations`;
+            const url = destination._id 
+                ? `${config.apiBaseUrl}/tourist-destinations/${destination._id}` 
+                : `${config.apiBaseUrl}/tourist-destinations`;
             const method = destination._id ? 'put' : 'post';
+            
             axios[method](url, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -81,7 +85,6 @@ const TouristDestinationAdmin = () => {
             })
                 .then(response => {
                     alert('Tourist destinations updated successfully');
-                    // Update the destinations state with the new data
                     setDestinations(prevDestinations => {
                         const updatedDestinations = [...prevDestinations];
                         const index = updatedDestinations.findIndex(d => d._id === destination._id);
@@ -117,6 +120,17 @@ const TouristDestinationAdmin = () => {
                                 fullWidth
                                 value={destination.name}
                                 onChange={(e) => handleDestinationChange(destinationIndex, 'name', e.target.value)}
+                            />
+                        </Box>
+                        <Box mb={2}>
+                            <TextField
+                                label="Description"
+                                variant="outlined"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={destination.description || ''}
+                                onChange={(e) => handleDestinationChange(destinationIndex, 'description', e.target.value)}
                             />
                         </Box>
                         <Box mb={2}>
