@@ -55,13 +55,7 @@ const features = [
     titleHi: "ऑनबोर्ड मनोरंजन",
     image: process.env.PUBLIC_URL + "/Routes/tv.jpg",
     alt: "Onboard Entertainment",
-  },
-  {
-    titleEn: "Free Wi-Fi",
-    titleHi: "मुफ्त वाई-फाई",
-    image: process.env.PUBLIC_URL + "/Routes/wifi.jpg",
-    alt: "Free Wi-Fi",
-  },
+  }
 ];
 
 const SneakPeek = () => {
@@ -107,10 +101,12 @@ const SneakPeek = () => {
         dots={false}
         slidesToShow={4}
         slidesToScroll={1}
-        arrows={false}
+        arrows={true} // Enable arrows
         prevArrow={<CustomPrevArrow />}
         nextArrow={<CustomNextArrow />}
         autoplay
+        autoplaySpeed={1000} // Set autoplay speed to 1 second
+        speed={1000} // Set slide transition speed to 1 second
         responsive={responsiveSettings}
         style={{ margin: '20px 0' }}
       >

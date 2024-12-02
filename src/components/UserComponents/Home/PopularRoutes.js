@@ -126,7 +126,7 @@ const PopularRoutes = ({ onBookNow }) => {
         </Carousel>
       ) : (
         <Row>
-          {routes.map((route) => {
+          {routes.slice(0, 4).map((route) => {
             const imageUrl = `${config.baseUrl}${route.imageUrl}`;
             return (
               <Col key={route._id} sm={12} md={6} lg={3} className="mb-4">
@@ -187,14 +187,14 @@ const PopularRoutes = ({ onBookNow }) => {
             borderRadius: '8px',
             border: '2px solid #6f42c1',
             padding: '6px 18px',
-            width: '100px',
+            width: 'auto',
             marginLeft: '20px',
             fontSize: '12px',
             cursor: 'pointer',
           }}
           onClick={() => navigate('/all-routes')}
         >
-          {language === 'en' ? 'View All' : 'सभी देखें'}
+          {language === 'en' ? 'View All' : 'और देखें'}
         </Button>
       </div>
     </Container>
