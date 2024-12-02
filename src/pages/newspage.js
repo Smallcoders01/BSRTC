@@ -42,26 +42,23 @@ const NewsPage = () => {
 
     return (
         <div>
-            <Banner title={language === 'en' ? 'News and Articles' : 'गैलरी'} />
-            <div className="flex-container" style={{ display: 'flex', marginTop: '20px' }}>
-                <div style={{ flex: '3' }}>
-                    <div className="news-container">
-                        {news.map((article) => (
-                            <div key={article._id} className="news-card" onClick={() => handleArticleClick(article._id)}>
-                                <img 
-                                    src={`${config.baseUrl}/${article.thumbnail}`} 
-                                    alt={article.title} 
-                                    className="news-thumbnail" 
-                                    style={{ marginBottom: '15px' }} 
-                                />
-                                <h2 className="news-title">{language === 'en' ? article.title : article.title_hindi}</h2>
-                                <h4 className="news-headline">{language === 'en' ? article.headline : article.headline_hindi}</h4>
-                                <p className="news-publish-date">{new Date(article.publish).toLocaleDateString()}</p>
-                            </div>
-                        ))}
-                    </div>
+            <Banner title={language === 'en' ? 'News and Articles' : 'समाचार और लेख'} />
+            <div className="flex-container">
+                <div className="news-container">
+                    {news.map((article) => (
+                        <div key={article._id} className="news-card" onClick={() => handleArticleClick(article._id)}>
+                            <img 
+                                src={`${config.baseUrl}/${article.thumbnail}`} 
+                                alt={article.title} 
+                                className="news-thumbnail"
+                            />
+                            <h2 className="news-title">{language === 'en' ? article.title : article.title_hindi}</h2>
+                            <h4 className="news-headline">{language === 'en' ? article.headline : article.headline_hindi}</h4>
+                            <p className="news-publish-date">{new Date(article.publish).toLocaleDateString()}</p>
+                        </div>
+                    ))}
                 </div>
-                <div style={{ flex: '1', marginLeft: '20px' }}>
+                <div className="announcement-section">
                     <Announcement announcements={flashNews} />
                 </div>
             </div>

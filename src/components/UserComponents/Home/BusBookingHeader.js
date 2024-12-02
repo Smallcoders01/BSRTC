@@ -64,6 +64,30 @@ const BusBookingHeader = ({ bookingInfo }) => {
             </h1>
           </Container>
         )}
+
+        {/* Logo and Text Container */}
+        <div className="logo-text-container">
+          {/* Logo */}
+          <div className="logo">
+            <img 
+              src={logo} 
+              alt='logo' 
+              className="logo-image"
+            />
+          </div>
+
+          {/* Text */}
+          <div className="corporation-text">
+            <div>बिहार राज्य पथ परिवहन निगम</div>
+            <div>Bihar State Road Transport Corporation</div>
+          </div>
+        </div>
+
+        {/* Bus Images - Only for Desktop */}
+        <div className="bus-images-desktop">
+          <img src={busImage1} alt='busImg1' className="bus-image" />
+          <img src={busImage2} alt='busImg2' className="bus-image" />
+        </div>
       </div>
 
       {/* Booking Form Section */}
@@ -150,52 +174,83 @@ const BusBookingHeader = ({ bookingInfo }) => {
         </Card.Body>
       </Card>
 
-      {/* Logo Centered */}
-      <div className="logo" style={{
-        position: 'absolute',
-        top: '40%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 4
-      }}>
-       <img src={logo} alt='logo' style={{ width: '150px', height: 'auto' }} />
-      </div>
-
-      {/* Text Below Logo */}
-      <div className="text-center" style={{
-        position: 'absolute',
-        top: '60%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 4,
-        color: 'white',
-        fontSize: '22px',
-        fontWeight: 'bold'
-      }}>
-        <div>बिहार राज्य पथ परिवहन निगम</div>
-        <div>Bihar State Road Transport Corporation</div>
-      </div>
-
-      {/* Bus Images */}
-      <div className="busImages" style={{
-        position: 'absolute',
-        top: '67%',
-        left: '50%',
-        transform: 'translate(-50%, -100%)',
-        zIndex: 3,
-        display: 'flex',
-        justifyContent: 'space-between',
-        width: '80%'
-      }}>
-        <img src={busImage1} alt='busImg1' style={{ width: '100%', maxWidth: '350px' }} />
-        <img src={busImage2} alt='busImg2' style={{ width: '100%', maxWidth: '350px' }} />
-      </div>
-
       {/* CSS for Responsive Design */}
       <style jsx>{`
+        .logo-text-container {
+          position: absolute;
+          top: 35%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 4;
+          text-align: center;
+          width: 100%;
+        }
+
+        .logo-image {
+          width: 150px;
+          height: auto;
+          margin-bottom: 20px;
+        }
+
+        .corporation-text {
+          color: white;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        .bus-images-desktop {
+          position: absolute;
+          top: 70%;
+          left: 50%;
+          transform: translate(-50%, -100%);
+          z-index: 3;
+          display: flex;
+          justify-content: space-between;
+          width: 80%;
+        }
+
+        .bus-image {
+          width: 100%;
+          max-width: 350px;
+        }
+
         @media (max-width: 768px) {
-          .busImages {
+          .bus-images-desktop {
             display: none;
+          }
+
+          .logo-text-container {
+            top: 40%;
+          }
+
+          .logo-image {
+            width: 200px;
+            margin-bottom: 30px;
+          }
+
+          .corporation-text {
+            font-size: 20px;
+          }
+
+          #booking-form {
+            top: 70% !important;
+            width: 90% !important;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .logo-image {
+            width: 180px;
+            margin-bottom: 25px;
+          }
+
+          .corporation-text {
+            font-size: 18px;
+          }
+
+          #booking-form {
+            top: 75% !important;
+            width: 95% !important;
           }
         }
       `}</style>
