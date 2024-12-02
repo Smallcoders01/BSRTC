@@ -54,6 +54,25 @@
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr); /* 2 images per row on smaller screens */
   }
+
+  .gallery-section {
+    padding: 10px 0;
+  }
+
+  .MuiBox-root {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Remove gap between gallery and events */
+  .gallery-events-section {
+    margin-top: 0 !important;
+  }
+
+  /* Adjust spacing for event cards */
+  .event-card {
+    margin-bottom: 10px !important;
+  }
 }
 
 @media (max-width: 576px) {

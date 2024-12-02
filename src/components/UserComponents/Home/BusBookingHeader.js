@@ -99,7 +99,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
         width: '80%',
         borderRadius: '20px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 2
+        zIndex: 5
       }}>
         <Card.Body style={{ position: 'relative' }} className='sect'>
           <h3 className="text-center mb-4" style={{ fontSize: '36px', fontWeight: 'bold' }}>
@@ -181,21 +181,24 @@ const BusBookingHeader = ({ bookingInfo }) => {
           top: 35%;
           left: 50%;
           transform: translate(-50%, -50%);
-          z-index: 4;
+          z-index: 2;
           text-align: center;
           width: 100%;
+          pointer-events: none;
         }
 
         .logo-image {
           width: 150px;
           height: auto;
           margin-bottom: 20px;
+          pointer-events: none;
         }
 
         .corporation-text {
           color: white;
           font-size: 22px;
           font-weight: bold;
+          pointer-events: none;
         }
 
         .bus-images-desktop {

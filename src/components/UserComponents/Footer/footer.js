@@ -64,7 +64,8 @@ const Footer = () => {
               style={{
                 width: '180px',
                 height: 'auto',
-                maxWidth: '100%'
+                maxWidth: '100%',
+                display: 'block'
               }}
             />
           </div>
