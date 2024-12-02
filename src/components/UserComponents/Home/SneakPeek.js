@@ -27,6 +27,18 @@ const CustomNextArrow = (props) => {
 
 const features = [
   {
+    titleEn: "Luggage Storage",
+    titleHi: "सामान रखने की जगह",
+    image: process.env.PUBLIC_URL + "/Routes/luggage_storage.jpg",
+    alt: "Luggage Storage",
+  },
+  {
+    titleEn: "Eco-Friendly Buses",
+    titleHi: "पर्यावरण-अनुकूल बसें",
+    image: process.env.PUBLIC_URL + "/Routes/eco_friendly_buses.jpg",
+    alt: "Eco-Friendly Buses",
+  },
+  {
     titleEn: "Comfortable Seating",
     titleHi: "आरामदायक सीटें",
     image: process.env.PUBLIC_URL + "/Routes/cs.jpg",
@@ -39,24 +51,31 @@ const features = [
     alt: "Air Conditioning",
   },
   {
-    titleEn: "Luggage Storage",
-    titleHi: "सामान रखने की जगह",
-    image: process.env.PUBLIC_URL + "/Routes/lb.jpg",
-    alt: "Luggage Storage",
+    titleEn: "Online Ticketing",
+    titleHi: "ऑनलाइन टिकटिंग",
+    image: process.env.PUBLIC_URL + "/Routes/Online_Ticketing.jpg",
+    alt: "Online Ticketing",
   },
   {
-    titleEn: "Eco-Friendly Buses",
-    titleHi: "पर्यावरण-अनुकूल बसें",
-    image: process.env.PUBLIC_URL + "/Routes/eb.jpg",
-    alt: "Eco-Friendly Buses",
+    titleEn: "Mobile Application",
+    titleHi: "मोबाइल एप्लिकेशन",
+    image: process.env.PUBLIC_URL + "/Routes/mobile_app.jpg",
+    alt: "Mobile Application",
   },
   {
-    titleEn: "Onboard Entertainment",
-    titleHi: "बस में मनोरंजन",
-    image: process.env.PUBLIC_URL + "/Routes/tv.jpg",
-    alt: "Onboard Entertainment",
-  }
+    titleEn: "Bus Tracking System",
+    titleHi: "बस ट्रैकिंग सिस्टम",
+    image: process.env.PUBLIC_URL + "/Routes/bus_tracking_system.jpg",
+    alt: "Bus Tracking System",
+  },
+  {
+    titleEn: "Cashless Transactions",
+    titleHi: "कैशलेस लेन-देन",
+    image: process.env.PUBLIC_URL + "/Routes/cashless_transactions.jpg",
+    alt: "Cashless Transactions",
+  },
 ];
+
 
 const SneakPeek = () => {
   const language = localStorage.getItem('language') || 'en'; // Get the selected language
