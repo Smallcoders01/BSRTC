@@ -53,25 +53,25 @@ const features = [
   {
     titleEn: "Online Ticketing",
     titleHi: "ऑनलाइन टिकटिंग",
-    image: process.env.PUBLIC_URL + "/Routes/Online_Ticketing.jpg",
+    image: process.env.PUBLIC_URL + "/Routes/Online_Ticketing.png",
     alt: "Online Ticketing",
   },
   {
     titleEn: "Mobile Application",
     titleHi: "मोबाइल एप्लिकेशन",
-    image: process.env.PUBLIC_URL + "/Routes/mobile_app.jpg",
+    image: process.env.PUBLIC_URL + "/Routes/Mobile App.png",
     alt: "Mobile Application",
   },
   {
     titleEn: "Bus Tracking System",
     titleHi: "बस ट्रैकिंग सिस्टम",
-    image: process.env.PUBLIC_URL + "/Routes/bus_tracking_system.jpg",
+    image: process.env.PUBLIC_URL + "/Routes/Bus Tracking.png",
     alt: "Bus Tracking System",
   },
   {
     titleEn: "Cashless Transactions",
     titleHi: "कैशलेस लेन-देन",
-    image: process.env.PUBLIC_URL + "/Routes/cashless_transactions.jpg",
+    image: process.env.PUBLIC_URL + "/Routes/Cashless Transaction.png",
     alt: "Cashless Transactions",
   },
 ];
