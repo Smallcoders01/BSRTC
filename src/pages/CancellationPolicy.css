@@ -3,10 +3,83 @@
     padding: 0;
   }
   
-  .cancellation-content ol {
-    text-align: left;
+  .policy-section {
+    transition: all 0.3s ease;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .policy-section:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+  }
+  
+  .policy-content {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 4px;
+    border-left: 2px solid #e0e0e0;
+  }
+  
+  .policy-content p {
+    margin-bottom: 15px;
+  }
+  
+  .policy-content ul, 
+  .policy-content ol {
     padding-left: 20px;
     margin-bottom: 20px;
+  }
+  
+  .policy-content li {
+    margin-bottom: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .policy-section {
+      padding: 15px;
+    }
+  
+    h1 {
+      font-size: 32px !important;
+      padding-left: 20px !important;
+    }
+  
+    .policy-content {
+      padding: 10px;
+    }
+  
+    .container-fluid {
+      padding: 0 15px;
+    }
+  }
+  
+  /* Animation for content loading */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .policy-section {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Enhance readability */
+  .policy-content {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.8;
+  }
+  
+  /* Highlight important text */
+  .policy-content strong {
+    color: #1976d2;
+    font-weight: 600;
   }
   
   .container-fluid {
@@ -31,5 +104,21 @@
   
     h1 {
       font-size: 36px !important;
+    }
+  }
+  
+  /* Add any custom styles here if needed */
+  .MuiContainer-root {
+    min-height: calc(100vh - 200px);
+  }
+  
+  .MuiTypography-h4 {
+    color: #1976d2;
+    font-weight: 600;
+  }
+  
+  @media (max-width: 600px) {
+    .MuiTypography-h4 {
+      font-size: 1.8rem;
     }
   }
