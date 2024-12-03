@@ -113,12 +113,36 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     e.preventDefault();
     setSubmitStatus('sending');
     
+    // Create payload object according to StaticForms requirements
+    const payload = {
+      accessKey: config.staticFormsKey,
+      name: formData.name,
+      phone: formData.phone,
+      message: formData.message,
+      subject: 'New Contact Form Submission'
+    };
+    
     try {
-      await axios.post(`${config.apiBaseUrl}/contact-messages`, formData);
-      setSubmitStatus('success');
-      setFormData({ name: '', phone: '', message: '' });
-      setTimeout(() => setSubmitStatus(''), 3000);
+      const response = await fetch('https://api.staticforms.xyz/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      const responseData = await response.json();
+      
+      if (response.ok && responseData.success) {
+        setSubmitStatus('success');
+        setFormData({ name: '', phone: '', message: '' });
+        setTimeout(() => setSubmitStatus(''), 3000);
+      } else {
+        console.error('StaticForms error:', responseData);
+        throw new Error(responseData.message || 'Form submission failed');
+      }
     } catch (error) {
+      console.error('Form submission error:', error);
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus(''), 3000);
     }
