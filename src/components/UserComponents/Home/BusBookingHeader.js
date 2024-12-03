@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Form, Row, Col, Button } from 'react-bootstrap';
-import busImage1 from '../../../asserts/images/3.png'; // First bus image
-import busImage2 from '../../../asserts/images/2.png'; // Second bus image
+import busImage1 from '../../../asserts/images/2.png'; // First bus image
+import busImage2 from '../../../asserts/images/1.png'; // Second bus image
 import logo from '../../../img/logo.png'; // Logo image
 import NavbarComponent from '../NavbarComponent';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -48,12 +48,12 @@ const BusBookingHeader = ({ bookingInfo }) => {
           zIndex: 1
         }}></div>
 
-        {/* Use NavbarComponent with onToggle */}
+        {/* NavbarComponent */}
         <div style={{ position: 'relative', zIndex: 3 }}>
           <NavbarComponent onToggle={handleNavbarToggle} />
         </div>
 
-        {/* Main Banner Text (conditionally rendered) */}
+        {/* Main Banner Text */}
         {!isNavbarExpanded && (
           <Container className="d-flex flex-column justify-content-center align-items-start h-100" style={{
             position: 'relative',
@@ -82,24 +82,18 @@ const BusBookingHeader = ({ bookingInfo }) => {
             <div>Bihar State Road Transport Corporation</div>
           </div>
         </div>
-
-        {/* Bus Images - Only for Desktop */}
-        <div className="bus-images-desktop">
-          <img src={busImage1} alt='busImg1' className="bus-image" />
-          <img src={busImage2} alt='busImg2' className="bus-image" />
-        </div>
       </div>
 
       {/* Booking Form Section */}
       <Card id="booking-form" className="booking-form cardbotm" style={{
         position: 'absolute',
-        top: '65%',
+        top: '75%',
         left: '50%',
         transform: 'translateX(-50%)',
         width: '80%',
         borderRadius: '20px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-        zIndex: 5
+        zIndex: 2
       }}>
         <Card.Body style={{ position: 'relative' }} className='sect'>
           <h3 className="text-center mb-4" style={{ fontSize: '36px', fontWeight: 'bold' }}>
@@ -174,11 +168,27 @@ const BusBookingHeader = ({ bookingInfo }) => {
         </Card.Body>
       </Card>
 
+      {/* Move Bus Images here - after the booking form */}
+      <div className="bus-images-desktop" style={{
+        position: 'absolute',
+        top: '65%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 10,
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '95%',
+        padding: '0 50px'
+      }}>
+        <img src={busImage1} alt='busImg1' className="bus-image" />
+        <img src={busImage2} alt='busImg2' className="bus-image" />
+      </div>
+
       {/* CSS for Responsive Design */}
       <style jsx>{`
         .logo-text-container {
           position: absolute;
-          top: 35%;
+          top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
           z-index: 2;
@@ -196,30 +206,20 @@ const BusBookingHeader = ({ bookingInfo }) => {
 
         .corporation-text {
           color: white;
-          font-size: 22px;
+          font-size: 32px;
           font-weight: bold;
           pointer-events: none;
-        }
-
-        .bus-images-desktop {
-          position: absolute;
-          top: 70%;
-          left: 50%;
-          transform: translate(-50%, -100%);
-          z-index: 3;
-          display: flex;
-          justify-content: space-between;
-          width: 80%;
+          line-height: 1.4;
         }
 
         .bus-image {
           width: 100%;
-          max-width: 350px;
+          max-width: 250px;
         }
 
         @media (max-width: 768px) {
           .bus-images-desktop {
-            display: none;
+            display: none !important;
           }
 
           .logo-text-container {
@@ -232,7 +232,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
           }
 
           .corporation-text {
-            font-size: 20px;
+            font-size: 28px;
           }
 
           #booking-form {
@@ -248,7 +248,7 @@ const BusBookingHeader = ({ bookingInfo }) => {
           }
 
           .corporation-text {
-            font-size: 18px;
+            font-size: 24px;
           }
 
           #booking-form {
