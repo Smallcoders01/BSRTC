@@ -10,7 +10,7 @@ const Announcement = ({ announcements }) => {
             </h3>
             {announcements.map((announcement, index) => (
                 <div key={index} className="announcement-item">
-                    <a href={announcement.link}>
+                    <a href={announcement.url}>
                         {language === 'en' ? announcement.title : announcement.title_hindi}
                     </a>
                 </div>

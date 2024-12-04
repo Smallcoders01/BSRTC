@@ -2,17 +2,19 @@
   font-family: 'Montserrat', sans-serif !important;
 }
 
-@media(max-width:760px){.routes{
-    margin-top: 450px;
-}}
+@media(max-width:760px){
+  .routes{
+    margin-top: 490px;
+  }
+}
 @media(min-width:759px)and (max-width:768px){
     .routes{
-        margin-top: 400px;
+        margin-top: 440px;
     }
 }
 @media(min-width:768px)and (max-width:820px){
     .routes{
-        margin-top: 300px;
+        margin-top: 340px;
     }
 }
 .view:hover{
@@ -21,9 +23,8 @@
   }
 
   @media(min-width:1000px){
-    .biharpara{
-        
-        margin-bottom: 20px;
+    .routes{
+        margin-top: 220px;
     }
   }
   @media(max-width:1024px){
