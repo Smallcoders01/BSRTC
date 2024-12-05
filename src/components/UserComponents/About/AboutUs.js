@@ -3,9 +3,65 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
 import config from '../../../config';
 import busImage from '../../../img/aboutBus.png';
+import styled from 'styled-components';
 
 const CACHE_KEY = 'aboutUsContent';
-const CACHE_EXPIRATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const CACHE_EXPIRATION = 24 * 60 * 60 * 1000;
+
+const StyledContent = styled.div`
+  table {
+    width: 100%;
+    margin: 1.5rem 0;
+    border-collapse: collapse;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  th, td {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+  }
+
+  th {
+    background-color: #5c3b92;
+    color: white;
+    font-weight: 600;
+  }
+
+  tr:nth-of-type(even) {
+    background-color: #f8f9fa;
+  }
+
+  tr:last-child {
+    background-color: #f0f0f0;
+  }
+
+  tr:last-child td {
+    font-weight: 600;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  strong, b {
+    color: #5c3b92;
+    font-weight: 600;
+  }
+`;
 
 const AboutUs = ({ onDataLoaded }) => {
   const [content, setContent] = useState({
@@ -98,10 +154,10 @@ const AboutUs = ({ onDataLoaded }) => {
       >
         <Row>
           <Col md={7}>
-            <h2 style={{ color: '#5c3b92', fontSize: '40px' }}>
+            <h2 style={{ color: '#5c3b92', fontSize: '40px', marginBottom: '1.5rem' }}>
               {language === 'en' ? 'About Us' : 'हमारे बारे में'}
             </h2>
-            <div dangerouslySetInnerHTML={{ __html: content.aboutUs }} />
+            <StyledContent dangerouslySetInnerHTML={{ __html: content.aboutUs }} />
           </Col>
           <Col md={5} className="d-none d-md-flex justify-content-center align-items-center">
             <img
@@ -171,18 +227,18 @@ const AboutUs = ({ onDataLoaded }) => {
           ))}
         </Row>
 
-        <Row className="vision-section">
+        <Row className="vision-section mt-5">
           <Col md={12}>
-            <h3 style={{ color: '#5c3b92', fontSize: '30px' }}>
-              {language === 'en' ? 'Vision' : 'दृष्टि'}
+            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginBottom: '1rem' }}>
+              {language === 'en' ? 'Vision' : 'दृष��टि'}
             </h3>
-            <div dangerouslySetInnerHTML={{ __html: content.vision }} />
+            <StyledContent dangerouslySetInnerHTML={{ __html: content.vision }} />
           </Col>
           <Col md={12}>
-            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '40px' }}>
+            <h3 style={{ color: '#5c3b92', fontSize: '30px', marginTop: '40px', marginBottom: '1rem' }}>
               {language === 'en' ? 'Mission' : 'लक्ष्य'}
             </h3>
-            <div dangerouslySetInnerHTML={{ __html: content.mission }} />
+            <StyledContent dangerouslySetInnerHTML={{ __html: content.mission }} />
           </Col>
         </Row>
       </Container>
