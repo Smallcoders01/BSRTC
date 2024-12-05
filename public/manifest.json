@@ -1,6 +1,24 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "BSRTC Booking",
+  "name": "BSRTC - Bihar State Bus Booking Official App",
+  "description": "Official bus booking application for Bihar State Road Transport Corporation (BSRTC). Book government bus tickets across Bihar easily and securely.",
+  "keywords": [
+    "BSRTC",
+    "Bihar State Road Transport Corporation",
+    "Bihar bus booking",
+    "government bus service",
+    "Bihar transport",
+    "online bus ticket",
+    "Bihar bus reservation",
+    "state transport",
+    "Bihar government bus",
+    "public transport Bihar",
+    "bus timing Bihar",
+    "interstate bus service",
+    "Patna bus booking",
+    "Bihar bus schedule",
+    "BSRTC online ticket"
+  ],
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +38,8 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#1e4620",
+  "background_color": "#ffffff",
+  "categories": ["travel", "transportation", "government"],
+  "lang": "en-IN"
 }
