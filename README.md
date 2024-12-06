@@ -1,70 +1,111 @@
-# Getting Started with Create React App
+# BSRTC - Bihar State Bus Booking Portal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Official bus booking application for Bihar State Road Transport Corporation (BSRTC). This web application allows users to book government bus tickets across Bihar easily and securely.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+### Bus Operations
+- Depot information and management
+- Division-wise bus operations
+- Popular route tracking
+- Tourist destination services
+- Real-time bus tracking
 
-### `npm start`
+### User Management
+- User authentication and authorization
+- Profile management
+- Multi-language support (English & Hindi)
+- Personalized user dashboard
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### News & Information
+- Latest news and announcements
+- Flash news updates
+- Photo gallery
+- Event galleries
+- Tender notifications
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Policy Management
+- Comprehensive booking policies
+- Cancellation policies
+- Privacy policy
+- Terms and conditions
+- FAQ support
 
-### `npm test`
+### Support Services
+- Contact form submission
+- Directory information
+- Phone directory access
+- Customer support
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Administrative Features
+- Admin panel for content management
+- Document upload and management
+- News and event management
+- Policy updates
+- User management
+- Gallery management
 
-### `npm run build`
+### Technical Features
+- Secure JWT authentication
+- File upload capabilities
+- Multi-language content
+- Mobile responsive design
+- Real-time updates
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠 Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Frontend: React.js
+- Backend: Node.js/Express
+- Database: MongoDB
+- Authentication: JWT
+- Styling: Bootstrap & Custom CSS
+- State Management: Context API
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ⚙️ Configuration
 
-### `npm run eject`
+The application uses a configuration file located at `src/config.js`:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🔑 API Endpoints
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Authentication
+- `/api/auth/*` - Authentication and user management
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Bus Operations
+- `/api/depots/*` - Depot management and information
+- `/api/divisions/*` - Division management
+- `/api/popular-routes/*` - Popular bus routes information
+- `/api/tourist-destinations/*` - Tourist destination routes
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Content Management
+- `/api/about-us/*` - About BSRTC information
+- `/api/about-profile/*` - Profile management
+- `/api/news/*` - News and announcements
+- `/api/flash-news/*` - Flash news updates
+- `/api/gallery/*` - Photo gallery
+- `/api/gallery-events/*` - Event gallery
+- `/api/tenders/*` - Tender notices
 
-## Learn More
+### Policies and Information
+- `/api/policies/*` - General policies
+- `/api/booking-policy/*` - Booking related policies
+- `/api/cancellation-policy/*` - Cancellation related policies
+- `/api/privacy/*` - Privacy policy
+- `/api/terms/*` - Terms and conditions
+- `/api/faq/*` - Frequently asked questions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Contact and Support
+- `/api/contact/*` - Contact form submissions
+- `/api/contact-info/*` - Contact information
+- `/api/phone-directory/*` - Phone directory
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### File Management
+- `/uploads/*` - Static file serving for uploaded content
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### API Features
+- CORS enabled with specific origin restrictions
+- JWT Authentication
+- File upload capability
+- Error handling middleware
+- Morgan logging
+- Body parsing for JSON
+- Static file serving
