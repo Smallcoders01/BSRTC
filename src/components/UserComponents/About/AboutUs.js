@@ -15,12 +15,27 @@ const StyledContent = styled.div`
     border-collapse: collapse;
     border: 1px solid #e0e0e0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    @media (max-width: 768px) {
+      font-size: 14px;
+      margin: 1rem 0;
+    }
   }
 
   th, td {
     padding: 12px 16px;
     border: 1px solid #e0e0e0;
     text-align: left;
+    white-space: nowrap;
+    min-width: 120px;
+    
+    @media (max-width: 768px) {
+      padding: 8px 12px;
+      min-width: 100px;
+    }
   }
 
   th {
@@ -60,6 +75,28 @@ const StyledContent = styled.div`
   strong, b {
     color: #5c3b92;
     font-weight: 600;
+  }
+
+  &::after {
+    content: '←  Scroll  →';
+    display: none;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+    padding: 8px;
+    
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+
+  div.table-wrapper {
+    position: relative;
+    margin: 1.5rem 0;
+    
+    @media (max-width: 768px) {
+      margin: 1rem 0;
+    }
   }
 `;
 
@@ -230,7 +267,7 @@ const AboutUs = ({ onDataLoaded }) => {
         <Row className="vision-section mt-5">
           <Col md={12}>
             <h3 style={{ color: '#5c3b92', fontSize: '30px', marginBottom: '1rem' }}>
-              {language === 'en' ? 'Vision' : 'दृष��टि'}
+              {language === 'en' ? 'Vision' : 'दृषटि'}
             </h3>
             <StyledContent dangerouslySetInnerHTML={{ __html: content.vision }} />
           </Col>
