@@ -48,13 +48,9 @@ const StyledContent = styled.div`
     background-color: #f8f9fa;
   }
 
-  tr:last-child {
-    background-color: #f0f0f0;
-  }
+ 
 
-  tr:last-child td {
-    font-weight: 600;
-  }
+ 
 
   p {
     margin-bottom: 1rem;
