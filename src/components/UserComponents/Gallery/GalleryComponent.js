@@ -157,7 +157,8 @@ const GalleryComponent = ({ onDataLoaded }) => {
         padding: window.innerWidth <= 768 ? '10px 0' : '20px 10px',
         position: 'relative',
         background: 'white',
-        minHeight: window.innerWidth <= 768 ? 'auto' : '100vh'
+        minHeight: 'auto',
+        marginBottom: 1
       }}>
         {/* Filter Buttons - Make them stack on mobile */}
         <div style={{
@@ -258,6 +259,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
                 background: 'white',
                 height: window.innerWidth <= 768 ? '250px' : '500px', // Smaller height on mobile
                 overflow: 'hidden'
+                
               }}>
                 {(() => {
                   let imagesToShow = [];
@@ -350,7 +352,7 @@ const GalleryComponent = ({ onDataLoaded }) => {
             key={event._id} 
             className="event-card"
             sx={{ 
-              margin: window.innerWidth <= 768 ? '10px 0' : '20px auto',
+              margin: window.innerWidth <= 768 ? '10px 0' : '40px auto',
               maxWidth: '1400px',
               background: 'white'
             }}
