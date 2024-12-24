@@ -1,17 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { Modal, Form, Button, Col, Row } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
-
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import bus from '../../../img/loginbus.jpg'
+import bus from '../../../img/loginbus.jpg';
 import './login.css';
-
+import ReCAPTCHA from 'react-google-recaptcha';
+import config from '../../../config'; // Adjust the path as needed
 
 const LoginModal = () => {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [captchaToken, setCaptchaToken] = useState(null);
   const { user, login, logout } = useContext(AuthContext);
 
   const handleShow = () => setShow(true);
@@ -19,16 +20,28 @@ const LoginModal = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    if (!captchaToken) {
+      toast.error('Please complete the CAPTCHA.');
+      return;
+    }
     try {
-      await login(email, password);
+      await login(email, password, captchaToken); // Include captchaToken in the login function
       handleClose();
       toast.success('Login successful!');
     } catch (err) {
-      toast.error('Invalid email or password. Please try again.');
+      if (err.response) {
+        if (err.response.status === 403) {
+          toast.error('Your account is locked. Please try again later.');
+        } else {
+          toast.error('Invalid email or password. Please try again.');
+        }
+      } else {
+        toast.error('An unexpected error occurred.');
+      }
     }
   };
 
-    const handleLogout = () => {
+  const handleLogout = () => {
     logout();
     toast.info('Logged out successfully!');
   };
@@ -38,7 +51,7 @@ const LoginModal = () => {
       {!user ? (
         <Button 
           variant="secondary"
-          style={{ color: 'white', backgroundColor: '#6B4190', borderColor: 'transparent', marginTop:'-10px',width:'5rem' }}
+          style={{ color: 'white', backgroundColor: '#6B4190', borderColor: 'transparent', marginTop:'-10px', width:'5rem' }}
           onClick={handleShow}
           className='login'
         >
@@ -82,20 +95,14 @@ const LoginModal = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
+                <ReCAPTCHA
+                  sitekey={config.recaptchaSiteKey}
+                  onChange={(token) => setCaptchaToken(token)}
+                />
                 <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
                   Continue
                 </Button>
               </Form>
-
-              <div className="text-center">Or login with</div>
-              <div className="d-flex justify-content-center mt-3">
-                <Button variant="outline-primary" className="me-2 btns" style={{ borderColor: '#6B4190' }}>
-                  OTP
-                </Button>
-                <Button variant="outline-danger" className="ms-2 btns" style={{ borderColor: '#DB4437' }}>
-                  Google+
-                </Button>
-              </div>
             </Col>
 
             <Col md={6} className="h-100 p-0">
@@ -104,9 +111,6 @@ const LoginModal = () => {
           </Row>
         </Modal.Body>
       </Modal>
-
-      {/* Toast notifications */}
-      <ToastContainer />
     </>
   );
 };

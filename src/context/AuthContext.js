@@ -31,8 +31,8 @@ const AuthProvider = ({ children }) => {
     fetchUser();
   }, [fetchUser]);
 
-  const login = async (email, password) => {
-    const response = await axios.post(`${config.apiBaseUrl}/auth/login`, { email, password });
+  const login = async (email, password, captchaToken) => {
+    const response = await axios.post(`${config.apiBaseUrl}/auth/login`, { email, password, captchaToken });
     localStorage.setItem('token', response.data.token);
     await fetchUser(); // Fetch user data immediately after login
   };

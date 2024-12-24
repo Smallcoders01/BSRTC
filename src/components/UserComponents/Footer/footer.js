@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { IoLanguage } from 'react-icons/io5';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import logo from '../../../img/logo.png';
 import './Footer.css';
@@ -209,7 +209,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

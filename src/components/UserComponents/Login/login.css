@@ -1,5 +1,4 @@
-
-  /* Custom font size for different screens */
+/* Custom font size for different screens */
 .login-title {
   font-size: 1rem; /* Default size */
 }
@@ -8,7 +7,10 @@
   font-size: 1.2rem;
 }
 .btns{
-  font-size: 10px;
+  font-size: 12px;
+  width: 120px;
+  margin: 5px;
+  flex: 1;
   color: '#6B4190';
 }
 .btns:hover{
@@ -16,32 +18,42 @@
 
 }
 .control{
-  font-size: 0.9rem;
+  font-size: 1rem; /* Increased size */
 }
 .cont-btn{
-  font-size: 0.8rem;
+  font-size: 0.9rem; /* Increased size */
 }
 /* Custom styles for the modal */
 .custom-modal .modal-content {
-  border-radius: 15px; /* Adjust as needed */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust shadow as needed */
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 900px; /* Further increased width */
 }
 
 .custom-modal .modal-body {
-  border-radius: 15px; /* Ensure border radius is applied to body content */
+  border-radius: 15px;
+  padding: 20px;
+  height: 600px; /* Further increased height */
 }
 .img-fluid{
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+  height: 100%; /* Ensure image covers the full height */
+}
+
+.d-flex {
+  flex-wrap: wrap; /* Allow wrapping of buttons */
+  justify-content: center; /* Center buttons */
 }
 
 @media (min-width: 768px) {
   .login-title {
-    font-size: 1.5rem; /* Larger font on medium+ screens */
+    font-size: 1.7rem; /* Larger font on medium+ screens */
   }
 
   .login-subtitle {
-    font-size: 1rem;
+    font-size: 1.2rem; /* Larger font on medium+ screens */
   }
 }
 
@@ -53,5 +65,12 @@
   .login{
     margin-left: 12px;
    font-size: 12px;
+  }
+}
+
+/* Hide image on small screens */
+@media (max-width: 768px) {
+  .img-fluid {
+    display: none;
   }
 }

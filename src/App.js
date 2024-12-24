@@ -3,7 +3,10 @@ import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+// Import your components
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import Contact from './pages/Contact';
@@ -30,7 +33,6 @@ import MyBooking from './components/UserComponents/Mybooking/MyBooking';
 import LanguageSelector from './components/LanguageSelector';
 import NewsDetail from './pages/NewsDetail';
 
-
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('language') || null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -56,6 +58,7 @@ function App() {
   return (
     <div className={isMobile ? 'mobile-view' : 'desktop-view'}>
       <AuthProvider>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -78,7 +81,6 @@ function App() {
           <Route path="/admin/*" element={<ProtectedRoute element={<AdminPanel />} />} />
           <Route path="/profile" element={<ViewProfile />} />
           <Route path="/my-booking" element={<MyBooking />} />
-          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
