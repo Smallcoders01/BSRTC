@@ -69,6 +69,36 @@ const SignupModal = () => {
     }
   };
 
+  const handleResendOtp = async () => {
+    setError('');
+    setSuccess('');
+  
+    if (!otpEmail.trim()) { // Check if the email field is empty
+      setError('Please enter your email ID to resend the OTP.');
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${config.apiBaseUrl}/auth/resend-otp`, { email: otpEmail }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (response.data && response.data.message) {
+        setSuccess(response.data.message); // Display success message
+      }
+    } catch (error) {
+      console.error('Resend OTP error:', error);
+      if (error.response) {
+        setError(error.response.data.message || 'Error resending OTP. Please try again.');
+      } else {
+        setError('Error resending OTP. Please try again.');
+      }
+    }
+  };
+  
+
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -178,45 +208,47 @@ const SignupModal = () => {
                       onChange={handleChange} 
                       className='control' 
                     />
-                  </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
-                    Continue
-                  </Button>
-                </Form>
+                    </Form.Group>
+                    <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
+                      Continue
+                    </Button>
+                  </Form>
               ) : (
                 <Form onSubmit={handleOtpSubmit}>
-                  <Form.Group controlId="formOtpEmail" className="mb-3 control">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control 
-                      type="email" 
-                      placeholder="Enter your email again" 
-                      value={otpEmail} 
-                      onChange={handleOtpEmailChange} 
-                      className='control' 
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="formOtp" className="mb-3 control">
-                    <Form.Label>Enter OTP</Form.Label>
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Enter the OTP sent to your email" 
-                      value={otp} 
-                      onChange={handleOtpChange} 
-                      className='control' 
-                    />
-                  </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
-                    Verify OTP
-                  </Button>
-                </Form>
+   <Form.Group controlId="formOtpEmail" className="mb-3 control">
+    <Form.Label>Email Address</Form.Label>
+    <Form.Control 
+      type="email" 
+      placeholder="Enter your email again" 
+      value={otpEmail} 
+      onChange={handleOtpEmailChange} 
+      className='control' 
+    />
+  </Form.Group>
+  <Form.Group controlId="formOtp" className="mb-3 control">
+    <Form.Label>Enter OTP</Form.Label>
+    <Form.Control 
+      type="text" 
+      placeholder="Enter the OTP sent to your email" 
+      value={otp} 
+      onChange={handleOtpChange} 
+      className='control' 
+    />
+  </Form.Group>
+  <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
+    Verify OTP
+  </Button>
+  <Button 
+    variant="link" 
+    onClick={handleResendOtp} 
+    className="w-100 mt-2" 
+    style={{ color: '#6B4190', textDecoration: 'underline' }}>
+    Resend OTP
+  </Button>
+</Form>     
               )}
 
-              <div className="text-center">Or signup with</div>
-              <div className="d-flex justify-content-center mt-3">
-                <Button variant="outline-danger" className="ms-2 btns" style={{ borderColor: '#DB4437' }}>
-                  Google+
-                </Button>
-              </div>
+              
             </Col>
 
             <Col md={6} className="h-100 p-0">
