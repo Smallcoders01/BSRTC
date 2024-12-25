@@ -79,6 +79,7 @@ const UsersAdmin = () => {
             <th>Email</th>
             <th>Phone Number</th>
             <th>Role</th>
+            <th>Verified Status</th> {/* New column for verification status */}
             <th>Actions</th>
           </tr>
         </thead>
@@ -96,6 +97,14 @@ const UsersAdmin = () => {
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
                 </Form.Select>
+              </td>
+              <td>
+                {/* Display verification status */}
+                {user.isVerified ? (
+                  <span style={{ color: 'green' }}>Verified</span>
+                ) : (
+                  <span style={{ color: 'red' }}>Not Verified</span>
+                )}
               </td>
               <td>
                 <Button variant="danger" onClick={() => handleDeleteUser(user._id)}>Delete</Button>

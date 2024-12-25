@@ -31,7 +31,12 @@ const LoginModal = () => {
     } catch (err) {
       if (err.response) {
         if (err.response.status === 403) {
-          toast.error('Your account is locked. Please try again later.');
+          // Check if the user is not verified
+          if (err.response.data.message.includes('not verified')) {
+            toast.error('Your email is not verified. Please verify your email before logging in.');
+          } else {
+            toast.error('Your account is locked. Please try again later.');
+          }
         } else {
           toast.error('Invalid email or password. Please try again.');
         }

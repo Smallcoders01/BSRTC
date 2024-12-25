@@ -13,6 +13,9 @@ const SignupModal = () => {
     phoneNumber: '',
     password: ''
   });
+  const [otp, setOtp] = useState(''); // State for OTP input
+  const [isOtpSent, setIsOtpSent] = useState(false); // State to check if OTP has been sent
+  const [otpEmail, setOtpEmail] = useState(''); // State for email input during OTP verification
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -27,6 +30,14 @@ const SignupModal = () => {
     }));
   };
 
+  const handleOtpChange = (e) => {
+    setOtp(e.target.value);
+  };
+
+  const handleOtpEmailChange = (e) => {
+    setOtpEmail(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -36,32 +47,66 @@ const SignupModal = () => {
       const response = await axios.post(`${config.apiBaseUrl}/auth/signup`, formData, {
         headers: {
           'Content-Type': 'application/json',
-          // Add any necessary headers here
         },
         withCredentials: true // If your API uses cookies for authentication
       });
 
       if (response.data && response.data.message) {
         setSuccess(response.data.message);
-        setShow(false);
-        // Optionally, clear the form
-        setFormData({name: '', email: '', phoneNumber: '', password: ''});
+        setIsOtpSent(true); // Set OTP sent state to true
+        // Do not clear the form data here
       } else {
-        setSuccess('Signup successful!');
-        setShow(false);
+        setSuccess('Signup successful! Please check your email for the OTP.');
+        setIsOtpSent(true); // Set OTP sent state to true
       }
     } catch (error) {
       console.error('Signup error:', error);
       if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
         setError(error.response.data.message || 'Error signing up. Please try again.');
-      } else if (error.request) {
-        // The request was made but no response was received
-        setError('No response from server. Please try again later.');
       } else {
-        // Something happened in setting up the request that triggered an Error
         setError('Error setting up request. Please try again.');
+      }
+    }
+  };
+
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    console.log('Verifying OTP with payload:', {
+      email: otpEmail, // Use the email entered by the user for OTP verification
+      otp: otp
+    });
+
+    try {
+      const response = await axios.post(`${config.apiBaseUrl}/auth/verify-otp`, {
+        email: otpEmail, // Use the email entered by the user for OTP verification
+        otp: otp
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true // If your API uses cookies for authentication
+      });
+
+      console.log('OTP verification response:', response.data);
+
+      if (response.data && response.data.message) {
+        setSuccess(response.data.message);
+        setShow(false); // Close the modal on successful verification
+        setOtp(''); // Clear the OTP input
+        setOtpEmail(''); // Clear the OTP email input
+        // Clear the form data only after successful OTP verification
+        setFormData({ name: '', email: '', phoneNumber: '', password: '' });
+      }
+    } catch (error) {
+      console.error('OTP verification error:', error);
+      if (error.response) {
+        console.error('Error response data:', error.response.data); // Log the response data
+        setError(error.response.data.message || 'Error verifying OTP. Please try again.');
+      } else {
+        setError('Error verifying OTP. Please try again.');
       }
     }
   };
@@ -70,78 +115,102 @@ const SignupModal = () => {
     <>
       <Button 
         variant="secondary"
-
-        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent',marginTop:'-10px',width:'6rem' }}
-
+        style={{ color: 'gold', backgroundColor: 'transparent', borderColor: 'transparent', marginTop: '-10px', width: '6rem' }}
         onClick={handleShow}
-      className='sign'>
+        className='sign'>
         Sign Up
       </Button>
 
       <Modal show={show} onHide={handleClose} centered size="lg" className="custom-modal">
-        <Modal.Body className="p-0" style={{ height: '500px' }}> {/* Adjusted height for additional fields */}
-          <Row className="h-100 g-0"> {/* Ensure the row and its children stretch, no gutter */}
-            {/* Left section: Contains the title, form, and 'Or signup with' */}
-            <Col md={6} className="d-flex flex-column justify-content-center p-4"> {/* Added padding to left side */}
-              <h2 className="text-center mb-4 login-title" style={{ color: '#6B4190', fontWeight: 'bold' }}>B.S.R.T.C</h2> {/* Custom CSS class */}
-              <h4 className="login-subtitle">Signup</h4>
+        <Modal.Body className="p-0" style={{ height: '500px' }}>
+          <Row className="h-100 g-0">
+            <Col md={6} className="d-flex flex-column justify-content-center p-4">
+              <h2 className="text-center mb-4 login-title" style={{ color: '#6B4190', fontWeight: 'bold' }}>B.S.R.T.C</h2>
+              <h4 className="login-subtitle">{isOtpSent ? 'Verify OTP' : 'Signup'}</h4>
 
               {/* Error message display */}
               {error && <Alert variant="danger">{error}</Alert>}
               {/* Success message display */}
               {success && <Alert variant="success">{success}</Alert>}
 
-              <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formName" className="mb-3 control">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    placeholder="Enter your name" 
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleChange} 
-                    className='control' 
-                  />
-                </Form.Group>
-                <Form.Group controlId="formEmail" className="mb-3 control">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    name="email" 
-                    value={formData.email} 
-                    onChange={handleChange} 
-                    className='control' 
-                  />
-                </Form.Group>
-                <Form.Group controlId="formPhoneNumber" className="mb-3 control">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    placeholder="Enter your phone number" 
-                    name="phoneNumber" 
-                    value={formData.phoneNumber} 
-                    onChange={handleChange} 
-                    className='control' 
-                  />
-                </Form.Group>
-                <Form.Group controlId="formPassword" className="mb-3 control">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control 
-                    type="password" 
-                    placeholder="Enter your password" 
-                    name="password" 
-                    value={formData.password} 
-                    onChange={handleChange} 
-                    className='control' 
-                  />
-                </Form.Group>
-                <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
-                  Continue
-                </Button>
-              </Form>
+              {!isOtpSent ? (
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group controlId="formName" className="mb-3 control">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      placeholder="Enter your name" 
+                      name="name" 
+                      value={formData.name} 
+                      onChange={handleChange} 
+                      className='control' 
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formEmail" className="mb-3 control">
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control 
+                      type="email" 
+                      placeholder="Enter your email" 
+                      name="email" 
+                      value={formData.email} 
+                      onChange={handleChange} 
+                      className='control' 
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formPhoneNumber" className="mb-3 control">
+                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      placeholder="Enter your phone number" 
+                      name="phoneNumber" 
+                      value={formData.phoneNumber} 
+                      onChange={handleChange} 
+                      className='control' 
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formPassword" className="mb-3 control">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control 
+                      type="password" 
+                      placeholder="Enter your password" 
+                      name="password" 
+                      value={formData.password} 
+                      onChange={handleChange} 
+                      className='control' 
+                    />
+                  </Form.Group>
+                  <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
+                    Continue
+                  </Button>
+                </Form>
+              ) : (
+                <Form onSubmit={handleOtpSubmit}>
+                  <Form.Group controlId="formOtpEmail" className="mb-3 control">
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control 
+                      type="email" 
+                      placeholder="Enter your email again" 
+                      value={otpEmail} 
+                      onChange={handleOtpEmailChange} 
+                      className='control' 
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formOtp" className="mb-3 control">
+                    <Form.Label>Enter OTP</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      placeholder="Enter the OTP sent to your email" 
+                      value={otp} 
+                      onChange={handleOtpChange} 
+                      className='control' 
+                    />
+                  </Form.Group>
+                  <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
+                    Verify OTP
+                  </Button>
+                </Form>
+              )}
 
-              {/* "Or signup with" section */}
               <div className="text-center">Or signup with</div>
               <div className="d-flex justify-content-center mt-3">
                 <Button variant="outline-danger" className="ms-2 btns" style={{ borderColor: '#DB4437' }}>
@@ -150,9 +219,8 @@ const SignupModal = () => {
               </div>
             </Col>
 
-            {/* Right section: Full height image */}
-            <Col md={6} className="h-100 p-0"> {/* Removed padding, ensure full height */}
-              <img src={bus} alt="Signup Visual" className="img-fluid h-100 w-100" style={{ objectFit: 'cover' }} /> {/* Full height and cover */}
+            <Col md={6} className="h-100 p-0">
+              <img src={bus} alt="Signup Visual" className="img-fluid h-100 w-100" style={{ objectFit: 'cover' }} />
             </Col>
           </Row>
         </Modal.Body>
