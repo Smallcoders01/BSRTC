@@ -18,6 +18,7 @@ const SignupModal = () => {
   const [otpEmail, setOtpEmail] = useState(''); // State for email input during OTP verification
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showVerification, setShowVerification] = useState(false); // State to manage email verification form visibility
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -43,6 +44,13 @@ const SignupModal = () => {
     setError('');
     setSuccess('');
 
+    // Password validation
+    const passwordValidation = validatePassword(formData.password);
+    if (!passwordValidation.isValid) {
+      setError(passwordValidation.message);
+      return;
+    }
+
     try {
       const response = await axios.post(`${config.apiBaseUrl}/auth/signup`, formData, {
         headers: {
@@ -54,7 +62,8 @@ const SignupModal = () => {
       if (response.data && response.data.message) {
         setSuccess(response.data.message);
         setIsOtpSent(true); // Set OTP sent state to true
-        // Do not clear the form data here
+        // Optionally, clear the form
+        setFormData({ name: '', email: '', phoneNumber: '', password: '' });
       } else {
         setSuccess('Signup successful! Please check your email for the OTP.');
         setIsOtpSent(true); // Set OTP sent state to true
@@ -68,36 +77,6 @@ const SignupModal = () => {
       }
     }
   };
-
-  const handleResendOtp = async () => {
-    setError('');
-    setSuccess('');
-  
-    if (!otpEmail.trim()) { // Check if the email field is empty
-      setError('Please enter your email ID to resend the OTP.');
-      return;
-    }
-  
-    try {
-      const response = await axios.post(`${config.apiBaseUrl}/auth/resend-otp`, { email: otpEmail }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (response.data && response.data.message) {
-        setSuccess(response.data.message); // Display success message
-      }
-    } catch (error) {
-      console.error('Resend OTP error:', error);
-      if (error.response) {
-        setError(error.response.data.message || 'Error resending OTP. Please try again.');
-      } else {
-        setError('Error resending OTP. Please try again.');
-      }
-    }
-  };
-  
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
@@ -127,8 +106,6 @@ const SignupModal = () => {
         setShow(false); // Close the modal on successful verification
         setOtp(''); // Clear the OTP input
         setOtpEmail(''); // Clear the OTP email input
-        // Clear the form data only after successful OTP verification
-        setFormData({ name: '', email: '', phoneNumber: '', password: '' });
       }
     } catch (error) {
       console.error('OTP verification error:', error);
@@ -139,6 +116,32 @@ const SignupModal = () => {
         setError('Error verifying OTP. Please try again.');
       }
     }
+  };
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < minLength) {
+      return { isValid: false, message: `Password must be at least ${minLength} characters long.` };
+    }
+    if (!hasUpperCase) {
+      return { isValid: false, message: 'Password must contain at least one uppercase letter.' };
+    }
+    if (!hasLowerCase) {
+      return { isValid: false, message: 'Password must contain at least one lowercase letter.' };
+    }
+    if (!hasNumbers) {
+      return { isValid: false, message: 'Password must contain at least one number.' };
+    }
+    if (!hasSpecialChars) {
+      return { isValid: false, message: 'Password must contain at least one special character.' };
+    }
+
+    return { isValid: true, message: '' };
   };
 
   return (
@@ -208,47 +211,56 @@ const SignupModal = () => {
                       onChange={handleChange} 
                       className='control' 
                     />
-                    </Form.Group>
-                    <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
-                      Continue
-                    </Button>
-                  </Form>
+                  </Form.Group>
+                  <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
+                    Continue
+                  </Button>
+                </Form>
               ) : (
-                <Form onSubmit={handleOtpSubmit}>
-   <Form.Group controlId="formOtpEmail" className="mb-3 control">
-    <Form.Label>Email Address</Form.Label>
-    <Form.Control 
-      type="email" 
-      placeholder="Enter your email again" 
-      value={otpEmail} 
-      onChange={handleOtpEmailChange} 
-      className='control' 
-    />
-  </Form.Group>
-  <Form.Group controlId="formOtp" className="mb-3 control">
-    <Form.Label>Enter OTP</Form.Label>
-    <Form.Control 
-      type="text" 
-      placeholder="Enter the OTP sent to your email" 
-      value={otp} 
-      onChange={handleOtpChange} 
-      className='control' 
-    />
-  </Form.Group>
-  <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
-    Verify OTP
-  </Button>
-  <Button 
-    variant="link" 
-    onClick={handleResendOtp} 
-    className="w-100 mt-2" 
-    style={{ color: '#6B4190', textDecoration: 'underline' }}>
-    Resend OTP
-  </Button>
-</Form>     
+                <>
+                  {showVerification ? ( // Conditionally render the verification form
+                    <Form onSubmit={handleOtpSubmit}>
+                      <Form.Group controlId="formOtpEmail" className="mb-3 control">
+                        <Form.Label>Email Address</Form.Label>
+                        <Form.Control 
+                          type="email" 
+                          placeholder="Enter your email again" 
+                          value={otpEmail} 
+                          onChange={handleOtpEmailChange} 
+                          className='control' 
+                        />
+                      </Form.Group>
+                      <Form.Group controlId="formOtp" className="mb-3 control">
+                        <Form.Label>Enter OTP</Form.Label>
+                        <Form.Control 
+                          type="text" 
+                          placeholder="Enter the OTP sent to your email" 
+                          value={otp} 
+                          onChange={handleOtpChange} 
+                          className='control' 
+                        />
+                      </Form.Group>
+                      <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
+                        Verify OTP
+                      </Button>
+                    </Form>
+                  ) : (
+                    <>
+                      <div className="text-center">Or verify your email</div>
+                      <div className="d-flex justify-content-center mt-3">
+                        <Button 
+                          variant="outline-primary" 
+                          className="ms-2 btns" 
+                          style={{ borderColor: '#6B4190' }} 
+                          onClick={() => setShowVerification(true)} // Show verification form
+                        >
+                          Verify Email
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </>
               )}
-
-              
             </Col>
 
             <Col md={6} className="h-100 p-0">

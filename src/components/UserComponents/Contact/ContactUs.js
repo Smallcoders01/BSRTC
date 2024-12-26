@@ -3,8 +3,12 @@ import axios from 'axios';
 import config from '../../../config';
 import './HelplineNumbers.css';
 import { FaPhone, FaEnvelope } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const RATE_LIMIT = 5; // Max 5 submissions per minute
+const TIME_WINDOW = 60 * 1000; // 1 minute in milliseconds
 
 const HelplineNumbers = ({ onDataLoaded }) => {
   const [mainContact, setMainContact] = useState({ email: '', phoneNumber1: '', phoneNumber2: '' });
@@ -19,6 +23,9 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     message: ''
   });
   const [submitStatus, setSubmitStatus] = useState('');
+  const [submissionCount, setSubmissionCount] = useState(0);
+  const [firstSubmitTime, setFirstSubmitTime] = useState(null);
+  const [isRateLimited, setIsRateLimited] = useState(false);
 
   useEffect(() => {
     // Update current language when localStorage changes
@@ -111,6 +118,29 @@ const HelplineNumbers = ({ onDataLoaded }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const currentTime = Date.now();
+
+    // If first submit time is not set, set it
+    if (!firstSubmitTime) {
+      setFirstSubmitTime(currentTime);
+    }
+
+    // Check if the time window (1 minute) has passed
+    if (currentTime - firstSubmitTime > TIME_WINDOW) {
+      // Reset counter if more than 1 minute has passed
+      setFirstSubmitTime(currentTime);
+      setSubmissionCount(1);
+    } else {
+      setSubmissionCount(submissionCount + 1);
+    }
+
+    // If user exceeded submission limit, show a message
+    if (submissionCount >= RATE_LIMIT) {
+      setIsRateLimited(true);
+      toast.error('Too many submissions. Please try again later.');
+      return;
+    }
+
     setSubmitStatus('sending');
     
     // Create payload object according to StaticForms requirements
@@ -136,7 +166,15 @@ const HelplineNumbers = ({ onDataLoaded }) => {
       if (response.ok && responseData.success) {
         setSubmitStatus('success');
         setFormData({ name: '', phone: '', message: '' });
+        toast.success('Message sent successfully!');
         setTimeout(() => setSubmitStatus(''), 3000);
+        localStorage.setItem(
+          `rateLimitData`,
+          JSON.stringify({
+            count: submissionCount + 1,
+            firstSubmitTime: currentTime
+          })
+        );
       } else {
         console.error('StaticForms error:', responseData);
         throw new Error(responseData.message || 'Form submission failed');
@@ -144,6 +182,7 @@ const HelplineNumbers = ({ onDataLoaded }) => {
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
+      toast.error('Submission failed. Please try again.');
       setTimeout(() => setSubmitStatus(''), 3000);
     }
   };
@@ -234,11 +273,11 @@ const HelplineNumbers = ({ onDataLoaded }) => {
           </div>
           <div className="form-group">
             <input
-              type="tel"
+              type="text"
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              placeholder={currentLanguage === 'en' ? 'Phone Number' : 'फ़ोन नंबर'}
+              placeholder={currentLanguage === 'en' ? 'Your Phone' : 'आपका फोन'}
               required
             />
           </div>
@@ -251,21 +290,27 @@ const HelplineNumbers = ({ onDataLoaded }) => {
               required
             ></textarea>
           </div>
-          <button type="submit" className="submit-btn" disabled={submitStatus === 'sending'}>
-            {submitStatus === 'sending' 
-              ? (currentLanguage === 'en' ? 'Sending...' : 'भेज रहा है...')
-              : (currentLanguage === 'en' ? 'Send Message' : 'संदेश भेजें')}
+          <button type="submit" className="submit-button" disabled={isRateLimited}>
+            {isRateLimited
+              ? currentLanguage === 'en'
+                ? 'Too Many Requests. Please Try Again Later.'
+                : 'बहुत अधिक अनुरोध। कृपया बाद में प्रयास करें।'
+              : submitStatus === 'sending'
+              ? currentLanguage === 'en'
+                ? 'Sending...'
+                : 'भेज रहे हैं...'
+              : submitStatus === 'success'
+              ? currentLanguage === 'en'
+                ? 'Message Sent!'
+                : 'संदेश भेजा गया!'
+              : submitStatus === 'error'
+              ? currentLanguage === 'en'
+                ? 'Submission Failed. Try Again.'
+                : 'प्रस्तुतिकरण विफल। फिर से प्रयास करें।'
+              : currentLanguage === 'en'
+              ? 'Send Message'
+              : 'संदेश भेजें'}
           </button>
-          {submitStatus === 'success' && (
-            <div className="status-message success">
-              {currentLanguage === 'en' ? 'Message sent successfully!' : 'संदेश सफलतापूर्वक भेजा गया!'}
-            </div>
-          )}
-          {submitStatus === 'error' && (
-            <div className="status-message error">
-              {currentLanguage === 'en' ? 'Failed to send message. Please try again.' : 'संदेश भेजने में विफल। कृपया पुनः प्रयास करें।'}
-            </div>
-          )}
         </form>
       </div>
     </div>
