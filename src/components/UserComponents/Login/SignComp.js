@@ -4,6 +4,7 @@ import axios from 'axios';
 import config from '../../../config'; // Make sure this path is correct
 import bus from '../../../img/loginbus.jpg'; // Adjust the path as necessary
 import './login.css'; // Import custom CSS
+import './signup.css'; // Ensure you import the CSS
 
 const SignupModal = () => {
   const [show, setShow] = useState(false); // Manage modal visibility locally
@@ -11,7 +12,8 @@ const SignupModal = () => {
     name: '',
     email: '',
     phoneNumber: '',
-    password: ''
+    password: '',
+    confirmPassword: '' // New state for password confirmation
   });
   const [otp, setOtp] = useState(''); // State for OTP input
   const [isOtpSent, setIsOtpSent] = useState(false); // State to check if OTP has been sent
@@ -45,6 +47,11 @@ const SignupModal = () => {
     setSuccess('');
 
     // Password validation
+    if(formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
     const passwordValidation = validatePassword(formData.password);
     if (!passwordValidation.isValid) {
       setError(passwordValidation.message);
@@ -63,7 +70,7 @@ const SignupModal = () => {
         setSuccess(response.data.message);
         setIsOtpSent(true); // Set OTP sent state to true
         // Optionally, clear the form
-        setFormData({ name: '', email: '', phoneNumber: '', password: '' });
+        setFormData({ name: '', email: '', phoneNumber: '', password: '', confirmPassword: '' });
       } else {
         setSuccess('Signup successful! Please check your email for the OTP.');
         setIsOtpSent(true); // Set OTP sent state to true
@@ -155,7 +162,7 @@ const SignupModal = () => {
       </Button>
 
       <Modal show={show} onHide={handleClose} centered size="lg" className="custom-modal">
-        <Modal.Body className="p-0" style={{ height: '500px' }}>
+        <Modal.Body className="p-0" style={{ height: '600px' }}>
           <Row className="h-100 g-0">
             <Col md={6} className="d-flex flex-column justify-content-center p-4">
               <h2 className="text-center mb-4 login-title" style={{ color: '#6B4190', fontWeight: 'bold' }}>B.S.R.T.C</h2>
@@ -208,6 +215,17 @@ const SignupModal = () => {
                       placeholder="Enter your password" 
                       name="password" 
                       value={formData.password} 
+                      onChange={handleChange} 
+                      className='control' 
+                    />
+                  </Form.Group>
+                  <Form.Group controlId="formConfirmPassword" className="mb-3 control password-confirmation">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control 
+                      type="password" 
+                      placeholder="Confirm your password" 
+                      name="confirmPassword" 
+                      value={formData.confirmPassword} 
                       onChange={handleChange} 
                       className='control' 
                     />

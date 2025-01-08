@@ -1,11 +1,11 @@
 /* Custom styles for the modal */
 .custom-modal .modal-content {
-    border-radius: 15px; /* Adjust as needed */
+    border-radius: 18px; /* Adjust as needed */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adjust shadow as needed */
   }
   
   .custom-modal .modal-body {
-    border-radius: 15px; /* Ensure border radius is applied to body content */
+    border-radius: 20px; /* Ensure border radius is applied to body content */
   }
   
   .signup-title {

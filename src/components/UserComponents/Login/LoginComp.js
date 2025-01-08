@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { Modal, Form, Button, Col, Row } from 'react-bootstrap';
 import { AuthContext } from '../../../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -14,6 +14,7 @@ const LoginModal = () => {
   const [password, setPassword] = useState('');
   const [captchaToken, setCaptchaToken] = useState(null);
   const { user, login, logout } = useContext(AuthContext);
+  const recaptchaRef = useRef(); // Create a ref for the ReCAPTCHA component
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -43,6 +44,11 @@ const LoginModal = () => {
       } else {
         toast.error('An unexpected error occurred.');
       }
+      // Reset the CAPTCHA and input fields on failed login
+      setCaptchaToken(null); // Reset CAPTCHA token
+      setEmail(''); // Clear email input
+      setPassword(''); // Clear password input
+      recaptchaRef.current.reset(); // Reset the ReCAPTCHA
     }
   };
 
@@ -101,8 +107,10 @@ const LoginModal = () => {
                   />
                 </Form.Group>
                 <ReCAPTCHA
+                  ref={recaptchaRef} // Attach the ref to the ReCAPTCHA component
                   sitekey={config.recaptchaSiteKey}
                   onChange={(token) => setCaptchaToken(token)}
+                  onExpired={() => setCaptchaToken(null)} // Reset token if CAPTCHA expires
                 />
                 <Button variant="primary" type="submit" className="w-100 mb-2 cont-btn" style={{ backgroundColor: '#6B4190' }}>
                   Continue
